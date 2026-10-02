@@ -32,6 +32,9 @@ export function Hero() {
         <img
           src="/images/hero-church.jpg"
           alt="Храм святителя Николая Чудотворца в поселке Усть-Карск"
+          width={1600}
+          height={1205}
+          fetchPriority="high"
           className="h-full w-full object-cover"
         />
       </motion.div>

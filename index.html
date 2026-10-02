@@ -3,6 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="preload" as="image" href="/images/hero-church.jpg" fetchpriority="high" />
 
     <title>Никольский храм — Усть-Карск | Расписание богослужений, контакты</title>
     <meta
@@ -33,6 +34,31 @@
 
     <link rel="icon" href="/favicon.png" type="image/png" />
     <link rel="apple-touch-icon" href="/favicon.png" />
+
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "Church",
+        "name": "Храм святителя Николая Чудотворца",
+        "url": "https://nikolskiyhram.site/",
+        "image": "https://nikolskiyhram.site/images/church.jpg",
+        "telephone": "+7 (924) 458-88-78",
+        "email": "otdel-cerkov@mail.ru",
+        "address": {
+          "@type": "PostalAddress",
+          "streetAddress": "ул. Партизанская, 1",
+          "addressLocality": "пгт. Усть-Карск, Сретенский район",
+          "addressRegion": "Забайкальский край",
+          "postalCode": "673562",
+          "addressCountry": "RU"
+        },
+        "geo": {
+          "@type": "GeoCoordinates",
+          "latitude": 52.883713,
+          "longitude": 118.826725
+        }
+      }
+    </script>
   </head>
   <body>
     <div id="root"></div>
