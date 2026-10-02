@@ -22,7 +22,7 @@ export function Schedule() {
   const visible = expanded ? upcoming : upcoming.slice(0, INITIAL_COUNT)
 
   return (
-    <section id="schedule" className="py-24 sm:py-32">
+    <section id="schedule" className="pt-12 pb-24 sm:pt-16 sm:pb-32">
       <div className="mx-auto max-w-5xl px-5 sm:px-8">
         <Reveal className="text-center">
           <span className="text-xs font-semibold uppercase tracking-[0.3em] text-gold-dim">
@@ -33,7 +33,7 @@ export function Schedule() {
           </h2>
         </Reveal>
 
-        <div className="mt-14 grid gap-6 md:grid-cols-2 md:items-start">
+        <div className="mt-14 grid gap-6 md:grid-cols-2">
           <ChurchCalendar />
 
           <Reveal delay={0.1} className="flex h-full flex-col rounded-2xl border border-line bg-card p-7">

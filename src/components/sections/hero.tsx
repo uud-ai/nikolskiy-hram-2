@@ -67,15 +67,6 @@ export function Hero() {
           className="mx-auto mt-7 h-px w-24 bg-gradient-to-r from-transparent via-gold to-transparent"
         />
 
-        <motion.p
-          initial={{ opacity: 0, y: 16 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, delay: 1.05, ease: [0.16, 1, 0.3, 1] }}
-          className="mx-auto mt-7 max-w-xl text-balance font-sans text-base text-white/85 sm:text-lg"
-        >
-          Приходская жизнь, богослужения и духовное наследие посёлка
-          в Забайкальском крае
-        </motion.p>
       </div>
 
       <motion.a

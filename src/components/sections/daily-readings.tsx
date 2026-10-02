@@ -44,7 +44,7 @@ export function DailyReadings() {
   const dateLabel = `${today.getDate()} ${months[today.getMonth()]} ${today.getFullYear()}`
 
   return (
-    <section className="py-24 sm:py-32">
+    <section className="pt-24 pb-12 sm:pt-32 sm:pb-16">
       <div className="mx-auto max-w-3xl px-5 sm:px-8">
         <Reveal className="text-center">
           <span className="text-xs font-semibold uppercase tracking-[0.3em] text-gold-dim">
