@@ -1,0 +1,25 @@
+{
+  "dateLabel": "Четверг, 10 сентября 2026",
+  "feastName": "Собо́р преподо́бных оте́ц Пече́рских, в Да́льних пеще́рах почива́ющих",
+  "period": "Минея. Сентябрь",
+  "tone": 5,
+  "rank": "doxology",
+  "services": {
+    "vespers": "vespers-ferial-six-verse",
+    "matins": "matins-ferial-doxology",
+    "liturgy": "liturgy-ferial-polyeleos",
+    "hours": {
+      "1": "hours-1-ferial",
+      "3": "hours-3-ferial",
+      "6": "hours-6-ferial",
+      "9": "hours-9-ferial"
+    }
+  },
+  "variables": {
+    "glas": 5,
+    "sources": {
+      "oktoih": "oktoih-weekday-glas5-thu",
+      "minea": "09-10"
+    }
+  }
+}

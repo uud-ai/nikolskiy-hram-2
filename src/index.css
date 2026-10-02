@@ -1,0 +1,100 @@
+@import "tailwindcss";
+
+@import "@fontsource/playfair-display/400.css";
+@import "@fontsource/playfair-display/500.css";
+@import "@fontsource/playfair-display/600.css";
+@import "@fontsource/playfair-display/700.css";
+@import "@fontsource/playfair-display/400-italic.css";
+@import "@fontsource/manrope/400.css";
+@import "@fontsource/manrope/500.css";
+@import "@fontsource/manrope/600.css";
+@import "@fontsource/manrope/700.css";
+
+@theme {
+  --font-serif: "Playfair Display", "Georgia", serif;
+  --font-sans: "Manrope", system-ui, sans-serif;
+
+  --color-paper: #fdfbf7;
+  --color-paper-dim: #f6f1e7;
+  --color-card: #fffefc;
+  --color-ink: #2a2420;
+  --color-ink-soft: #5c5346;
+  --color-ink-faint: #8a8070;
+
+  --color-gold: #c4a45a;
+  --color-gold-dim: #a98a45;
+  --color-gold-glow: #e7d2a0;
+
+  --color-pine: #3f5b47;
+  --color-pine-dim: #2e4435;
+
+  --color-line: #e7decb;
+
+  --ease-premium: cubic-bezier(0.16, 1, 0.3, 1);
+
+  --animate-accordion-down: accordion-down 0.3s var(--ease-premium);
+  --animate-accordion-up: accordion-up 0.3s var(--ease-premium);
+
+  @keyframes accordion-down {
+    from { height: 0; }
+    to { height: var(--radix-accordion-content-height); }
+  }
+  @keyframes accordion-up {
+    from { height: var(--radix-accordion-content-height); }
+    to { height: 0; }
+  }
+}
+
+@layer base {
+  * {
+    border-color: var(--color-line);
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    background-color: var(--color-paper);
+    color: var(--color-ink);
+    font-family: var(--font-sans);
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
+
+  h1, h2, h3, h4 {
+    font-family: var(--font-serif);
+    letter-spacing: -0.01em;
+  }
+
+  ::selection {
+    background-color: var(--color-gold-glow);
+    color: var(--color-ink);
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--color-gold-dim);
+    outline-offset: 3px;
+    border-radius: 2px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+.container-prose {
+  max-width: 72ch;
+}
+
+.text-balance {
+  text-wrap: balance;
+}

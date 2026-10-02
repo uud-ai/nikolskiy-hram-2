@@ -1,0 +1,19 @@
+{
+    "_meta": {
+      "date": "2026-04-19",
+      "dayOfWeek": "sunday"
+    },
+    "dateLabel": "Воскресенье, 19 апреля 2026",
+    "feastName": "Неде́ля 2-я по Па́сце, апо́стола Фомы́. Антипа́сха",
+    "tone": null,
+    "period": "Пентикоста́рий",
+    "fasting": "Разреше́ние на вся",
+    "services": {
+      "matins": "matins-antipascha",
+      "liturgy": "liturgy-antipascha",
+      "vespers": "vespers-antipascha-evening"
+    },
+    "variables": {
+      "special_service": "antipascha"
+    }
+  }

@@ -1,0 +1,16 @@
+{
+  "_meta": {
+    "date": "2026-04-26",
+    "dayOfWeek": "sunday"
+  },
+  "dateLabel": "Воскресенье, 26 апреля 2026",
+  "feastName": "Неде́ля 3-я по Па́сце, святы́х жён-мироно́сиц",
+  "tone": 2,
+  "period": "Пентикоста́рий",
+  "fasting": "Разреше́ние на вся",
+  "services": {
+    "matins": "matins-myronositsy",
+    "liturgy": "liturgy-myronositsy"
+  },
+  "variables": {}
+}
