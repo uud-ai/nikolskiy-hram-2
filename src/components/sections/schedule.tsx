@@ -70,8 +70,6 @@ export function Schedule() {
                       </ul>
                       <a
                         href={`/kliros/index.html?date=${day.date}`}
-                        target="_blank"
-                        rel="noopener noreferrer"
                         className="mt-2 inline-block text-sm text-gold-dim underline underline-offset-4 transition-colors hover:text-gold"
                       >
                         Текст службы →
