@@ -46,6 +46,12 @@ export function Sacraments() {
                       </div>
                     ))}
                   </dl>
+                  <a
+                    href={s.href}
+                    className="mt-4 inline-block text-sm text-gold-glow underline underline-offset-4 transition-colors hover:text-paper"
+                  >
+                    Подробнее о таинстве →
+                  </a>
                 </AccordionContent>
               </AccordionItem>
             ))}
