@@ -10,7 +10,7 @@ export function About() {
             О храме
           </span>
           <h2 className="mt-4 text-balance font-serif text-3xl text-ink sm:text-4xl">
-            Страницы истории: духовное наследие
+            Страницы истории: духовное наследие Усть-Карска
           </h2>
         </Reveal>
 

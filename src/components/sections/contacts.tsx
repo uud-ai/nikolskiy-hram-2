@@ -21,7 +21,7 @@ export function Contacts() {
             Контакты
           </span>
           <h2 className="mt-4 text-balance font-serif text-3xl text-ink sm:text-4xl">
-            Как нас найти
+            Как нас найти в Усть-Карске
           </h2>
         </Reveal>
 

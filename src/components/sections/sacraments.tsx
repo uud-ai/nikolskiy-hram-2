@@ -14,7 +14,7 @@ export function Sacraments() {
       <div className="mx-auto max-w-3xl px-5 sm:px-8">
         <Reveal className="text-center">
           <span className="text-xs font-semibold uppercase tracking-[0.3em] text-gold-dim">
-            Таинства Церкви
+            Таинства Церкви в Усть-Карске
           </span>
           <h2 className="mt-4 text-balance font-serif text-3xl text-ink sm:text-4xl">
             Таинства

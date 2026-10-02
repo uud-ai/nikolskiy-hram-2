@@ -29,7 +29,7 @@ export function Schedule() {
             Расписание
           </span>
           <h2 className="mt-4 text-balance font-serif text-3xl text-ink sm:text-4xl">
-            Богослужения
+            Богослужения в Усть-Карске
           </h2>
         </Reveal>
 

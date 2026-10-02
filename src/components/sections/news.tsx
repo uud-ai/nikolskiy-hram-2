@@ -7,7 +7,7 @@ export function News() {
       <div className="mx-auto max-w-3xl px-5 text-center sm:px-8">
         <Reveal>
           <span className="text-xs font-semibold uppercase tracking-[0.3em] text-gold-dim">
-            Новости прихода
+            Новости прихода в Усть-Карске
           </span>
           <h2 className="mt-4 text-balance font-serif text-3xl text-ink sm:text-4xl">
             Новости
