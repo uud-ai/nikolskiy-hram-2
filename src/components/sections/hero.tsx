@@ -50,15 +50,6 @@ export function Hero() {
       />
 
       <div className="relative z-10 mx-auto max-w-4xl px-6 text-center">
-        <motion.p
-          initial={{ opacity: 0, y: 16 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, delay: 0.3, ease: [0.16, 1, 0.3, 1] }}
-          className="mb-5 font-sans text-xs font-semibold uppercase tracking-[0.3em] text-gold-glow"
-        >
-          Храм святителя Николая Чудотворца
-        </motion.p>
-
         <motion.h1
           initial={{ opacity: 0, y: 24 }}
           animate={{ opacity: 1, y: 0 }}

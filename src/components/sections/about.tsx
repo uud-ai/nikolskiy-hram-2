@@ -1,5 +1,5 @@
 import { Reveal } from "@/components/ui/reveal"
-import { historyPeriods, gallery } from "@/content/site"
+import { historyPeriods } from "@/content/site"
 
 export function About() {
   return (
@@ -49,26 +49,6 @@ export function About() {
             </div>
           ))}
         </div>
-
-        <Reveal className="mt-28">
-          <h3 className="text-center font-serif text-2xl text-ink sm:text-3xl">
-            Храм в фотографиях
-          </h3>
-          <div className="mt-10 grid grid-cols-2 gap-3 sm:gap-4 md:grid-cols-3">
-            {gallery.map((img, i) => (
-              <Reveal key={img.src} delay={(i % 3) * 0.08}>
-                <div className="group aspect-[4/3] overflow-hidden rounded-xl">
-                  <img
-                    src={img.src}
-                    alt={img.alt}
-                    loading="lazy"
-                    className="h-full w-full object-cover transition-transform duration-700 ease-premium group-hover:scale-110"
-                  />
-                </div>
-              </Reveal>
-            ))}
-          </div>
-        </Reveal>
       </div>
     </section>
   )

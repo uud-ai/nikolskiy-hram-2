@@ -37,7 +37,7 @@ export function Words() {
             <span className="text-xs font-semibold uppercase tracking-[0.3em] text-gold-dim">
               Слово настоятеля
             </span>
-            <blockquote className="mt-5 text-balance font-serif text-2xl italic leading-snug text-ink sm:text-3xl">
+            <blockquote className="mt-5 text-balance font-quote text-2xl leading-snug text-ink sm:text-3xl">
               «{abbotWord.quote}»
             </blockquote>
             <span className="mt-6 text-sm font-medium text-ink-soft">
@@ -51,7 +51,7 @@ export function Words() {
             <span className="text-xs font-semibold uppercase tracking-[0.3em] text-gold-dim">
               Слово святых отцов
             </span>
-            <blockquote className="mt-5 text-balance font-serif text-xl italic leading-relaxed text-ink sm:text-2xl">
+            <blockquote className="mt-5 text-balance font-quote text-xl leading-relaxed text-ink sm:text-2xl">
               «{quote.text}»
             </blockquote>
             <span className="mt-6 block text-sm font-medium text-ink-soft">

@@ -13,6 +13,7 @@
 @theme {
   --font-serif: "Playfair Display", "Georgia", serif;
   --font-sans: "Manrope", system-ui, sans-serif;
+  --font-quote: Georgia, "Iowan Old Style", "Palatino Linotype", Palatino, serif;
 
   --color-paper: #fdfbf7;
   --color-paper-dim: #f6f1e7;

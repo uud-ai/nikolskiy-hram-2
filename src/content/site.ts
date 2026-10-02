@@ -48,15 +48,6 @@ export const historyPeriods = [
   },
 ]
 
-export const gallery = [
-  { src: "/images/church-winter.jpg", alt: "Свято-Никольский храм зимой" },
-  { src: "/images/historic-ilinskaya-church.jpg", alt: "Исторический образ Пророко-Ильинской церкви" },
-  { src: "/images/church-construction.jpg", alt: "Строительство Свято-Никольского храма" },
-  { src: "/images/church-interior.jpg", alt: "Внутреннее убранство храма" },
-  { src: "/images/church-aerial.jpg", alt: "Храм и церковная территория" },
-  { src: "/images/church-exterior-2021.jpg", alt: "Свято-Никольский храм. Вид с территории" },
-]
-
 export const abbotWord = {
   quote:
     "Приветствую вас на нашем приходском сайте. Пусть этот малый островок веры в сети интернет поможет вам найти путь к молитве и тишине",
