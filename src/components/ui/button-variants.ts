@@ -11,6 +11,7 @@ export const buttonVariants = cva(
           "bg-gold text-ink hover:bg-gold-dim shadow-[0_8px_30px_-10px_rgba(196,164,90,0.7)]",
         outline:
           "border border-ink/20 text-ink hover:border-gold hover:text-gold-dim bg-transparent",
+        ghost: "text-ink hover:text-gold-dim bg-transparent",
       },
       size: {
         default: "h-12 px-7",
