@@ -3,6 +3,7 @@ import { Mail, MapPin, Phone, User } from "lucide-react"
 import { Reveal } from "@/components/ui/reveal"
 import { Button } from "@/components/ui/button"
 import { siteMeta } from "@/content/site"
+import { telHref } from "@/lib/utils"
 
 const yandexRouteUrl = `https://yandex.ru/maps/?text=${encodeURIComponent(siteMeta.address)}`
 // Точные координаты и параметры — из оригинального проекта (script.js)
@@ -35,7 +36,7 @@ export function Contacts() {
                 {siteMeta.rector}
               </ContactRow>
               <ContactRow icon={Phone} label="Телефон">
-                <a href={`tel:${siteMeta.phone.replace(/[^+\d]/g, "")}`} className="hover:text-gold-dim">
+                <a href={telHref(siteMeta.phone)} className="hover:text-gold-dim">
                   {siteMeta.phone}
                 </a>
               </ContactRow>

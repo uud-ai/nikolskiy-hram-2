@@ -7,6 +7,7 @@ import {
 } from "@/components/ui/accordion"
 import { Button } from "@/components/ui/button"
 import { sacraments, siteMeta } from "@/content/site"
+import { telHref } from "@/lib/utils"
 
 export function Sacraments() {
   return (
@@ -58,7 +59,7 @@ export function Sacraments() {
         <Reveal delay={0.2} className="mt-12 text-center">
           <p className="mb-4 text-sm text-ink-faint">Для записи звоните:</p>
           <Button asChild variant="gold" size="lg">
-            <a href={`tel:${siteMeta.phone.replace(/[^+\d]/g, "")}`}>
+            <a href={telHref(siteMeta.phone)}>
               {siteMeta.phone}
             </a>
           </Button>

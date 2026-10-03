@@ -1,23 +1,20 @@
-import { useMemo, useState } from "react"
+import { useState } from "react"
 import { Clock } from "lucide-react"
 import { Reveal } from "@/components/ui/reveal"
 import { Button } from "@/components/ui/button"
 import { ChurchCalendar } from "@/components/sections/church-calendar"
 import { siteMeta } from "@/content/site"
 import { scheduleData } from "@/content/schedule-data"
+import { telHref } from "@/lib/utils"
 
 const INITIAL_COUNT = 2
-const patronalKeywords = ["никол"]
-const isPatronalFeast = (title: string) =>
-  patronalKeywords.some((kw) => title.toLowerCase().includes(kw))
 
 export function Schedule() {
   const [expanded, setExpanded] = useState(false)
 
-  const upcoming = useMemo(() => {
-    const todayIso = new Date().toISOString().slice(0, 10)
-    return scheduleData.filter((day) => day.date >= todayIso)
-  }, [])
+  // chisle: local calendar date, not UTC — toISOString() rolls over 9h early at UTC+9
+  const todayIso = new Date().toLocaleDateString("en-CA")
+  const upcoming = scheduleData.filter((day) => day.date >= todayIso)
 
   const visible = expanded ? upcoming : upcoming.slice(0, INITIAL_COUNT)
 
@@ -44,7 +41,7 @@ export function Schedule() {
             ) : (
               <ul className="mt-6 flex flex-col gap-5">
                 {visible.map((day) => {
-                  const patronal = isPatronalFeast(day.title)
+                  const patronal = day.patronal ?? false
                   return (
                     <li
                       key={day.date}
@@ -91,7 +88,7 @@ export function Schedule() {
             <p className="mt-6 text-center text-sm text-ink-faint">
               Расписание уточняйте по тел.{" "}
               <a
-                href={`tel:${siteMeta.phone.replace(/[^+\d]/g, "")}`}
+                href={telHref(siteMeta.phone)}
                 className="text-gold-dim underline underline-offset-4"
               >
                 {siteMeta.phone}

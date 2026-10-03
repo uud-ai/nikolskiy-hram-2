@@ -1,10 +1,7 @@
 import { useEffect, useState } from "react"
 import { Reveal } from "@/components/ui/reveal"
+import { MONTHS_GENITIVE as months } from "@/lib/utils"
 
-const months = [
-  "января", "февраля", "марта", "апреля", "мая", "июня",
-  "июля", "августа", "сентября", "октября", "ноября", "декабря",
-]
 const weekdays = [
   "воскресенье", "понедельник", "вторник", "среда",
   "четверг", "пятница", "суббота",

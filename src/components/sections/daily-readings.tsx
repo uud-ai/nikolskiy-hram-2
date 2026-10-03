@@ -7,11 +7,7 @@ import {
   AccordionTrigger,
 } from "@/components/ui/accordion"
 import { loadDailyReadingsData, resolveReadingsForDate, type ResolvedReading } from "@/lib/readings"
-
-const months = [
-  "января", "февраля", "марта", "апреля", "мая", "июня",
-  "июля", "августа", "сентября", "октября", "ноября", "декабря",
-]
+import { MONTHS_GENITIVE as months } from "@/lib/utils"
 
 export function DailyReadings() {
   const [reading, setReading] = useState<ResolvedReading | null>(null)

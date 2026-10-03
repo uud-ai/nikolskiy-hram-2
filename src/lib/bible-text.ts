@@ -121,7 +121,6 @@ function parseAndFetch(bookData: BibleData, ref: string): string[] | null {
       if (t2) result.push(t2)
       continue
     }
-    return null
   }
 
   return result.length ? result : null

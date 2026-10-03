@@ -5,6 +5,7 @@ export interface ScheduleDay {
   date: string // ISO yyyy-mm-dd
   label: string
   title: string
+  patronal?: boolean // престольный праздник (св. Николая)
   events: { time: string; name: string }[]
 }
 
