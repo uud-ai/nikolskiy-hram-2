@@ -1,0 +1,1590 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+
+    <title>Благовест</title>
+
+    <!-- Настройки для iPhone (имя под иконкой и полноэкранный режим) -->
+    <meta name="apple-mobile-web-app-title" content="Благовест">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="theme-color" content="#2c3e50">
+
+    <!-- Иконка: тёмно-синий фон, кремовый крест -->
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><rect width=%22100%22 height=%22100%22 rx=%2220%22 fill=%22%232c3e50%22/><text x=%2250%%22 y=%2250%%22 font-size=%2265%22 text-anchor=%22middle%22 dominant-baseline=%22central%22 fill=%22%23f4f1ea%22>✝</text></svg>">
+    <link rel="apple-touch-icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><rect width=%22100%22 height=%22100%22 fill=%22%232c3e50%22/><text x=%2250%%22 y=%2250%%22 font-size=%2265%22 text-anchor=%22middle%22 dominant-baseline=%22central%22 fill=%22%23f4f1ea%22>✝</text></svg>">
+
+    <!-- Шрифты, Markdown, иконки Tabler -->
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;0,700;0,900;1,600;1,700&family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@3.48.0/dist/tabler-icons.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <!-- DOMPurify — санитизация HTML после marked. Защищает от XSS, если LLM
+         (или будущий источник вроде commentaries) вернёт сырой HTML. Внутри
+         Telegram WebView это критично: там доступен tg.initData, по сути
+         токен аутентификации пользователя. -->
+    <script src="https://cdn.jsdelivr.net/npm/dompurify@3/dist/purify.min.js"></script>
+
+    <!-- Telegram Mini App SDK (для будущего перехода в Telegram). Безопасно работает и в обычном браузере. -->
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+
+    <style>
+        :root {
+            --primary-color: #2c3e50;
+            --primary-color-2: #1f2e3d;    /* тёмный конец градиента шапки */
+            --accent-color: #c0392b;
+            --accent-color-2: #d9574a;     /* светлый конец градиентов на акценте */
+            --accent-hover: #a93226;
+            --bg-color: #f4f1ea;
+            --chat-bg: #ffffff;
+            --surface: #ffffff;            /* фон плиток, карточек, сообщений AI, поля ввода */
+            --tile-bg: #ffffff;            /* фон плиток тем — приподнятая поверхность.
+                                              В светлой теме совпадает с --surface (белая на бежевом фоне).
+                                              В тёмной — светлее --surface, чтобы плитки не сливались с фоном. */
+            --card-border: #d6d0c4;
+            --border-soft: #ddd;           /* лёгкие разделители */
+            --border-input: #ccc;
+            --text: #333;                  /* основной текст */
+            --muted: #5a5a5a;              /* приглушённый текст */
+            --muted-2: #666;
+            --spinner-track: #f3f3f3;
+            --tile-tint: #fdf6f5;          /* лёгкая подсветка при hover на free-chat */
+            --badge-bg: rgba(192, 57, 43, 0.08);
+            --badge-border: rgba(192, 57, 43, 0.2);
+            --shadow-msg: rgba(0,0,0,0.08);
+            --shadow-soft: 0 4px 14px rgba(44,62,80,0.08);
+            --shadow-elevated: 0 14px 32px rgba(44,62,80,0.12), 0 2px 8px rgba(44,62,80,0.06);
+            --ring: rgba(192,57,43,0.35);
+            --spotlight: rgba(44,62,80,0.05);
+        }
+
+        /* Тёмная тема — включается классом на <body>, который ставит JS,
+           когда Telegram сообщает colorScheme === 'dark'. Сохраняем церковную
+           эстетику: тёмно-синий вместо чёрного, кремовый текст, тот же акцент. */
+        body.theme-dark {
+            --primary-color: #1a2530;      /* шапка ещё темнее */
+            --primary-color-2: #11181f;
+            --accent-color: #d65a4d;       /* акцент чуть светлее для контраста */
+            --accent-color-2: #e97a6c;
+            --accent-hover: #c0392b;
+            --bg-color: #243240;           /* фон страницы — тёмно-синий */
+            --chat-bg: #2f3e50;
+            --surface: #2f3e50;            /* фон карточек */
+            --tile-bg: #3a4a5e;            /* плитки светлее --surface — чтобы не сливались с фоном страницы */
+            --card-border: #3d4f63;
+            --border-soft: #3d4f63;
+            --border-input: #4a5d73;
+            --text: #e8e2d4;               /* кремовый вместо #333 */
+            --muted: #a8b0bc;
+            --muted-2: #9aa3b0;
+            --spinner-track: #3d4f63;
+            --tile-tint: rgba(214, 90, 77, 0.15);   /* полупрозрачный акцент — согласуется с --badge-bg */
+            --badge-bg: rgba(214, 90, 77, 0.15);
+            --badge-border: rgba(214, 90, 77, 0.35);
+            --shadow-msg: rgba(0,0,0,0.3);
+            --shadow-soft: 0 4px 16px rgba(0,0,0,0.35);
+            --shadow-elevated: 0 16px 36px rgba(0,0,0,0.5), 0 2px 10px rgba(0,0,0,0.35);
+            --ring: rgba(214,90,77,0.45);
+            --spotlight: rgba(214,90,77,0.08);
+        }
+
+        * { box-sizing: border-box; }
+
+        html, body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Roboto', sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text);
+            -webkit-font-smoothing: antialiased;
+            transition: background-color 0.2s, color 0.2s;
+        }
+
+        body {
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+            min-height: 100dvh;
+        }
+
+        /* === ШАПКА === */
+        header {
+            background: linear-gradient(135deg, var(--primary-color), var(--primary-color-2));
+            color: white;
+            padding: 12px 16px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+            position: sticky;
+            top: 0;
+            z-index: 10;
+        }
+
+        /* Тонкая акцентная линия на стыке шапки и контента — премиальный штрих,
+           увязывает тёмную шапку с акцентным цветом приложения. */
+        header::after {
+            content: '';
+            position: absolute;
+            left: 0;
+            right: 0;
+            bottom: -1px;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, var(--accent-color) 50%, transparent);
+            opacity: 0.55;
+        }
+
+        .brand-mark {
+            font-family: 'Playfair Display', serif;
+            font-size: 17px;
+            color: var(--accent-color-2);
+            flex-shrink: 0;
+            line-height: 1;
+        }
+
+        /* На экранах темы/чата заголовок меняется на название темы —
+           фирменный крестик там визуально избыточен, прячем его. */
+        .back-btn.visible ~ .brand-mark {
+            display: none;
+        }
+
+        .header-left {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            min-width: 0;
+        }
+
+        .back-btn {
+            background: rgba(255,255,255,0.1);
+            border: 1px solid rgba(255,255,255,0.25);
+            color: white;
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            font-size: 18px;
+            padding: 0;
+            flex-shrink: 0;
+        }
+
+        .back-btn.visible {
+            display: inline-flex;
+        }
+
+        .back-btn:hover { background: rgba(255,255,255,0.2); }
+
+        header h1 {
+            margin: 0;
+            font-family: 'Playfair Display', serif;
+            font-size: 20px;
+            font-weight: 700;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .header-actions {
+            display: flex;
+            gap: 8px;
+            flex-shrink: 0;
+        }
+
+        .header-btn {
+            background: rgba(255,255,255,0.1);
+            border: 1px solid rgba(255,255,255,0.3);
+            color: white;
+            padding: 6px 12px;
+            border-radius: 15px;
+            font-size: 11px;
+            cursor: pointer;
+            transition: background 0.2s;
+            white-space: nowrap;
+        }
+
+        .header-btn:hover { background: rgba(255,255,255,0.25); }
+
+        /* === ЭКРАНЫ === */
+        .screen {
+            display: none;
+        }
+
+        .screen.active {
+            display: block;
+        }
+
+        /* Чат — единственный экран, которому нужен flex-layout:
+           внутри есть растягивающийся #chat-container со скроллом
+           и прилипший к низу .input-area. Home и topic — обычный поток.
+           Сами свойства flex для #screen-chat (flex: 1; flex-direction: column)
+           заданы ниже, в секции «=== ЧАТ ===». */
+        #screen-chat.active {
+            display: flex;
+        }
+
+        /* === ГЛАВНАЯ С ПЛИТКАМИ === */
+        #screen-home {
+            padding: 20px 16px 24px;
+        }
+
+        .intro {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .intro-greeting {
+            font-family: 'Playfair Display', serif;
+            font-size: 24px;
+            font-weight: 600;
+            /* --primary-color архитектурно — фон шапки и пузырька юзера, а не цвет текста.
+               На светлой/бежевой поверхности он читается случайно, в тёмной теме сливается. */
+            color: var(--text);
+            margin: 0 0 10px;
+            font-style: italic;
+        }
+
+        .intro-greeting::after {
+            content: '';
+            display: block;
+            width: 36px;
+            height: 2px;
+            margin: 10px auto 0;
+            background: linear-gradient(90deg, transparent, var(--accent-color), transparent);
+            border-radius: 2px;
+        }
+
+        .intro-subtitle {
+            font-size: 14px;
+            color: var(--muted);
+            margin: 0;
+            line-height: 1.5;
+        }
+
+        .tiles-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+            margin-bottom: 16px;
+        }
+
+        .tile {
+            background: var(--tile-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 14px;
+            padding: 18px 10px;
+            text-align: center;
+            cursor: pointer;
+            transition: transform 0.2s ease, border-color 0.2s, box-shadow 0.2s;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 8px;
+            min-height: 96px;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* Премиальный «блик»: диагональная полоса света, проходящая по плитке
+           при hover/focus — как отражение на лакированной поверхности.
+           Чисто декоративно, не мешает кликам (pointer-events: none). */
+        .tile::after {
+            content: '';
+            position: absolute;
+            top: 0; left: -60%;
+            width: 40%; height: 100%;
+            background: linear-gradient(115deg, transparent, rgba(255,255,255,0.35), transparent);
+            transform: skewX(-20deg);
+            pointer-events: none;
+            opacity: 0;
+        }
+
+        body.theme-dark .tile::after {
+            background: linear-gradient(115deg, transparent, rgba(255,255,255,0.08), transparent);
+        }
+
+        .tile:hover, .tile:active, .tile:focus-visible {
+            border-color: var(--accent-color);
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-soft);
+        }
+
+        @media (prefers-reduced-motion: no-preference) {
+            .tile:hover::after, .tile:focus-visible::after {
+                opacity: 1;
+                left: 130%;
+                transition: left 0.6s ease, opacity 0.6s ease;
+            }
+        }
+
+        .tile-icon {
+            font-size: 22px;
+            color: var(--accent-color);
+            line-height: 1;
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: var(--badge-bg);
+            border: 1px solid var(--badge-border);
+        }
+
+        .tile-title {
+            /* В светлой теме --text это #333, читается на белом.
+               В тёмной --text это кремовый #e8e2d4, читается на #3a4a5e. */
+            font-size: 13px;
+            color: var(--text);
+            font-weight: 500;
+            line-height: 1.25;
+        }
+
+        .free-chat-card {
+            background: var(--surface);
+            border: 1px dashed var(--accent-color);
+            border-radius: 14px;
+            padding: 16px;
+            text-align: center;
+            cursor: pointer;
+            transition: background 0.2s, box-shadow 0.2s, transform 0.2s;
+        }
+
+        .free-chat-card:hover, .free-chat-card:focus-visible {
+            background: var(--tile-tint);
+            box-shadow: var(--shadow-soft);
+            transform: translateY(-1px);
+        }
+
+        .free-chat-card .label {
+            font-size: 12px;
+            color: var(--muted);
+            margin-bottom: 4px;
+        }
+
+        .free-chat-card .action {
+            font-size: 15px;
+            color: var(--accent-color);
+            font-weight: 500;
+        }
+
+        .free-chat-card i {
+            margin-right: 6px;
+            vertical-align: -2px;
+        }
+
+        /* === СТИХ ДНЯ === */
+        /* Карточка над сеткой тем. Стилистически родственна .verse из экрана темы:
+           та же левая акцентная полоса, тот же фон и border. Но крупнее, с лейблом
+           и кнопкой действия снизу. */
+        .verse-of-day {
+            background: var(--surface);
+            border: 1px solid var(--card-border);
+            border-left: 3px solid var(--accent-color);
+            border-radius: 12px;
+            padding: 14px 16px 12px;
+            margin-bottom: 16px;
+            box-shadow: var(--shadow-soft);
+        }
+
+        .verse-of-day-label {
+            font-family: 'Playfair Display', serif;
+            font-size: 11px;
+            color: var(--accent-color);
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            margin-bottom: 8px;
+        }
+
+        .verse-of-day-ref {
+            font-size: 12px;
+            color: var(--accent-color);
+            font-weight: 700;
+            margin-bottom: 6px;
+        }
+
+        .verse-of-day-text {
+            font-size: 15px;
+            color: var(--text);
+            line-height: 1.6;
+            font-style: italic;
+            margin: 0 0 12px;
+        }
+
+        /* Кнопка «Что это значит?» — компактная, выровнена по правому краю,
+           обведённая, чтобы не конкурировать визуально с акцентным «Спросить свободно» ниже. */
+        .verse-of-day-action {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            background: transparent;
+            border: 1px solid var(--accent-color);
+            color: var(--accent-color);
+            padding: 7px 14px;
+            border-radius: 18px;
+            font-size: 13px;
+            font-family: inherit;
+            cursor: pointer;
+            transition: background 0.15s, color 0.15s;
+        }
+
+        .verse-of-day-action:hover,
+        .verse-of-day-action:active {
+            background: var(--accent-color);
+            color: white;
+        }
+
+        /* === СТРАНИЦА ТЕМЫ === */
+        #screen-topic {
+            padding: 20px 16px 24px;
+            overflow-y: auto;
+        }
+
+        .topic-header {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .topic-icon {
+            font-size: 44px;
+            color: var(--accent-color);
+            margin-bottom: 8px;
+            line-height: 1;
+        }
+
+        .topic-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 24px;
+            color: var(--text);
+            margin: 0 0 8px;
+        }
+
+        .topic-intro {
+            font-size: 15px;
+            color: var(--muted);
+            margin: 0;
+            font-style: italic;
+            line-height: 1.5;
+        }
+
+        .verses-section, .commentary-section {
+            margin-bottom: 24px;
+        }
+
+        .section-label {
+            font-family: 'Playfair Display', serif;
+            font-size: 13px;
+            color: var(--accent-color);
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            margin: 0 0 12px;
+            padding-bottom: 6px;
+            border-bottom: 1px solid var(--card-border);
+        }
+
+        .verse {
+            background: var(--surface);
+            border: 1px solid var(--card-border);
+            border-left: 3px solid var(--accent-color);
+            border-radius: 8px;
+            padding: 12px 14px;
+            margin-bottom: 8px;
+        }
+
+        .verse-ref {
+            font-size: 12px;
+            color: var(--accent-color);
+            font-weight: 700;
+            margin-bottom: 4px;
+        }
+
+        .verse-text {
+            font-size: 14px;
+            color: var(--text);
+            line-height: 1.6;
+            font-style: italic;
+        }
+
+        .commentary-text {
+            font-size: 15px;
+            line-height: 1.7;
+            color: var(--text);
+            margin: 0 0 12px;
+        }
+
+        .ask-btn {
+            display: block;
+            width: 100%;
+            background: linear-gradient(135deg, var(--accent-color-2), var(--accent-color));
+            color: white;
+            border: none;
+            padding: 14px;
+            border-radius: 30px;
+            font-size: 15px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: filter 0.2s, transform 0.15s, box-shadow 0.2s;
+            margin-top: 16px;
+            box-shadow: var(--shadow-soft);
+        }
+
+        .ask-btn:hover, .ask-btn:focus-visible { filter: brightness(1.05); }
+        .ask-btn:active { transform: scale(0.98); }
+
+        /* В Telegram Mini App вместо этой кнопки используем нативную MainButton */
+        body.in-telegram .ask-btn { display: none; }
+
+        .ask-btn i {
+            margin-right: 6px;
+            vertical-align: -2px;
+        }
+
+        /* === ЧАТ === */
+        #screen-chat {
+            flex: 1;
+            flex-direction: column;
+            min-height: 0;
+        }
+
+        #chat-container {
+            flex: 1;
+            overflow-y: auto;
+            padding: 20px 16px;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            min-height: 0;
+        }
+
+        .message {
+            max-width: 85%;
+            padding: 12px 16px;
+            border-radius: 15px;
+            line-height: 1.6;
+            font-size: 15px;
+            box-shadow: 0 1px 3px var(--shadow-msg);
+            word-wrap: break-word;
+        }
+
+        .user-message {
+            align-self: flex-end;
+            background-color: var(--primary-color);
+            color: white;
+            border-bottom-right-radius: 2px;
+        }
+
+        .ai-message {
+            align-self: flex-start;
+            background-color: var(--chat-bg);
+            color: var(--text);
+            border-bottom-left-radius: 2px;
+            border: 1px solid var(--border-soft);
+        }
+
+        .topic-badge {
+            align-self: center;
+            background: var(--badge-bg);
+            color: var(--accent-color);
+            font-size: 12px;
+            padding: 4px 12px;
+            border-radius: 12px;
+            border: 1px solid var(--badge-border);
+        }
+
+        .bible-link {
+            color: var(--accent-color);
+            text-decoration: none;
+            font-weight: 500;
+            border-bottom: 1px dashed var(--accent-color);
+        }
+
+        .bible-link:hover { background-color: var(--badge-bg); }
+
+        .ai-message p { margin: 8px 0; }
+        .ai-message p:first-child { margin-top: 0; }
+        .ai-message p:last-child { margin-bottom: 0; }
+        .ai-message strong { color: var(--accent-color); }
+        .ai-message ul, .ai-message ol { padding-left: 20px; margin: 8px 0; }
+
+        .input-area {
+            background: var(--surface);
+            padding: 12px 16px;
+            display: flex;
+            gap: 8px;
+            border-top: 1px solid var(--border-soft);
+            align-items: center;
+            padding-bottom: calc(12px + env(safe-area-inset-bottom));
+        }
+
+        #userInput {
+            flex: 1;
+            padding: 12px 16px;
+            border: 1px solid var(--border-input);
+            border-radius: 25px;
+            outline: none;
+            font-size: 15px;
+            font-family: inherit;
+            background: var(--surface);
+            color: var(--text);
+        }
+
+        #userInput::placeholder { color: var(--muted-2); }
+
+        #userInput:focus { border-color: var(--accent-color); }
+
+        button#sendBtn {
+            background: linear-gradient(135deg, var(--accent-color-2), var(--accent-color));
+            color: white;
+            border: none;
+            /* Круглая кнопка с иконкой-самолётиком (ti-send). Высота
+               подобрана так, чтобы вертикально совпасть с инпутом
+               (12+15+12 ≈ 39px). flex-shrink: 0 — чтобы при длинном
+               содержимом инпута кнопка не сжималась в овал. */
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            font-size: 18px;
+            font-family: inherit;
+            flex-shrink: 0;
+            padding: 0;
+        }
+
+        button#sendBtn:hover:not(:disabled) { filter: brightness(1.08); }
+        button#sendBtn:active:not(:disabled) { transform: scale(0.94); }
+        button:disabled { background-color: var(--muted-2); background-image: none; cursor: not-allowed; opacity: 0.6; }
+
+        #loader {
+            display: none;
+            text-align: center;
+            padding: 8px 16px;
+            font-style: italic;
+            color: var(--muted-2);
+            font-size: 13px;
+        }
+
+        .spinner {
+            width: 12px;
+            height: 12px;
+            border: 2px solid var(--spinner-track);
+            border-top: 2px solid var(--accent-color);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            display: inline-block;
+            margin-right: 6px;
+            vertical-align: middle;
+        }
+
+        @keyframes spin { 100% { transform: rotate(360deg); } }
+
+        /* На больших экранах ограничиваем ширину для удобства чтения */
+        @media (min-width: 600px) {
+            body { max-width: 480px; margin: 0 auto; box-shadow: var(--shadow-elevated); position: relative; }
+        }
+
+        /* === ФОКУС С КЛАВИАТУРЫ === */
+        /* Явное кольцо фокуса на интерактивных элементах без встроенного —
+           плитки и free-chat-card теперь доступны с клавиатуры (tabindex в JS). */
+        .tile:focus-visible,
+        .free-chat-card:focus-visible,
+        .header-btn:focus-visible,
+        .back-btn:focus-visible,
+        .ask-btn:focus-visible,
+        .verse-of-day-action:focus-visible,
+        button#sendBtn:focus-visible,
+        #userInput:focus-visible {
+            outline: 2px solid var(--ring);
+            outline-offset: 2px;
+        }
+
+        /* === ДЕСКТОПНЫЙ "СПОТЛАЙТ" ЗА ПРИЛОЖЕНИЕМ === */
+        /* Мягкое пятно света вокруг курсора позади узкой колонки приложения —
+           единственный «фирменный» интерактивный эффект, не мешает контенту,
+           виден только на широких экранах с мышью и выключается по
+           prefers-reduced-motion. Координаты --spot-x/--spot-y обновляет JS. */
+        @media (min-width: 600px) and (pointer: fine) and (prefers-reduced-motion: no-preference) {
+            body::before {
+                content: '';
+                position: fixed;
+                inset: 0;
+                z-index: -1;
+                background: radial-gradient(600px circle at var(--spot-x, 50%) var(--spot-y, 20%), var(--spotlight), transparent 60%);
+                transition: background 0.3s ease;
+            }
+        }
+
+        /* === ПОЯВЛЕНИЕ ЭКРАНОВ И КАРТОЧЕК === */
+        @media (prefers-reduced-motion: no-preference) {
+            @keyframes fadeSlideUp {
+                from { opacity: 0; transform: translateY(10px); }
+                to   { opacity: 1; transform: translateY(0); }
+            }
+
+            .screen.active { animation: fadeSlideUp 0.35s ease both; }
+            .intro { animation: fadeSlideUp 0.4s ease both; }
+            .verse-of-day { animation: fadeSlideUp 0.45s ease both 0.05s; }
+            .free-chat-card { animation: fadeSlideUp 0.4s ease both 0.1s; }
+            .message { animation: fadeSlideUp 0.25s ease both; }
+            .verse { animation: fadeSlideUp 0.35s ease both; }
+            .commentary-text { animation: fadeSlideUp 0.35s ease both; }
+            .topic-header { animation: fadeSlideUp 0.35s ease both; }
+
+            /* Плитки тем «влетают» по очереди, не все сразу — создаёт ощущение
+               цельной композиции, а не мгновенного рендера списка. */
+            .tiles-grid .tile { animation: fadeSlideUp 0.4s ease both; }
+            .tiles-grid .tile:nth-child(1)  { animation-delay: 0.06s; }
+            .tiles-grid .tile:nth-child(2)  { animation-delay: 0.09s; }
+            .tiles-grid .tile:nth-child(3)  { animation-delay: 0.12s; }
+            .tiles-grid .tile:nth-child(4)  { animation-delay: 0.15s; }
+            .tiles-grid .tile:nth-child(5)  { animation-delay: 0.18s; }
+            .tiles-grid .tile:nth-child(6)  { animation-delay: 0.21s; }
+            .tiles-grid .tile:nth-child(7)  { animation-delay: 0.24s; }
+            .tiles-grid .tile:nth-child(8)  { animation-delay: 0.27s; }
+            .tiles-grid .tile:nth-child(9)  { animation-delay: 0.30s; }
+            .tiles-grid .tile:nth-child(10) { animation-delay: 0.33s; }
+            .tiles-grid .tile:nth-child(11) { animation-delay: 0.36s; }
+            .tiles-grid .tile:nth-child(12) { animation-delay: 0.39s; }
+            .tiles-grid .tile:nth-child(13) { animation-delay: 0.42s; }
+            .tiles-grid .tile:nth-child(14) { animation-delay: 0.45s; }
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <div class="header-left">
+        <button class="back-btn" id="backBtn" aria-label="Назад">‹</button>
+        <span class="brand-mark" aria-hidden="true">✝</span>
+        <h1 id="headerTitle">Благовест</h1>
+    </div>
+    <div class="header-actions">
+        <button class="header-btn" id="clearBtn">Очистить</button>
+    </div>
+</header>
+
+<!-- ЭКРАН 1: Главная с плитками -->
+<div class="screen active" id="screen-home">
+    <div class="intro">
+        <h2 class="intro-greeting">Мир вам</h2>
+        <p class="intro-subtitle">Выберите тему, чтобы найти ответы в Евангелии</p>
+    </div>
+    <!-- Стих дня. Заполняется renderVerseOfDay(); если verses_of_day.js
+         не загрузился — блок остаётся пустым и не виден. -->
+    <div id="verseOfDay"></div>
+    <div class="tiles-grid" id="tilesGrid"></div>
+    <div class="free-chat-card" id="freeChatCard" role="button" tabindex="0" aria-label="Спросить свободно">
+        <div class="label">или</div>
+        <div class="action"><i class="ti ti-messages"></i>Спросить свободно</div>
+    </div>
+</div>
+
+<!-- ЭКРАН 2: Страница темы -->
+<div class="screen" id="screen-topic">
+    <div class="topic-header">
+        <div class="topic-icon"><i id="topicIcon"></i></div>
+        <h2 class="topic-title" id="topicTitle"></h2>
+        <p class="topic-intro" id="topicIntro"></p>
+    </div>
+
+    <div class="verses-section">
+        <h3 class="section-label">Слово Писания</h3>
+        <div id="versesList"></div>
+    </div>
+
+    <div class="commentary-section">
+        <h3 class="section-label">Размышление</h3>
+        <div id="commentaryList"></div>
+    </div>
+
+    <button class="ask-btn" id="askAboutTopicBtn">
+        <i class="ti ti-message-circle-question"></i>Задать вопрос по этой теме
+    </button>
+</div>
+
+<!-- ЭКРАН 3: Чат -->
+<div class="screen" id="screen-chat">
+    <div id="chat-container"></div>
+    <div id="loader">
+        <div class="spinner"></div> Обращаюсь к Писанию...
+    </div>
+    <div class="input-area">
+        <input type="text" id="userInput"
+               placeholder="Спросите..."
+               enterkeyhint="send"
+               autocomplete="off"
+               autocorrect="off"
+               autocapitalize="sentences"
+               spellcheck="false">
+        <button id="sendBtn" aria-label="Отправить">
+            <i class="ti ti-send" aria-hidden="true"></i>
+        </button>
+    </div>
+</div>
+
+<!-- Подключаем контент тем и стих дня -->
+<script src="topics.js"></script>
+<script src="verses_of_day.js"></script>
+
+<script>
+    // ============================================================
+    // НАСТРОЙКИ
+    // ============================================================
+    const FUNCTION_URL = 'https://blagovest-chat.uudnik.workers.dev/';
+
+    // Общий токен для барьера от случайных сканеров на стороне функции.
+    // Это НЕ секрет в криптографическом смысле — он виден в исходниках страницы.
+    // Цель — отсечь шум: те, кто наткнулся на URL функции и не знает про токен,
+    // получат 403 и пойдут дальше. Настоящая защита — rate limit на сервере.
+    // При смене токена нужно одновременно обновить секрет APP_TOKEN в Cloudflare
+    // (`wrangler secret put APP_TOKEN` в backend/).
+    const APP_TOKEN = 'bg-public-v1-7Kp9qLm3X';
+
+    // ============================================================
+    // TELEGRAM MINI APP (если запущено внутри Telegram)
+    // ============================================================
+    const tg = window.Telegram?.WebApp;
+    const isInTelegram = tg && tg.initData && tg.initData.length > 0;
+
+    // Применяем тему (светлая/тёмная) на основе того, что говорит Telegram.
+    // Вне Telegram — всегда светлая (сохраняем исходный дизайн).
+    function applyTheme() {
+        if (!isInTelegram) return;
+        const isDark = tg.colorScheme === 'dark';
+        document.body.classList.toggle('theme-dark', isDark);
+        // Перекрашиваем шапку и фон самого Telegram в тон нашему приложению,
+        // чтобы не было видно «шва» между нативным UI и нашим контентом.
+        try {
+            tg.setHeaderColor(isDark ? '#1a2530' : '#2c3e50');
+            tg.setBackgroundColor(isDark ? '#243240' : '#f4f1ea');
+        } catch (e) {}
+        // theme-color мета-тега тоже обновим (для iOS статусбара)
+        const meta = document.querySelector('meta[name="theme-color"]');
+        if (meta) meta.setAttribute('content', isDark ? '#1a2530' : '#2c3e50');
+    }
+
+    if (tg) {
+        try {
+            tg.ready();
+            tg.expand();
+            // Отключаем закрытие приложения свайпом вниз — иначе при скролле
+            // в чате/теме Telegram случайно закрывает Mini App.
+            if (typeof tg.disableVerticalSwipes === 'function') {
+                tg.disableVerticalSwipes();
+            }
+            applyTheme();
+            // Реагируем на смену темы в Telegram «на лету».
+            tg.onEvent('themeChanged', applyTheme);
+        } catch (e) { /* в обычном браузере просто игнорируем */ }
+    }
+
+    if (isInTelegram) {
+        // Этот класс позволяет CSS скрыть нашу кнопку «Задать вопрос по этой теме»
+        // (вместо неё показываем нативную MainButton Telegram).
+        document.body.classList.add('in-telegram');
+    }
+
+    // --- Хелперы для тактильной отдачи (haptic feedback) ---
+    // Вне Telegram — пустые функции (no-op).
+    const haptic = {
+        light()    { try { tg?.HapticFeedback?.impactOccurred('light'); }    catch (e) {} },
+        medium()   { try { tg?.HapticFeedback?.impactOccurred('medium'); }   catch (e) {} },
+        soft()     { try { tg?.HapticFeedback?.impactOccurred('soft'); }     catch (e) {} },
+        success()  { try { tg?.HapticFeedback?.notificationOccurred('success'); } catch (e) {} },
+        error()    { try { tg?.HapticFeedback?.notificationOccurred('error'); }   catch (e) {} },
+        selection(){ try { tg?.HapticFeedback?.selectionChanged(); }         catch (e) {} }
+    };
+
+    // Замена window.confirm: внутри Telegram — нативный диалог, в браузере — обычный confirm.
+    function askConfirm(text) {
+        return new Promise(resolve => {
+            if (isInTelegram && typeof tg.showConfirm === 'function') {
+                try {
+                    tg.showConfirm(text, ok => resolve(!!ok));
+                    return;
+                } catch (e) { /* fallback ниже */ }
+            }
+            resolve(window.confirm(text));
+        });
+    }
+
+    // ============================================================
+    // СОСТОЯНИЕ
+    // ============================================================
+    let currentScreen = 'home';
+    let currentTopic = null;
+    // Кэшируем выбранный стих дня в момент загрузки страницы.
+    // Если пользователь держит приложение открытым через полночь — стих
+    // не «прыгнет» сам собой; обновится при следующем открытии. Это намеренно:
+    // менять контент под пользователем посреди сессии — плохой UX.
+    let currentVerseOfDay = null;
+    let chatHistory = JSON.parse(localStorage.getItem('blagovest_chat_history') || '[]');
+
+    // Контекст последней переписки. Хранится ОТДЕЛЬНЫМ ключом, потому что свойство
+    // на массиве (вроде chatHistory.__context) при JSON.stringify теряется — после
+    // перезагрузки страницы контекст становился undefined, и переписка из одного
+    // контекста (например, «Стих дня») протекала в другой (свободный чат).
+    //
+    // Возможные значения: null (свободный чат), 'topic:<id>', 'verse:<ref>'.
+    function getContext() {
+        return localStorage.getItem('blagovest_chat_context');
+    }
+    function setContext(ctx) {
+        if (ctx === null || ctx === undefined) {
+            localStorage.removeItem('blagovest_chat_context');
+        } else {
+            localStorage.setItem('blagovest_chat_context', ctx);
+        }
+    }
+
+    // ============================================================
+    // ССЫЛКИ НА КНИГИ ПИСАНИЯ (для интерактивных ссылок в ответах AI)
+    // ============================================================
+    const bibleBooksMap = {
+        'Матфея': 'Mt', 'Мф': 'Mt',
+        'Марка': 'Mk', 'Мк': 'Mk',
+        'Луки': 'Lk', 'Лк': 'Lk',
+        'Иоанна': 'Jn', 'Ин': 'Jn', 'Иоанн': 'Jn',
+        'Римлянам': 'Rom', 'Рим': 'Rom',
+        '1 Коринфянам': '1Cor', '1 Кор': '1Cor',
+        '2 Коринфянам': '2Cor', '2 Кор': '2Cor',
+        'Галатам': 'Gal', 'Гал': 'Gal',
+        'Ефесянам': 'Eph', 'Еф': 'Eph',
+        'Филиппийцам': 'Phil', 'Флп': 'Phil',
+        'Колоссянам': 'Col', 'Кол': 'Col',
+        '1 Тимофею': '1Tim', '1 Тим': '1Tim',
+        '2 Тимофею': '2Tim', '2 Тим': '2Tim',
+        '1 Петра': '1Pet', '1 Пет': '1Pet',
+        '2 Петра': '2Pet', '2 Пет': '2Pet',
+        'Иакова': 'Jas', 'Иак': 'Jas',
+        'Деяний': 'Acts', 'Деян': 'Acts'
+    };
+
+    // Превращает упоминания библейских ссылок («Мф 5:3», «Ин 14:6») в кликабельные
+    // ссылки на azbyka.ru. Принимает HTML-строку (уже после marked + DOMPurify),
+    // возвращает HTML-строку.
+    //
+    // Важно: работаем не регекспом по строке, а по DOM-узлам. Иначе если marked
+    // уже сделал ссылку из markdown-разметки [Мф 5:3](...), регексп влепил бы
+    // внутрь второй <a> — получился бы невалидный вложенный тег. Поэтому
+    // обходим только текстовые узлы, и только те, что не находятся внутри <a>.
+    const BIBLE_REF_REGEX = /(1\s*Кор|2\s*Кор|1\s*Тим|2\s*Тим|1\s*Пет|2\s*Пет|Матфея|Марка|Луки|Иоанна|Римлянам|Галатам|Ефесянам|Филиппийцам|Колоссянам|Иакова|Деяний|Мф|Мк|Лк|Ин|Иоанн|Рим|Гал|Еф|Флп|Кол|Иак|Деян)\.?\s*(\d+):(\d+(?:-\d+)?)/gi;
+
+    function linkifyBible(html) {
+        const wrapper = document.createElement('div');
+        wrapper.innerHTML = html;
+
+        // Собираем все текстовые узлы, которые НЕ находятся внутри <a>.
+        const walker = document.createTreeWalker(wrapper, NodeFilter.SHOW_TEXT, {
+            acceptNode(node) {
+                if (node.parentNode && node.parentNode.closest('a')) {
+                    return NodeFilter.FILTER_REJECT;
+                }
+                return NodeFilter.FILTER_ACCEPT;
+            }
+        });
+
+        const textNodes = [];
+        let n;
+        while ((n = walker.nextNode())) textNodes.push(n);
+
+        textNodes.forEach(node => {
+            const text = node.nodeValue;
+            if (!BIBLE_REF_REGEX.test(text)) return;
+            BIBLE_REF_REGEX.lastIndex = 0; // сбросить после test() с флагом /g
+
+            const frag = document.createDocumentFragment();
+            let lastIndex = 0;
+            let match;
+            while ((match = BIBLE_REF_REGEX.exec(text)) !== null) {
+                const [full, book, chapter, verse] = match;
+                const start = match.index;
+
+                if (start > lastIndex) {
+                    frag.appendChild(document.createTextNode(text.slice(lastIndex, start)));
+                }
+
+                const normalized = book.replace(/\s+/g, ' ').trim();
+                const bookCode = bibleBooksMap[normalized] || bibleBooksMap[normalized.replace(/\s/g, '')] || 'Jn';
+                const a = document.createElement('a');
+                a.href = `https://azbyka.ru/biblia/?${bookCode}.${chapter}:${verse}`;
+                a.target = '_blank';
+                a.rel = 'noopener';
+                a.className = 'bible-link';
+                a.textContent = full;
+                frag.appendChild(a);
+
+                lastIndex = start + full.length;
+            }
+            if (lastIndex < text.length) {
+                frag.appendChild(document.createTextNode(text.slice(lastIndex)));
+            }
+            node.parentNode.replaceChild(frag, node);
+        });
+
+        return wrapper.innerHTML;
+    }
+
+    // ============================================================
+    // НАВИГАЦИЯ МЕЖДУ ЭКРАНАМИ
+    // ============================================================
+    function showScreen(name) {
+        document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+        document.getElementById('screen-' + name).classList.add('active');
+        currentScreen = name;
+
+        const backBtn = document.getElementById('backBtn');
+        const headerTitle = document.getElementById('headerTitle');
+
+        if (name === 'home') {
+            backBtn.classList.remove('visible');
+            headerTitle.textContent = 'Благовест';
+            currentTopic = null;
+        } else if (name === 'topic') {
+            backBtn.classList.add('visible');
+            headerTitle.textContent = currentTopic ? currentTopic.title : 'Тема';
+        } else if (name === 'chat') {
+            backBtn.classList.add('visible');
+            // При длинной переписке начальный «бейдж» контекста уплывает наверх
+            // вместе со скроллом — а шапка остаётся видна всегда. Поэтому дублируем
+            // в неё короткий маркер того, о чём идёт разговор. Источник истины —
+            // ключ контекста, сохранённый через setContext: 'verse:<ref>', 'topic:<id>'
+            // или 'free'. Это надёжнее, чем смотреть на currentTopic/currentVerseOfDay,
+            // потому что те живут независимо от того, какой чат сейчас активен.
+            const ctx = getContext();
+            if (ctx && ctx.startsWith('verse:')) {
+                headerTitle.textContent = ctx.slice('verse:'.length);
+            } else if (ctx && ctx.startsWith('topic:')) {
+                const topicId = ctx.slice('topic:'.length);
+                const t = (typeof TOPICS !== 'undefined') ? TOPICS.find(x => x.id === topicId) : null;
+                headerTitle.textContent = t ? t.title : 'Беседа';
+            } else {
+                headerTitle.textContent = 'Беседа';
+            }
+            setTimeout(() => {
+                const cc = document.getElementById('chat-container');
+                cc.scrollTop = cc.scrollHeight;
+            }, 50);
+        }
+
+        // Для Telegram Mini App: показываем системную кнопку «Назад»
+        if (isInTelegram && tg.BackButton) {
+            try {
+                if (name === 'home') tg.BackButton.hide();
+                else tg.BackButton.show();
+            } catch (e) {}
+        }
+
+        // MainButton Telegram: показываем «Задать вопрос…» только на экране темы,
+        // на остальных экранах прячем.
+        if (isInTelegram && tg.MainButton) {
+            try {
+                if (name === 'topic' && currentTopic) {
+                    tg.MainButton.setText('Задать вопрос по теме');
+                    tg.MainButton.show();
+                } else {
+                    tg.MainButton.hide();
+                }
+            } catch (e) {}
+        }
+
+        // SettingsButton показываем только в чате — там она ведёт на «Очистить историю».
+        if (isInTelegram && tg.SettingsButton) {
+            try {
+                if (name === 'chat') tg.SettingsButton.show();
+                else tg.SettingsButton.hide();
+            } catch (e) {}
+        }
+
+        window.scrollTo(0, 0);
+    }
+
+    function goBack() {
+        if (currentScreen === 'chat' && currentTopic) {
+            showScreen('topic');
+        } else {
+            showScreen('home');
+        }
+    }
+
+    // ============================================================
+    // СТИХ ДНЯ
+    // ============================================================
+    function renderVerseOfDay() {
+        const container = document.getElementById('verseOfDay');
+        if (!container) return;
+
+        // Если verses_of_day.js не подгрузился (например, при первом
+        // развёртывании на GitHub Pages, пока файла нет) — просто молча
+        // не рисуем блок, чтобы пользователь не видел поломанной разметки.
+        if (typeof getVerseOfDay !== 'function') return;
+
+        const v = getVerseOfDay();
+        currentVerseOfDay = v;
+
+        container.innerHTML = `
+            <div class="verse-of-day">
+                <div class="verse-of-day-label">Стих дня</div>
+                <div class="verse-of-day-ref">${v.ref}</div>
+                <p class="verse-of-day-text">${v.text}</p>
+                <button class="verse-of-day-action" id="verseOfDayBtn">
+                    <i class="ti ti-message-circle-question"></i>Что это значит?
+                </button>
+            </div>
+        `;
+
+        document.getElementById('verseOfDayBtn').addEventListener('click', () => {
+            haptic.medium();
+            openVerseOfDayChat();
+        });
+    }
+
+    // Открывает чат с предзаданным первым сообщением от лица пользователя.
+    // С точки зрения сервера это обычный чат-запрос, отличается только полем
+    // source='verse_of_day' и тегом стиха в payload — это нужно для аналитики.
+    function openVerseOfDayChat() {
+        if (!currentVerseOfDay) return;
+        const v = currentVerseOfDay;
+
+        // Это смена контекста относительно прежней переписки — чистим историю.
+        // Контекстный ключ — verse:<ref>, чтобы возврат к тому же стиху сохранял диалог,
+        // а возврат к другому стиху / теме / свободному чату — нет.
+        const newContextKey = 'verse:' + v.ref;
+        const prevContext = getContext();
+        if (prevContext !== null && prevContext !== newContextKey) {
+            resetHistory();
+        }
+        setContext(newContextKey);
+
+        const cc = document.getElementById('chat-container');
+        cc.innerHTML = '';
+
+        // Бейдж со ссылкой на стих — тот же стиль, что у тематических бейджей.
+        const badge = document.createElement('div');
+        badge.className = 'topic-badge';
+        badge.innerHTML = `<i class="ti ti-book-2"></i> Стих дня · ${v.ref}`;
+        cc.appendChild(badge);
+
+        // Если это первый заход на этот стих — формируем начальное
+        // сообщение пользователя и сразу отправляем. AI ответит, пользователь
+        // увидит результат как обычный чат.
+        const firstQuestion = `Объясни, пожалуйста, стих ${v.ref}: «${v.text}» — в каком контексте он был сказан и как его понимать?`;
+
+        showScreen('chat');
+
+        // Отправляем как обычное сообщение, помечая источник.
+        sendVerseOfDayQuestion(firstQuestion);
+    }
+
+    // Отдельная функция отправки: то же, что sendMessage, но текст приходит
+    // программно, а в payload добавлены source/verseTag для серверной аналитики.
+    async function sendVerseOfDayQuestion(text) {
+        if (isSending) return;
+        isSending = true;
+        haptic.light();
+        appendMessage('user', text);
+        chatHistory.push({ role: "user", content: text });
+        saveHistory();
+        setLoading(true);
+
+        try {
+            const payload = {
+                messages: chatHistory,
+                topicContext: null,
+                source: 'verse_of_day',
+                verseTag: currentVerseOfDay ? currentVerseOfDay.tag : null,
+                verseRef: currentVerseOfDay ? currentVerseOfDay.ref : null
+            };
+
+            const { message: aiAnswer } = await postChatRequest(payload);
+            appendMessage('ai', aiAnswer);
+            chatHistory.push({ role: "assistant", content: aiAnswer });
+            if (chatHistory.length > 12) chatHistory = chatHistory.slice(-12);
+            saveHistory();
+            haptic.success();
+        } catch (error) {
+            appendMessage('ai', 'К сожалению, произошла ошибка: ' + error.message);
+            haptic.error();
+        } finally {
+            isSending = false;
+            setLoading(false);
+        }
+    }
+
+    // ============================================================
+    // РЕНДЕР ГЛАВНОЙ
+    // ============================================================
+    function renderHome() {
+        const grid = document.getElementById('tilesGrid');
+        grid.innerHTML = '';
+        TOPICS.forEach(topic => {
+            const tile = document.createElement('div');
+            tile.className = 'tile';
+            tile.setAttribute('role', 'button');
+            tile.setAttribute('tabindex', '0');
+            tile.setAttribute('aria-label', topic.title);
+            tile.innerHTML = `
+                <div class="tile-icon"><i class="ti ${topic.icon}"></i></div>
+                <div class="tile-title">${topic.title}</div>
+            `;
+            tile.addEventListener('click', () => { haptic.selection(); openTopic(topic.id); });
+            tile.addEventListener('keydown', e => {
+                if (e.key === 'Enter' || e.key === ' ') {
+                    e.preventDefault();
+                    haptic.selection();
+                    openTopic(topic.id);
+                }
+            });
+            grid.appendChild(tile);
+        });
+    }
+
+    // ============================================================
+    // РЕНДЕР СТРАНИЦЫ ТЕМЫ
+    // ============================================================
+    function openTopic(topicId) {
+        const topic = TOPICS.find(t => t.id === topicId);
+        if (!topic) return;
+
+        // При переходе на НОВУЮ плитку — очищаем историю переписки.
+        // Если пользователь возвращается на ту же тему (например, после кнопки «Назад»),
+        // историю сохраняем — это продолжение той же беседы.
+        if (!currentTopic || currentTopic.id !== topic.id) {
+            resetHistory();
+        }
+
+        currentTopic = topic;
+
+        document.getElementById('topicIcon').className = 'ti ' + topic.icon;
+        document.getElementById('topicTitle').textContent = topic.title;
+        document.getElementById('topicIntro').textContent = topic.intro;
+
+        const versesList = document.getElementById('versesList');
+        versesList.innerHTML = '';
+        topic.verses.forEach(v => {
+            const div = document.createElement('div');
+            div.className = 'verse';
+            div.innerHTML = `
+                <div class="verse-ref">${v.ref}</div>
+                <div class="verse-text">${v.text}</div>
+            `;
+            versesList.appendChild(div);
+        });
+
+        const commentaryList = document.getElementById('commentaryList');
+        commentaryList.innerHTML = '';
+        topic.commentary.forEach(paragraph => {
+            const p = document.createElement('p');
+            p.className = 'commentary-text';
+            p.textContent = paragraph;
+            commentaryList.appendChild(p);
+        });
+
+        showScreen('topic');
+    }
+
+    // Флаг «идёт запрос к серверу». Защищает от двойной отправки, если
+    // пользователь успел дважды нажать Enter / кнопку до того, как inputs
+    // успели задизейблиться.
+    let isSending = false;
+
+    // Таймаут запроса к функции. Yandex Cloud Function живёт 30 сек —
+    // оставляем небольшой запас на сеть, чтобы успеть показать понятную ошибку
+    // до того, как браузер сам оборвёт fetch.
+    const REQUEST_TIMEOUT_MS = 25000;
+
+    // Общая логика POST к функции с AbortController, таймаутом и единообразной
+    // обработкой ошибок (429/403/400 → сообщение сервера, таймаут → своё сообщение).
+    // Возвращает { ok: true, message } или бросает Error с понятным message.
+    async function postChatRequest(payload) {
+        const controller = new AbortController();
+        const timeoutId = setTimeout(() => controller.abort(), REQUEST_TIMEOUT_MS);
+        try {
+            const response = await fetch(FUNCTION_URL, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-App-Token': APP_TOKEN
+                },
+                body: JSON.stringify(payload),
+                signal: controller.signal
+            });
+
+            // Особые случаи: сервер вернул понятное текстовое сообщение —
+            // показываем его пользователю, а не общее «Ошибка связи».
+            if (response.status === 429 || response.status === 403 || response.status === 400) {
+                let serverMsg = '';
+                try {
+                    const errData = await response.json();
+                    serverMsg = errData.message || '';
+                } catch (e) {}
+                throw new Error(serverMsg || 'Запрос отклонён сервером.');
+            }
+            if (!response.ok) throw new Error('Ошибка связи с сервером');
+
+            const data = await response.json();
+            return { message: data.message || 'Извините, не получил ответа.' };
+        } catch (err) {
+            // AbortError — это наш таймаут. Перепаковываем в понятное сообщение.
+            if (err.name === 'AbortError') {
+                throw new Error('Ответ занял слишком много времени. Попробуйте задать вопрос ещё раз.');
+            }
+            throw err;
+        } finally {
+            clearTimeout(timeoutId);
+        }
+    }
+
+    // ============================================================
+    // ЧАТ
+    // ============================================================
+    function saveHistory() {
+        localStorage.setItem('blagovest_chat_history', JSON.stringify(chatHistory));
+    }
+
+    // Тихая очистка истории — без подтверждения и без вывода сообщений.
+    // Используется при переключении контекста (новая плитка / возврат в свободный чат и т.п.),
+    // чтобы старая переписка не «протекала» в новый разговор и не уходила в API.
+    function resetHistory() {
+        chatHistory = [];
+        localStorage.removeItem('blagovest_chat_history');
+        // Контекст в этот момент тоже сбрасываем — конкретный новый контекст
+        // выставит вызывающая сторона через setContext(...).
+        setContext(null);
+    }
+
+    async function clearHistory() {
+        const yes = await askConfirm('Очистить историю переписки?');
+        if (!yes) return;
+        chatHistory = [];
+        localStorage.removeItem('blagovest_chat_history');
+        setContext(null);
+        const cc = document.getElementById('chat-container');
+        cc.innerHTML = '';
+        appendMessage('ai', 'История очищена. О чём вы хотите спросить?', false);
+        haptic.success();
+    }
+
+    function openChat(topicContext) {
+        // Если переключаемся между свободным чатом и тематическим (или наоборот) —
+        // тоже считаем это сменой контекста и чистим историю.
+        // Формат ключа: 'topic:<id>' для темы, 'free' для свободного чата,
+        // 'verse:<ref>' для стиха дня (см. openVerseOfDayChat).
+        const newContextKey = topicContext ? ('topic:' + topicContext.id) : 'free';
+        const prevContext = getContext();
+        if (prevContext !== null && prevContext !== newContextKey) {
+            resetHistory();
+        }
+        setContext(newContextKey);
+
+        const cc = document.getElementById('chat-container');
+        cc.innerHTML = '';
+
+        // Если открываем чат по теме — добавляем «бейдж темы» и приветствие в контексте темы
+        if (topicContext) {
+            const badge = document.createElement('div');
+            badge.className = 'topic-badge';
+            badge.innerHTML = `<i class="ti ${topicContext.icon}"></i> ${topicContext.title}`;
+            cc.appendChild(badge);
+
+            appendMessage('ai',
+                `Готов обсудить с вами тему «${topicContext.title}». О чём именно вы хотели бы поговорить?`,
+                false
+            );
+        } else {
+            // Свободный чат — показываем накопленную историю
+            if (chatHistory.length === 0) {
+                appendMessage('ai', 'Мир вам! Я помогу найти ответы в Евангелии. О чём вы хотите спросить?', false);
+            } else {
+                chatHistory.forEach(msg => {
+                    appendMessage(msg.role === 'user' ? 'user' : 'ai', msg.content, false);
+                });
+            }
+        }
+
+        showScreen('chat');
+        setTimeout(() => document.getElementById('userInput').focus(), 100);
+    }
+
+    async function sendMessage() {
+        if (isSending) return; // защита от двойной отправки (двойной Enter, дабл-клик, IME)
+        const input = document.getElementById('userInput');
+        const text = input.value.trim();
+        if (!text) return; // пустую строку не шлём; валидация длины — на сервере
+
+        isSending = true;
+        haptic.light();
+        appendMessage('user', text);
+        chatHistory.push({ role: "user", content: text });
+        saveHistory();
+        input.value = '';
+        setLoading(true);
+
+        try {
+            const payload = {
+                messages: chatHistory,
+                topicContext: currentTopic ? currentTopic.aiContext : null,
+                // Маркер источника для серверной аналитики. См. также sendVerseOfDayQuestion.
+                source: currentTopic ? 'topic' : 'free_chat',
+                topicId: currentTopic ? currentTopic.id : null
+            };
+
+            const { message: aiAnswer } = await postChatRequest(payload);
+
+            appendMessage('ai', aiAnswer);
+            chatHistory.push({ role: "assistant", content: aiAnswer });
+
+            if (chatHistory.length > 12) chatHistory = chatHistory.slice(-12);
+            saveHistory();
+            haptic.success();
+        } catch (error) {
+            appendMessage('ai', 'К сожалению, произошла ошибка: ' + error.message);
+            haptic.error();
+        } finally {
+            isSending = false;
+            setLoading(false);
+        }
+    }
+
+    function appendMessage(role, text, shouldScroll = true) {
+        const cc = document.getElementById('chat-container');
+        const msgDiv = document.createElement('div');
+        msgDiv.className = `message ${role === 'user' ? 'user-message' : 'ai-message'}`;
+
+        if (role === 'ai' || role === 'assistant') {
+            // marked → DOMPurify → linkifyBible.
+            // DOMPurify санитизирует HTML от потенциально опасных тегов/атрибутов
+            // (если LLM или будущий источник вернёт сырой HTML). linkifyBible
+            // потом работает уже с безопасным DOM.
+            const rawHtml = marked.parse(text);
+            const cleanHtml = window.DOMPurify
+                ? DOMPurify.sanitize(rawHtml, { ADD_ATTR: ['target'] })
+                : rawHtml;
+            msgDiv.innerHTML = linkifyBible(cleanHtml);
+        } else {
+            msgDiv.textContent = text;
+        }
+
+        cc.appendChild(msgDiv);
+        if (shouldScroll) cc.scrollTop = cc.scrollHeight;
+    }
+
+    function setLoading(isLoading) {
+        document.getElementById('loader').style.display = isLoading ? 'block' : 'none';
+        document.getElementById('sendBtn').disabled = isLoading;
+        document.getElementById('userInput').disabled = isLoading;
+        if (!isLoading) document.getElementById('userInput').focus();
+    }
+
+    // ============================================================
+    // СЛУШАТЕЛИ СОБЫТИЙ
+    // ============================================================
+    document.getElementById('backBtn').addEventListener('click', () => { haptic.light(); goBack(); });
+    document.getElementById('clearBtn').addEventListener('click', () => { haptic.light(); clearHistory(); });
+    document.getElementById('freeChatCard').addEventListener('click', () => { haptic.selection(); openChat(null); });
+    document.getElementById('freeChatCard').addEventListener('keydown', e => {
+        if (e.key === 'Enter' || e.key === ' ') {
+            e.preventDefault();
+            haptic.selection();
+            openChat(null);
+        }
+    });
+    document.getElementById('askAboutTopicBtn').addEventListener('click', () => { haptic.medium(); openChat(currentTopic); });
+    document.getElementById('sendBtn').addEventListener('click', sendMessage); // haptic уже внутри sendMessage
+    document.getElementById('userInput').addEventListener('keydown', e => {
+        // keydown надёжнее устаревшего keypress; isComposing — чтобы Enter
+        // во время ввода через IME (китайский/японский и т.п.) не отправлял сообщение.
+        if (e.key === 'Enter' && !e.isComposing) {
+            e.preventDefault();
+            sendMessage();
+        }
+    });
+
+    // Делегат на клики по ссылкам внутри сообщений чата.
+    // В Mini App обычный target="_blank" работает нестабильно (особенно на iOS —
+    // webview блокирует popup без user gesture в нужном фрейме). Правильный путь —
+    // tg.openLink для внешних http(s) и tg.openTelegramLink для t.me/...
+    // Делегат покрывает и наши azbyka-ссылки из linkifyBible, и любые ссылки,
+    // которые LLM мог вернуть в markdown-ответе (после marked → DOMPurify).
+    // Вне Telegram (отладка в обычном браузере) — fallback на дефолтное поведение.
+    document.getElementById('chat-container').addEventListener('click', e => {
+        const a = e.target.closest('a');
+        if (!a) return;
+        const url = a.href;
+        if (!url || !/^https?:\/\//i.test(url)) return; // mailto:, tg://, прочее — оставляем браузеру
+        if (!isInTelegram || !tg.openLink) return; // fallback на target="_blank"
+        e.preventDefault();
+        if (/^https?:\/\/t\.me\//i.test(url)) {
+            try { tg.openTelegramLink(url); } catch (err) { window.open(url, '_blank'); }
+        } else {
+            try { tg.openLink(url); } catch (err) { window.open(url, '_blank'); }
+        }
+    });
+
+    // ============================================================
+    // ИНТЕГРАЦИЯ С НАТИВНЫМИ КНОПКАМИ TELEGRAM
+    // Регистрируем обработчики один раз — иначе одно нажатие сработает многократно.
+    // ============================================================
+    if (isInTelegram) {
+        // BackButton — системная стрелка «Назад» в шапке Telegram
+        if (tg.BackButton) {
+            try { tg.BackButton.onClick(() => { haptic.light(); goBack(); }); } catch (e) {}
+        }
+        // MainButton — нижняя цветная кнопка Telegram, используем на экране темы
+        if (tg.MainButton) {
+            try {
+                tg.MainButton.onClick(() => {
+                    if (currentScreen === 'topic' && currentTopic) {
+                        haptic.medium();
+                        openChat(currentTopic);
+                    }
+                });
+            } catch (e) {}
+        }
+        // SettingsButton — троеточие в углу, ведёт на «Очистить историю»
+        if (tg.SettingsButton) {
+            try { tg.SettingsButton.onClick(() => { haptic.light(); clearHistory(); }); } catch (e) {}
+        }
+    }
+
+    // ============================================================
+    // ДЕСКТОПНЫЙ "СПОТЛАЙТ" ЗА ПРИЛОЖЕНИЕМ
+    // Обновляет CSS-переменные --spot-x/--spot-y на <body>, которые читает
+    // body::before (см. <style>). Эффект сам выключен в CSS на тач-устройствах
+    // и при prefers-reduced-motion — слушатель здесь просто не навешиваем,
+    // чтобы не тратить ресурсы там, где эффекта и так не будет видно.
+    // ============================================================
+    const supportsSpotlight = window.matchMedia('(pointer: fine)').matches
+        && window.matchMedia('(prefers-reduced-motion: no-preference)').matches;
+    if (supportsSpotlight) {
+        // rAF-throttle: быстрое движение мыши даёт десятки mousemove между
+        // кадрами — пишем стиль максимум раз на кадр (с последними координатами),
+        // а не на каждое событие.
+        let spotlightX = 0, spotlightY = 0, spotlightFrame = null;
+        document.addEventListener('mousemove', e => {
+            spotlightX = e.clientX;
+            spotlightY = e.clientY;
+            if (spotlightFrame !== null) return;
+            spotlightFrame = requestAnimationFrame(() => {
+                document.body.style.setProperty('--spot-x', spotlightX + 'px');
+                document.body.style.setProperty('--spot-y', spotlightY + 'px');
+                spotlightFrame = null;
+            });
+        }, { passive: true });
+    }
+
+    // ============================================================
+    // ЗАПУСК
+    // ============================================================
+    renderVerseOfDay();
+    renderHome();
+    showScreen('home');
+</script>
+
+</body>
+</html>
