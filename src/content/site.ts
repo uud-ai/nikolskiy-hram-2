@@ -2,6 +2,7 @@ export const nav = [
   { label: "О храме", href: "#about" },
   { label: "Расписание", href: "#schedule" },
   { label: "Таинства", href: "#sacraments" },
+  { label: "Благовест", href: "/blagovest/" },
   { label: "Новости", href: "#news" },
   { label: "Контакты", href: "#contacts" },
 ]

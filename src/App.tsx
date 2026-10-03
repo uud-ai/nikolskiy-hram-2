@@ -3,6 +3,7 @@ import { Hero } from "@/components/sections/hero"
 import { About } from "@/components/sections/about"
 import { Words } from "@/components/sections/words"
 import { DailyReadings } from "@/components/sections/daily-readings"
+import { GospelChat } from "@/components/sections/gospel-chat"
 import { Schedule } from "@/components/sections/schedule"
 import { Sacraments } from "@/components/sections/sacraments"
 import { News } from "@/components/sections/news"
@@ -19,6 +20,7 @@ function App() {
         <About />
         <Words />
         <DailyReadings />
+        <GospelChat />
         <Schedule />
         <Sacraments />
         <News />
