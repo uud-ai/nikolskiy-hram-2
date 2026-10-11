@@ -1,0 +1,648 @@
+{
+  "name": "Приход: публикация новости на сайте",
+  "nodes": [
+    {
+      "parameters": {
+        "updates": [
+          "message"
+        ],
+        "additionalFields": {}
+      },
+      "id": "4e0b532b-ac0d-43d8-b339-788c42a7bf03",
+      "name": "Сообщение боту",
+      "type": "n8n-nodes-base.telegramTrigger",
+      "typeVersion": 1.1,
+      "position": [
+        0,
+        200
+      ]
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "0f921ab2-f95d-4da3-9403-f32678f064bc",
+              "name": "allowedChatId",
+              "value": "ВАШ_CHAT_ID",
+              "type": "string"
+            },
+            {
+              "id": "6727ea3a-2719-41a4-bf58-6eeb0fb69b6f",
+              "name": "repoOwner",
+              "value": "uud-ai",
+              "type": "string"
+            },
+            {
+              "id": "09e6996f-6b7b-4988-b179-ddbe6d506237",
+              "name": "repoName",
+              "value": "nikolskiy-hram-2",
+              "type": "string"
+            },
+            {
+              "id": "9918b685-c747-4e44-883f-02ba1ba211e2",
+              "name": "filePath",
+              "value": "public/news.json",
+              "type": "string"
+            },
+            {
+              "id": "6c2ca008-561d-4d5f-8d9d-bcf6df675b54",
+              "name": "branch",
+              "value": "main",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "0ddc17a9-ee43-4469-ad4f-49fae7d5923b",
+      "name": "Настройки",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        220,
+        200
+      ]
+    },
+    {
+      "parameters": {
+        "jsCode": "// Пускаем только сообщения из вашего чата и ищем в них ссылку\nconst cfg = $('Настройки').first().json;\nconst msg = $('Сообщение боту').first().json.message || {};\nif (String(msg.chat?.id) !== String(cfg.allowedChatId)) return [];   // чужие сообщения молча игнорируем\nconst m = (msg.text || msg.caption || '').match(/https?:\\/\\/[^\\s<>\"]+/);\nreturn [{ json: { chatId: msg.chat.id, url: m ? m[0] : '', hasUrl: !!m } }];"
+      },
+      "id": "e77a28c7-cf50-4bbd-87d9-0da9a429f889",
+      "name": "Проверка",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        440,
+        200
+      ]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "loose",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "6062861c-f87f-47cb-9854-c614837ede0e",
+              "leftValue": "={{ $json.hasUrl }}",
+              "rightValue": "",
+              "operator": {
+                "type": "boolean",
+                "operation": "true",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "looseTypeValidation": true,
+        "options": {}
+      },
+      "id": "4922043b-9f86-4769-a807-8df5272f2ed1",
+      "name": "Есть ссылка?",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        660,
+        200
+      ]
+    },
+    {
+      "parameters": {
+        "chatId": "={{ $('Проверка').first().json.chatId }}",
+        "text": "Пришлите ссылку на статью (адрес, начинающийся с http), и я подготовлю новость для сайта.",
+        "additionalFields": {
+          "appendAttribution": false,
+          "disable_web_page_preview": true
+        }
+      },
+      "id": "c2fbfc16-8b74-4d87-bafe-4de9aad854e5",
+      "name": "Нужна ссылка",
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        880,
+        420
+      ]
+    },
+    {
+      "parameters": {
+        "url": "={{ $json.url }}",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "User-Agent",
+              "value": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0 Safari/537.36"
+            }
+          ]
+        },
+        "options": {
+          "response": {
+            "response": {
+              "responseFormat": "text"
+            }
+          }
+        }
+      },
+      "id": "5eed09b0-7bc2-4ae9-9a8a-21dafe6e1279",
+      "name": "Загрузка страницы",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        880,
+        180
+      ],
+      "onError": "continueErrorOutput"
+    },
+    {
+      "parameters": {
+        "jsCode": "// Достаём из HTML-страницы заголовок и текст статьи\nconst html = String($json.data || '');\nconst url = $('Проверка').first().json.url;\nconst meta = (prop) => {\n  const r = new RegExp(`<meta[^>]+(?:property|name)=[\"']${prop}[\"'][^>]*content=[\"']([^\"']*)[\"']`, 'i');\n  const r2 = new RegExp(`<meta[^>]+content=[\"']([^\"']*)[\"'][^>]*(?:property|name)=[\"']${prop}[\"']`, 'i');\n  return (html.match(r) || html.match(r2) || [])[1] || '';\n};\nconst decode = s => s\n  .replace(/&nbsp;/g, ' ').replace(/&quot;/g, '\"').replace(/&#039;|&#39;|&apos;/g, \"'\")\n  .replace(/&laquo;/g, '«').replace(/&raquo;/g, '»').replace(/&mdash;/g, '—').replace(/&ndash;/g, '–')\n  .replace(/&#(\\d+);/g, (_, n) => String.fromCharCode(Number(n)))\n  .replace(/&lt;/g, '<').replace(/&gt;/g, '>').replace(/&amp;/g, '&');\n\nconst clean = html\n  .replace(/<(script|style|noscript|nav|footer|header|aside|form)[\\s\\S]*?<\\/\\1>/gi, ' ');\nconst paragraphs = [...clean.matchAll(/<p[^>]*>([\\s\\S]*?)<\\/p>/gi)]\n  .map(m => decode(m[1].replace(/<[^>]+>/g, ' ')).replace(/\\s+/g, ' ').trim())\n  .filter(p => p.length > 40);\n\nconst pageTitle = decode(meta('og:title') || (html.match(/<title[^>]*>([\\s\\S]*?)<\\/title>/i) || [])[1] || '').trim();\nlet siteName = decode(meta('og:site_name')).trim();\ntry { if (!siteName) siteName = new URL(url).hostname.replace(/^www\\./, ''); } catch (e) {}\n\nconst articleText = paragraphs.join('\\n\\n').slice(0, 15000);\nif (articleText.length < 200) {\n  throw new Error('Не удалось извлечь текст статьи со страницы. Возможно, это ссылка Google Новостей или сайт отдаёт текст скриптом — откройте статью в браузере и пришлите прямую ссылку.');\n}\nreturn [{ json: { url, pageTitle, siteName, articleText } }];"
+      },
+      "id": "5229e675-2373-4832-a707-f2edd8ac06da",
+      "name": "Текст статьи",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1100,
+        160
+      ],
+      "onError": "continueErrorOutput"
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=Ты — редактор новостной ленты сайта православного прихода (Никольский храм, с. Усть-Карск). Перескажи новость для сайта по-русски.\n\nТребования:\n- Используй ТОЛЬКО сведения из текста статьи ниже. Ничего не добавляй и не домысливай: имена, саны, даты, места и цифры — строго как в источнике.\n- Пиши своими словами, не копируй фразы целиком. Спокойный, уважительный тон, принятый в церковной среде.\n- Заголовок — до 90 знаков. Текст — 2–3 коротких абзаца, всего не более 900 знаков. Абзацы разделяй пустой строкой.\n- Если в статье недостаточно сведений для новости, напиши это в поле text.\n\nОтветь строго JSON-объектом без пояснений и без оформления кода:\n{\"title\": \"...\", \"text\": \"...\"}\n\nЗаголовок страницы: {{ $json.pageTitle }}\nИсточник: {{ $json.siteName }}\n\nТекст статьи:\n{{ $json.articleText }}"
+      },
+      "id": "4719af53-255d-46d8-abd1-4886b62006e9",
+      "name": "Пересказ",
+      "type": "@n8n/n8n-nodes-langchain.chainLlm",
+      "typeVersion": 1.5,
+      "position": [
+        1340,
+        140
+      ]
+    },
+    {
+      "parameters": {
+        "model": {
+          "__rl": true,
+          "mode": "list",
+          "value": "gpt-4o-mini"
+        },
+        "options": {
+          "temperature": 0.3
+        }
+      },
+      "id": "7e276390-abc4-45a7-a335-8802f4dc0bce",
+      "name": "Модель OpenAI",
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+      "typeVersion": 1.2,
+      "position": [
+        1340,
+        360
+      ]
+    },
+    {
+      "parameters": {
+        "jsCode": "// Разбираем ответ модели и готовим текст для проверки в Telegram\nconst raw = String($json.text || '').replace(/^```(?:json)?\\s*|\\s*```$/g, '').trim();\nlet out;\ntry { out = JSON.parse(raw.slice(raw.indexOf('{'), raw.lastIndexOf('}') + 1)); }\ncatch (e) { throw new Error('Модель вернула ответ не в формате JSON: ' + raw.slice(0, 300)); }\nconst src = $('Текст статьи').first().json;\nconst chatId = $('Проверка').first().json.chatId;\n// Экранируем символы разметки Markdown, чтобы Telegram не споткнулся о «_» и «*» в тексте\nconst esc = s => String(s).replace(/([_*`\\[])/g, '\\\\$1');\nconst preview = `📝 *Черновик новости для сайта*\\n\\n${esc(out.title)}\\n\\n${esc(out.text)}\\n\\nИсточник: ${esc(src.siteName)}\\n${esc(src.url)}`;\nreturn [{ json: {\n  chatId, title: String(out.title).trim(), text: String(out.text).trim(),\n  sourceTitle: src.siteName, sourceUrl: src.url, preview: preview.slice(0, 3900),\n}}];"
+      },
+      "id": "be06299b-96ee-4b90-b5dc-48c9ab8111ad",
+      "name": "Подготовка черновика",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1620,
+        140
+      ],
+      "onError": "continueErrorOutput"
+    },
+    {
+      "parameters": {
+        "operation": "sendAndWait",
+        "chatId": "={{ $json.chatId }}",
+        "message": "={{ $json.preview }}",
+        "approvalOptions": {
+          "values": {
+            "approvalType": "double",
+            "approveLabel": "✅ Опубликовать",
+            "disapproveLabel": "✖️ Отклонить"
+          }
+        },
+        "options": {}
+      },
+      "id": "44083168-3f5e-45ca-b1b7-1b741e1b8ce3",
+      "name": "На проверку",
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        1840,
+        140
+      ]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "loose",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "2982e2f3-400f-47e7-a441-85672ff56e8b",
+              "leftValue": "={{ $json.data.approved }}",
+              "rightValue": "",
+              "operator": {
+                "type": "boolean",
+                "operation": "true",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "looseTypeValidation": true,
+        "options": {}
+      },
+      "id": "92cc83cb-d4cb-4c60-89cd-c0a4a3a3eb73",
+      "name": "Одобрено?",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        2060,
+        140
+      ]
+    },
+    {
+      "parameters": {
+        "chatId": "={{ $('Проверка').first().json.chatId }}",
+        "text": "Хорошо, новость не опубликована.",
+        "additionalFields": {
+          "appendAttribution": false,
+          "disable_web_page_preview": true
+        }
+      },
+      "id": "59c7d18c-e494-458a-8802-74aee1ad43cd",
+      "name": "Отклонено",
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        2280,
+        340
+      ]
+    },
+    {
+      "parameters": {
+        "url": "=https://api.github.com/repos/{{ $('Настройки').first().json.repoOwner }}/{{ $('Настройки').first().json.repoName }}/contents/{{ $('Настройки').first().json.filePath }}?ref={{ $('Настройки').first().json.branch }}",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Accept",
+              "value": "application/vnd.github+json"
+            },
+            {
+              "name": "X-GitHub-Api-Version",
+              "value": "2022-11-28"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "1b9840cc-a660-4dea-8bc7-21d3121ce2e6",
+      "name": "Получить news.json",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        2280,
+        120
+      ],
+      "onError": "continueErrorOutput"
+    },
+    {
+      "parameters": {
+        "jsCode": "// Добавляем новость в news.json и готовим коммит\nconst cfg = $('Настройки').first().json;\nconst news = $('Подготовка черновика').first().json;\nconst file = $json;                                   // ответ GitHub API: content (base64) + sha\nconst current = JSON.parse(Buffer.from(file.content, 'base64').toString('utf8'));\nconst items = Array.isArray(current.items) ? current.items : [];\n\nif (items.some(i => i.sourceUrl === news.sourceUrl)) {\n  throw new Error('Эта новость уже есть на сайте.');\n}\nitems.unshift({\n  id: `${$now.toFormat('yyyyMMdd-HHmmss')}`,\n  title: news.title,\n  date: $now.setZone('Asia/Chita').toFormat('yyyy-MM-dd'),\n  text: news.text,\n  sourceTitle: news.sourceTitle,\n  sourceUrl: news.sourceUrl,\n});\nconst body = JSON.stringify({ items }, null, 2) + '\\n';\nreturn [{ json: {\n  message: `Новость: ${news.title}`,\n  content: Buffer.from(body, 'utf8').toString('base64'),\n  sha: file.sha,\n  branch: cfg.branch,\n}}];"
+      },
+      "id": "14ca5605-3b7d-44cb-9efa-d862ea904ed9",
+      "name": "Добавить новость",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        2500,
+        100
+      ],
+      "onError": "continueErrorOutput"
+    },
+    {
+      "parameters": {
+        "method": "PUT",
+        "url": "=https://api.github.com/repos/{{ $('Настройки').first().json.repoOwner }}/{{ $('Настройки').first().json.repoName }}/contents/{{ $('Настройки').first().json.filePath }}",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Accept",
+              "value": "application/vnd.github+json"
+            },
+            {
+              "name": "X-GitHub-Api-Version",
+              "value": "2022-11-28"
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{ JSON.stringify({ message: $json.message, content: $json.content, sha: $json.sha, branch: $json.branch }) }}",
+        "options": {}
+      },
+      "id": "ef01d95d-7c38-4414-a05f-9e82af4b5fcf",
+      "name": "Сохранить в GitHub",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        2720,
+        80
+      ],
+      "onError": "continueErrorOutput"
+    },
+    {
+      "parameters": {
+        "chatId": "={{ $('Проверка').first().json.chatId }}",
+        "text": "✅ Новость добавлена. Сайт обновится через 2–3 минуты: https://nikolskiyhram.site/#news",
+        "additionalFields": {
+          "appendAttribution": false,
+          "disable_web_page_preview": true
+        }
+      },
+      "id": "ac948a07-5ce5-47f9-9abc-4c728477384a",
+      "name": "Опубликовано",
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        2940,
+        60
+      ]
+    },
+    {
+      "parameters": {
+        "chatId": "={{ $('Проверка').first().json.chatId }}",
+        "text": "=⚠️ Не получилось: {{ $json.error?.message || $json.error || 'неизвестная ошибка' }}",
+        "additionalFields": {
+          "appendAttribution": false,
+          "disable_web_page_preview": true
+        }
+      },
+      "id": "714f5738-66b8-423a-abfd-e1a2c5fdbbee",
+      "name": "Сообщить об ошибке",
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        2280,
+        560
+      ]
+    },
+    {
+      "parameters": {
+        "width": 640,
+        "height": 340,
+        "content": "## Публикация новости на сайте\nПришлите боту ссылку на статью → модель готовит пересказ → бот присылает черновик с кнопками → после «Опубликовать» новость записывается в `public/news.json` репозитория **uud-ai/nikolskiy-hram-2**, GitHub Actions пересобирает сайт.\n\n**Настройка:**\n1. **Настройки** — впишите свой chat ID.\n2. **Сообщение боту**, **На проверку** и узлы отправки — учётные данные Telegram-бота.\n3. **Модель OpenAI** — ключ OpenAI (или замените на модель Gemini).\n4. **Получить news.json** и **Сохранить в GitHub** — учётные данные *Header Auth*: имя `Authorization`, значение `Bearer <токен GitHub>`. Токен: fine-grained, только этот репозиторий, право *Contents: Read and write*."
+      },
+      "id": "49463f39-d990-4497-90f8-c18131e4e298",
+      "name": "Пояснение",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        0,
+        -260
+      ]
+    }
+  ],
+  "connections": {
+    "Сообщение боту": {
+      "main": [
+        [
+          {
+            "node": "Настройки",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Настройки": {
+      "main": [
+        [
+          {
+            "node": "Проверка",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Проверка": {
+      "main": [
+        [
+          {
+            "node": "Есть ссылка?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Есть ссылка?": {
+      "main": [
+        [
+          {
+            "node": "Загрузка страницы",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Нужна ссылка",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Загрузка страницы": {
+      "main": [
+        [
+          {
+            "node": "Текст статьи",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Сообщить об ошибке",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Текст статьи": {
+      "main": [
+        [
+          {
+            "node": "Пересказ",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Сообщить об ошибке",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Модель OpenAI": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Пересказ",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Пересказ": {
+      "main": [
+        [
+          {
+            "node": "Подготовка черновика",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Подготовка черновика": {
+      "main": [
+        [
+          {
+            "node": "На проверку",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Сообщить об ошибке",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "На проверку": {
+      "main": [
+        [
+          {
+            "node": "Одобрено?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Одобрено?": {
+      "main": [
+        [
+          {
+            "node": "Получить news.json",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Отклонено",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Получить news.json": {
+      "main": [
+        [
+          {
+            "node": "Добавить новость",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Сообщить об ошибке",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Добавить новость": {
+      "main": [
+        [
+          {
+            "node": "Сохранить в GitHub",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Сообщить об ошибке",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Сохранить в GitHub": {
+      "main": [
+        [
+          {
+            "node": "Опубликовано",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Сообщить об ошибке",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1",
+    "timezone": "Asia/Chita"
+  },
+  "pinData": {}
+}

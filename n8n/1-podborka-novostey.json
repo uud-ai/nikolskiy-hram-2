@@ -1,0 +1,221 @@
+{
+  "name": "Приход: подборка новостей в Telegram",
+  "nodes": [
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "triggerAtHour": 8
+            }
+          ]
+        }
+      },
+      "id": "383dd1e5-81eb-4d5c-a1d8-9613c3c8381a",
+      "name": "Каждое утро",
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.2,
+      "position": [
+        0,
+        0
+      ]
+    },
+    {
+      "parameters": {},
+      "id": "e117e361-ee72-477c-8703-9a9e4c8220e2",
+      "name": "Запуск вручную",
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        0,
+        200
+      ]
+    },
+    {
+      "parameters": {
+        "jsCode": "// ИСТОЧНИКИ НОВОСТЕЙ\n// Каждая строка — одна RSS-лента. Добавляйте адреса RSS нужных сайтов.\n// Поиск по теме через Google Новости: https://news.google.com/rss/search?q=ЗАПРОС&hl=ru&gl=RU&ceid=RU:ru\n// (пробелы в запросе заменяйте на +, кавычки — на %22)\nconst feeds = [\n  { name: 'Google Новости: Читинская епархия', url: 'https://news.google.com/rss/search?q=%22%D0%A7%D0%B8%D1%82%D0%B8%D0%BD%D1%81%D0%BA%D0%B0%D1%8F+%D0%B5%D0%BF%D0%B0%D1%80%D1%85%D0%B8%D1%8F%22&hl=ru&gl=RU&ceid=RU:ru' },\n  { name: 'Google Новости: православие Забайкалье', url: 'https://news.google.com/rss/search?q=%D0%BF%D1%80%D0%B0%D0%B2%D0%BE%D1%81%D0%BB%D0%B0%D0%B2%D0%B8%D0%B5+%D0%97%D0%B0%D0%B1%D0%B0%D0%B9%D0%BA%D0%B0%D0%BB%D1%8C%D0%B5&hl=ru&gl=RU&ceid=RU:ru' },\n  // { name: 'Сайт епархии', url: 'https://АДРЕС-САЙТА/rss' },\n];\nreturn feeds.map(f => ({ json: f }));"
+      },
+      "id": "e2df9c1b-519a-4d43-8f42-ff92ca0432e7",
+      "name": "Источники",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        240,
+        100
+      ]
+    },
+    {
+      "parameters": {
+        "url": "={{ $json.url }}",
+        "options": {}
+      },
+      "id": "fd98a2a9-e72f-4905-ac87-fa921757a2ba",
+      "name": "Чтение RSS",
+      "type": "n8n-nodes-base.rssFeedRead",
+      "typeVersion": 1.1,
+      "position": [
+        480,
+        100
+      ],
+      "onError": "continueRegularOutput"
+    },
+    {
+      "parameters": {
+        "jsCode": "// ОТБОР ПО ТЕМЕ\n// KEYWORDS — части слов (в нижнем регистре), хотя бы одна должна встретиться\n// в заголовке или аннотации. Пустой список = брать всё из лент\n// (для лент Google Новости тема уже задана поисковым запросом).\nconst KEYWORDS = [];            // например: ['епархи', 'митрополи', 'храм', 'монголи']\nconst MAX_AGE_DAYS = 3;         // не старше стольких дней\n\nconst cutoff = Date.now() - MAX_AGE_DAYS * 24 * 3600 * 1000;\nconst seen = new Set();\nconst out = [];\nfor (const item of $input.all()) {\n  const j = item.json;\n  if (j.error || !j.link || !j.title) continue;          // лента не открылась или пустая запись\n  const date = new Date(j.isoDate || j.pubDate || Date.now());\n  if (date.getTime() < cutoff) continue;\n  const hay = `${j.title} ${j.contentSnippet || ''}`.toLowerCase();\n  if (KEYWORDS.length && !KEYWORDS.some(k => hay.includes(k))) continue;\n  if (seen.has(j.link)) continue;\n  seen.add(j.link);\n  // В Google Новостях источник указан в конце заголовка после « - »\n  const m = j.title.match(/^(.*)\\s+-\\s+([^-]+)$/);\n  out.push({ json: {\n    title: m ? m[1] : j.title,\n    source: m ? m[2] : (j.creator || ''),\n    link: j.link,\n    date: date.toISOString(),\n  }});\n}\nreturn out;"
+      },
+      "id": "e985b4af-6379-40aa-862d-802e63c14f3d",
+      "name": "Отбор по теме",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        720,
+        100
+      ]
+    },
+    {
+      "parameters": {
+        "operation": "removeItemsSeenInPreviousExecutions",
+        "dedupeValue": "={{ $json.link }}",
+        "options": {}
+      },
+      "id": "a38cf40e-b821-4fb2-9820-a71c5f85b8e2",
+      "name": "Без повторов",
+      "type": "n8n-nodes-base.removeDuplicates",
+      "typeVersion": 2,
+      "position": [
+        960,
+        100
+      ]
+    },
+    {
+      "parameters": {
+        "jsCode": "// СБОРКА ПОДБОРКИ В ОДНО СООБЩЕНИЕ\nconst MAX_ITEMS = 10;\nconst items = $input.all().map(i => i.json)\n  .sort((a, b) => b.date.localeCompare(a.date))\n  .slice(0, MAX_ITEMS);\nif (!items.length) return [];\n\nconst fmt = d => new Date(d).toLocaleDateString('ru-RU', { day: 'numeric', month: 'long', timeZone: 'Asia/Chita' });\nconst lines = items.map((n, i) =>\n  `${i + 1}. ${n.title}\\n${[n.source, fmt(n.date)].filter(Boolean).join(' · ')}\\n${n.link}`);\n\nconst text = `📰 Подборка новостей — ${fmt(new Date().toISOString())}\\n\\n` +\n  lines.join('\\n\\n') +\n  `\\n\\nЧтобы опубликовать новость на сайте, откройте её и пришлите боту ссылку на статью.`;\nreturn [{ json: { text: text.slice(0, 4000) } }];"
+      },
+      "id": "e1d51b1f-6c2a-4de0-aad3-09007ac67c85",
+      "name": "Сборка подборки",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1200,
+        100
+      ]
+    },
+    {
+      "parameters": {
+        "chatId": "ВАШ_CHAT_ID",
+        "text": "={{ $json.text }}",
+        "additionalFields": {
+          "appendAttribution": false,
+          "disable_web_page_preview": true
+        }
+      },
+      "id": "65c902be-ed0b-4584-8819-6a780a2defb8",
+      "name": "Отправить в Telegram",
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        1440,
+        100
+      ]
+    },
+    {
+      "parameters": {
+        "width": 520,
+        "height": 300,
+        "content": "## Подборка новостей → Telegram\n1. **Источники** — список RSS-лент.\n2. **Отбор по теме** — ключевые слова и срок давности.\n3. **Без повторов** — не присылает то, что уже было в прошлых подборках.\n4. **Отправить в Telegram** — впишите свой chat ID (его покажет бот @userinfobot) и выберите учётные данные Telegram-бота.\n\nПосле проверки включите сценарий переключателем **Active** — тогда он будет работать каждое утро в 8:00 (часовой пояс задан в настройках сценария: Asia/Chita)."
+      },
+      "id": "0a85fdad-8483-42a9-bab0-f9c387258da0",
+      "name": "Пояснение",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        0,
+        -360
+      ]
+    }
+  ],
+  "connections": {
+    "Каждое утро": {
+      "main": [
+        [
+          {
+            "node": "Источники",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Запуск вручную": {
+      "main": [
+        [
+          {
+            "node": "Источники",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Источники": {
+      "main": [
+        [
+          {
+            "node": "Чтение RSS",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Чтение RSS": {
+      "main": [
+        [
+          {
+            "node": "Отбор по теме",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Отбор по теме": {
+      "main": [
+        [
+          {
+            "node": "Без повторов",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Без повторов": {
+      "main": [
+        [
+          {
+            "node": "Сборка подборки",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Сборка подборки": {
+      "main": [
+        [
+          {
+            "node": "Отправить в Telegram",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1",
+    "timezone": "Asia/Chita"
+  },
+  "pinData": {}
+}
