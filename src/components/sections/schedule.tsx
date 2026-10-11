@@ -6,11 +6,13 @@ import { ChurchCalendar } from "@/components/sections/church-calendar"
 import { siteMeta } from "@/content/site"
 import { scheduleData } from "@/content/schedule-data"
 import { telHref } from "@/lib/utils"
+import { dayTitle, useCalendarNames } from "@/lib/calendar-names"
 
 const INITIAL_COUNT = 2
 
 export function Schedule() {
   const [expanded, setExpanded] = useState(false)
+  const calendarNames = useCalendarNames()
 
   // chisle: local calendar date, not UTC — toISOString() rolls over 9h early at UTC+9
   const [todayIso] = useState(() => new Date().toLocaleDateString("en-CA"))
@@ -58,6 +60,14 @@ export function Schedule() {
                           {day.title ? `. ${day.title}` : ""}
                         </span>
                       </div>
+                      {(() => {
+                        const feast = dayTitle(calendarNames?.[day.date])
+                        return feast ? (
+                          <p className="mt-1 line-clamp-2 text-sm leading-snug text-gold-dim" title={feast}>
+                            {feast}
+                          </p>
+                        ) : null
+                      })()}
                       <ul className="mt-2 flex flex-col gap-1.5">
                         {day.events.map((ev) => (
                           <li key={ev.time} className="text-[15px] leading-relaxed text-ink-soft">
