@@ -1,0 +1,65 @@
+name: Обновление церковного календаря
+
+# Раз в сутки дополняет public/calendar-names.json названиями праздников
+# и памятей святых с api.patriarchia.ru (на 5 дней назад и 70 вперёд),
+# сохраняет файл в репозиторий и запускает публикацию сайта.
+
+on:
+  schedule:
+    # 03:00 UTC ежедневно (~12:00 по времени Забайкальского края)
+    - cron: '0 3 * * *'
+  workflow_dispatch: {}
+
+permissions:
+  contents: write   # сохранить обновлённый файл
+  actions: write    # запустить публикацию сайта (deploy.yml)
+
+concurrency:
+  group: update-calendar
+  cancel-in-progress: false
+
+jobs:
+  update-calendar:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Install dependencies
+        run: pip install -r church-calendar/requirements.txt
+
+      - name: Build calendar-names.json
+        run: |
+          FROM=$(date -u -d '-5 days' +%Y-%m-%d)
+          TO=$(date -u -d '+70 days' +%Y-%m-%d)
+          # Код 2 = часть дней не загрузилась; остальные дни уже записаны в файл,
+          # поэтому такой результат сохраняем, а следующий запуск дозагрузит пропуски.
+          python church-calendar/build_calendar_names.py --from "$FROM" --to "$TO" --out public/calendar-names.json || [ $? -eq 2 ]
+
+      - name: Commit and push if changed
+        id: commit
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          if git diff --quiet -- public/calendar-names.json; then
+            echo "Нет изменений в calendar-names.json"
+            echo "changed=false" >> "$GITHUB_OUTPUT"
+          else
+            git add public/calendar-names.json
+            git commit -m "Автообновление церковного календаря"
+            git push
+            echo "changed=true" >> "$GITHUB_OUTPUT"
+          fi
+
+      # Коммит, сделанный роботом Actions, сам по себе не запускает deploy.yml,
+      # поэтому запускаем публикацию явно.
+      - name: Deploy site
+        if: steps.commit.outputs.changed == 'true'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: gh workflow run deploy.yml --ref "${{ github.ref_name }}"
