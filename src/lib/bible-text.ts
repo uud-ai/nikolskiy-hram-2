@@ -1,7 +1,7 @@
 // Портировано из bible-text.js: получение текста отрывка (Синодальный
 // перевод, 1876, общественное достояние) по ссылке вида 'Мф.22:35-46' или
-// 'Мф.10:32-33,37-38,19:27-30' из reading-data/nt-text.json:
-// { book_id: { chapter: { verse: text } } }.
+// 'Мф.10:32-33,37-38,19:27-30'. Текст лежит по книгам в reading-data/nt/<book_id>.json
+// ({ chapter: { verse: text } }) и собирается в объект { book_id: { chapter: { verse: text } } }.
 
 export type BibleData = Record<string, Record<string, Record<string, string>>>
 
@@ -124,6 +124,13 @@ function parseAndFetch(bookData: BibleData, ref: string): string[] | null {
   }
 
   return result.length ? result : null
+}
+
+/** Идентификатор книги (имя файла в reading-data/nt/) для ссылки вида 'Мф.22:35-46'. */
+export function bookIdForRef(ref: string): string | null {
+  const dotIdx = ref.indexOf(".")
+  if (dotIdx === -1) return null
+  return BOOK_MAP[ref.slice(0, dotIdx)] ?? null
 }
 
 export function getText(bookData: BibleData, ref: string): string | null {

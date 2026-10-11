@@ -13,7 +13,7 @@ export function Schedule() {
   const [expanded, setExpanded] = useState(false)
 
   // chisle: local calendar date, not UTC — toISOString() rolls over 9h early at UTC+9
-  const todayIso = new Date().toLocaleDateString("en-CA")
+  const [todayIso] = useState(() => new Date().toLocaleDateString("en-CA"))
   const upcoming = scheduleData.filter((day) => day.date >= todayIso)
 
   const visible = expanded ? upcoming : upcoming.slice(0, INITIAL_COUNT)

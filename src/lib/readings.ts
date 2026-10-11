@@ -5,7 +5,7 @@ import {
   lukanGospelWeek,
   type PaschaDates,
 } from "./liturgical-cycle"
-import { getText, type BibleData } from "./bible-text"
+import { bookIdForRef, getText, type BibleData } from "./bible-text"
 
 export interface ReadingEntry {
   apostle?: string
@@ -23,28 +23,85 @@ export interface DailyReadingsData {
   triodion: { triodion_period: CycleTable; holy_week: Record<string, ReadingEntry> }
   /** Рядовые чтения по датам (период от Пятидесятницы до Триоди), с учётом
    *  Воздвиженской преступки/отступки и суббот/недель пред и по праздникам.
-   *  null — в этот день рядового чтения нет (великий праздник). */
+   *  null — в этот день рядового чтения нет (великий праздник).
+   *  Хранятся по годам: reading-data/pentecost-dated/<год>.json. */
   dated: Record<string, ReadingEntry | null | string>
-  bible: BibleData
+  /** Чтения святым с непереходящими датами, ключ — "ММ-ДД" (feasts.json). */
+  feasts: Record<string, (ReadingEntry & { title: string }) | string>
+}
+
+export interface Passage {
+  ref: string
+  zachalo?: number
+  /** undefined — текст ещё не загружен; null — текста нет. */
+  text?: string | null
 }
 
 export interface ResolvedReading {
   note: string | null
-  apostle: { ref: string; zachalo?: number; text: string | null } | null
-  gospel: { ref: string; zachalo?: number; text: string | null } | null
+  apostle: Passage | null
+  gospel: Passage | null
+  /** Чтение святому дня (например, святителю Николаю), если есть. */
+  feast: { title: string; apostle: Passage | null; gospel: Passage | null } | null
 }
 
-export async function loadDailyReadingsData(): Promise<DailyReadingsData> {
-  const [pascha, ordinary, triodion, dated, bible] = await Promise.all([
-    fetch("/reading-data/pascha-dates.json").then((r) => r.json()),
-    fetch("/reading-data/ordinary-cycle.json").then((r) => r.json()),
-    fetch("/reading-data/triodion-cycle.json").then((r) => r.json()),
-    fetch("/reading-data/pentecost-dated.json")
-      .then((r) => (r.ok ? r.json() : {}))
-      .catch(() => ({})),
-    fetch("/reading-data/nt-text.json").then((r) => r.json()),
+async function getJson<T>(url: string): Promise<T> {
+  const r = await fetch(url)
+  if (!r.ok) throw new Error(`${url}: HTTP ${r.status}`)
+  return r.json() as Promise<T>
+}
+
+async function getJsonOptional<T>(url: string, fallback: T): Promise<T> {
+  try {
+    return await getJson<T>(url)
+  } catch {
+    return fallback
+  }
+}
+
+/** Загружает таблицы чтений; рядовые чтения по датам — только за год даты `forDate`. */
+export async function loadDailyReadingsData(forDate: Date): Promise<DailyReadingsData> {
+  const [pascha, ordinary, triodion, dated, feasts] = await Promise.all([
+    getJson<DailyReadingsData["pascha"]>("/reading-data/pascha-dates.json"),
+    getJson<DailyReadingsData["ordinary"]>("/reading-data/ordinary-cycle.json"),
+    getJson<DailyReadingsData["triodion"]>("/reading-data/triodion-cycle.json"),
+    getJsonOptional<DailyReadingsData["dated"]>(`/reading-data/pentecost-dated/${forDate.getFullYear()}.json`, {}),
+    getJsonOptional<DailyReadingsData["feasts"]>("/reading-data/feasts.json", {}),
   ])
-  return { pascha, ordinary, triodion, dated, bible }
+  return { pascha, ordinary, triodion, dated, feasts }
+}
+
+function passage(ref: string | undefined, zachalo: number | undefined): Passage | null {
+  return ref ? { ref, zachalo } : null
+}
+
+/**
+ * Загружает текст Писания только для тех книг, которые нужны в этот день
+ * (обычно 2–3 файла по 15–50 КБ вместо всего Нового Завета), и возвращает
+ * копию чтения с заполненными текстами.
+ */
+export async function loadReadingTexts(reading: ResolvedReading): Promise<ResolvedReading> {
+  const passages = [reading.apostle, reading.gospel, reading.feast?.apostle, reading.feast?.gospel]
+  const books = new Set<string>()
+  for (const p of passages) {
+    const id = p ? bookIdForRef(p.ref) : null
+    if (id) books.add(id)
+  }
+  const bible: BibleData = {}
+  await Promise.all(
+    [...books].map(async (id) => {
+      bible[id] = await getJsonOptional<BibleData[string]>(`/reading-data/nt/${id}.json`, {})
+    })
+  )
+  const withText = (p: Passage | null): Passage | null => (p ? { ...p, text: getText(bible, p.ref) } : null)
+  return {
+    ...reading,
+    apostle: withText(reading.apostle),
+    gospel: withText(reading.gospel),
+    feast: reading.feast
+      ? { ...reading.feast, apostle: withText(reading.feast.apostle), gospel: withText(reading.feast.gospel) }
+      : null,
+  }
 }
 
 export function resolveReadingsForDate(
@@ -54,6 +111,31 @@ export function resolveReadingsForDate(
   const day = new Date(targetDate)
   day.setHours(0, 0, 0, 0)
 
+  const key = isoDate(day)
+  const feastEntry = data.feasts?.[key.slice(5)]
+  const feast =
+    feastEntry && typeof feastEntry !== "string"
+      ? {
+          title: feastEntry.title,
+          apostle: passage(feastEntry.apostle, feastEntry.apostle_zachalo),
+          gospel: passage(feastEntry.gospel, feastEntry.gospel_zachalo),
+        }
+      : null
+
+  const entry = resolveOrdinaryEntry(data, day, key)
+  const apostle = passage(entry?.apostle, entry?.apostle_zachalo)
+  const gospel = passage(entry?.gospel, entry?.gospel_zachalo)
+
+  if (!apostle && !gospel && !feast) return null
+
+  return { note: entry?.note ?? null, apostle, gospel, feast }
+}
+
+function resolveOrdinaryEntry(
+  data: DailyReadingsData,
+  day: Date,
+  key: string
+): ReadingEntry | null | undefined {
   const pascha = pickPascha(day, data.pascha)
   const nextPascha = pickNextPascha(day, data.pascha)
   if (!pascha && !nextPascha) return null
@@ -62,13 +144,12 @@ export function resolveReadingsForDate(
   if (pos.period === "unresolved") return null
 
   let entry: ReadingEntry | null | undefined
-  const key = isoDate(day)
   if (pos.period === "pentecost_period" && key in (data.dated ?? {})) {
     const dated = data.dated[key]
     // null — великий праздник: рядового чтения нет, блок скрывается
     entry = typeof dated === "string" ? null : dated
   } else if (pos.period === "pentecost_period") {
-    // Запасной вариант для лет вне pentecost-dated.json: Апостол — по седмице
+    // Запасной вариант для лет вне pentecost-dated/<год>.json: Апостол — по седмице
     // от Пятидесятницы, Евангелие — по «евангельской» седмице (Воздвиженская
     // преступка/отступка).
     const table = data.ordinary.pentecost_period
@@ -93,18 +174,7 @@ export function resolveReadingsForDate(
     entry = data.ordinary.pascha_period?.[pos.week]?.[pos.weekday]
   }
 
-  if (!entry) return null
-
-  const apostle = entry.apostle
-    ? { ref: entry.apostle, zachalo: entry.apostle_zachalo, text: getText(data.bible, entry.apostle) }
-    : null
-  const gospel = entry.gospel
-    ? { ref: entry.gospel, zachalo: entry.gospel_zachalo, text: getText(data.bible, entry.gospel) }
-    : null
-
-  if (!apostle && !gospel) return null
-
-  return { note: entry.note ?? null, apostle, gospel }
+  return entry
 }
 
 function isoDate(d: Date) {

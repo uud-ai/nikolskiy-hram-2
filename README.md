@@ -1,32 +1,84 @@
-# React + TypeScript + Vite
+# Сайт Никольского храма (Усть-Карск)
 
-This template provides a minimal setup to get React working in Vite with HMR and some Oxlint rules.
+Сайт прихода: **https://nikolskiyhram.site**
 
-Currently, two official plugins are available:
+Главная страница — приложение на React + TypeScript + Vite. Разделы «Благовест»
+(`/blagovest/`), «Клирос» (`/kliros/`), страницы таинств и политика
+конфиденциальности — готовые статические страницы в папке `public/`, они
+копируются на сайт как есть.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+## Как запустить у себя
 
-## React Compiler
+Нужен Node.js 22 или новее (на GitHub используется 24, см. `.nvmrc`).
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
-
-## Expanding the Oxlint configuration
-
-If you are developing a production application, we recommend enabling type-aware lint rules by installing `oxlint-tsgolint` and editing `.oxlintrc.json`:
-
-```json
-{
-  "$schema": "./node_modules/oxlint/configuration_schema.json",
-  "plugins": ["react", "typescript", "oxc"],
-  "options": {
-    "typeAware": true
-  },
-  "rules": {
-    "react/rules-of-hooks": "error",
-    "react/only-export-components": ["warn", { "allowConstantExport": true }]
-  }
-}
+```bash
+npm ci          # установить зависимости (один раз)
+npm run dev     # сайт на http://localhost:5173 с автообновлением
+npm run build   # проверить, что сайт собирается (результат — в dist/)
+npm run lint    # проверка кода
 ```
 
-See the [Oxlint rules documentation](https://oxc.rs/docs/guide/usage/linter/rules) for the full list of rules and categories.
+## Как сайт публикуется
+
+Публиковать вручную ничего не нужно. Каждый push в ветку `main` запускает
+`.github/workflows/deploy.yml`: GitHub собирает сайт и выкладывает его на
+GitHub Pages. Домен задан файлом `public/CNAME`.
+
+Раз в сутки (`.github/workflows/update-calendar.yml`, 12:00 по Чите) робот
+обновляет `public/calendar-names.json` — названия праздников и памяти святых с
+api.patriarchia.ru — и сам перезапускает публикацию. Ход работы виден во вкладке
+**Actions** репозитория.
+
+## Что где менять
+
+| Что | Где |
+| --- | --- |
+| Расписание богослужений | `src/content/schedule-data.ts` — по строке на день, дата в формате `ГГГГ-ММ-ДД`. **Сейчас заполнено до 27 декабря 2026 г.**, после этого блок покажет «Ближайшие службы уточняются». Прошедшие дни можно не удалять — они скрываются сами. `patronal: true` выделяет престольный праздник. |
+| Телефон, адрес, e-mail, настоятель, меню | `src/content/site.ts` |
+| История храма | `historyPeriods` в `src/content/site.ts` |
+| Цитаты святых отцов | `src/content/quotes.json` |
+| Фотографии | `public/images/` |
+| Страницы таинств | `public/sacraments/*.html` |
+| Политика конфиденциальности | `public/privacy.html` |
+
+## Чтения дня
+
+Данные — в `public/reading-data/`:
+
+- `pascha-dates.json` — даты Пасхи (сейчас по 2040 г.).
+- `pentecost-dated/<год>.json` — рядовые чтения по датам от Пятидесятницы до
+  Триоди с учётом Воздвиженской преступки/отступки (по 2040 г.). Генерируются
+  скриптом `tools/build_pentecost_readings.py` из данных проекта Ponomar —
+  инструкция в начале скрипта. После добавления новых годов в
+  `pascha-dates.json` скрипт нужно запустить заново.
+- `ordinary-cycle.json`, `triodion-cycle.json` — подвижный круг чтений.
+- `feasts.json` — чтения святым с непереходящими датами (сейчас — святителю
+  Николаю 19 декабря и 22 мая); показываются вместе с рядовым чтением.
+- `nt/<книга>.json` — синодальный текст Нового Завета по книгам; страница
+  загружает только нужные в этот день книги.
+
+## «Благовест» (`public/blagovest/`)
+
+ИИ-чат по Евангелию. Ответы даёт отдельный сервер на Cloudflare Workers
+(`blagovest-chat.uudnik.workers.dev`), его кода в этом репозитории нет.
+Токен `APP_TOKEN` в `index.html` виден всем и секретом не является —
+от злоупотреблений защищает только сервер (ограничение частоты запросов,
+проверка `Origin`, лимит расходов у провайдера ИИ).
+
+Офлайн-кэш: `public/blagovest/sw.js`. Страница и скрипты всегда берутся из сети
+в первую очередь, поэтому обновления доходят до посетителей сразу. При
+изменениях полезно увеличить номер в `CACHE_NAME`, чтобы почистить старый кэш у
+посетителей.
+
+## «Клирос» (`public/kliros/`)
+
+Тексты служб на каждый день. Это готовая сборка из репозитория
+`uud-ai/kliros-app`: чтобы обновить, соберите тот проект и замените содержимое
+`public/kliros/` результатом сборки. Исходный код здесь не правится.
+
+## Скрипты на Python
+
+```bash
+pip install -r church-calendar/requirements.txt
+python church-calendar/build_calendar_names.py --from 2026-12-01 --to 2027-02-28 --out public/calendar-names.json
+```

@@ -1,4 +1,4 @@
-"""Генерирует public/reading-data/pentecost-dated.json — рядовые чтения на
+"""Генерирует public/reading-data/pentecost-dated/<год>.json — рядовые чтения на
 каждый день от понедельника Святого Духа до субботы перед Неделей о мытаре и
 фарисее для всех лет из pascha-dates.json.
 
@@ -99,5 +99,17 @@ for d in gaps:
         out[d.isoformat()] = {"apostle": a["apostle"], "apostle_zachalo": a.get("apostle_zachalo"),
                               "gospel": g["gospel"], "gospel_zachalo": g.get("gospel_zachalo")}
 
-(DATA / "pentecost-dated.json").write_text(json.dumps(out, ensure_ascii=False, indent=1))
-print("дней:", len(out) - 1)
+# Раскладываем по календарным годам, чтобы главная страница грузила только
+# файл текущего года (около 20 КБ в сжатом виде), а не все годы сразу.
+OUT_DIR = DATA / "pentecost-dated"
+OUT_DIR.mkdir(exist_ok=True)
+by_year = {}
+for k, v in out.items():
+    if k.startswith("_"):
+        continue
+    by_year.setdefault(k[:4], {})[k] = v
+for year, entries in by_year.items():
+    payload = {k: v for k, v in out.items() if k.startswith("_")}
+    payload.update(entries)
+    (OUT_DIR / f"{year}.json").write_text(json.dumps(payload, ensure_ascii=False, indent=1))
+print("дней:", len(out) - 1, "годов:", len(by_year))

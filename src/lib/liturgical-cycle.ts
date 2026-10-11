@@ -109,7 +109,7 @@ export function resolveCyclePosition(
  * понедельника после Недели по Воздвижении — первого воскресенья после
  * 27 сентября (14 сентября ст. ст.). До этого читается Матфей, номинально
  * не дальше 17-й седмицы. Используется только как запасной расчёт для лет,
- * которых нет в pentecost-dated.json.
+ * которых нет в pentecost-dated/<год>.json.
  */
 export function lukanGospelWeek(day: Date, pentecostWeek: number, pascha: Date): number {
   // Воздвижение того же года, что и Пасха текущего круга: Лукино чтение
