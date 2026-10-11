@@ -1,0 +1,22 @@
+name: diag-blagovest
+on:
+  push:
+    branches: [diag/blagovest-check]
+jobs:
+  probe:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Probe chat worker
+        run: |
+          set -x
+          for origin in https://nikolskiyhram.site https://uud-ai.github.io; do
+            curl -sS -m 60 -o body.txt -w "HTTP %{http_code} in %{time_total}s\n" \
+              -X POST https://blagovest-chat.uudnik.workers.dev/ \
+              -H 'Content-Type: application/json' \
+              -H 'X-App-Token: bg-public-v1-7Kp9qLm3X' \
+              -H "Origin: $origin" \
+              --data '{"messages":[{"role":"user","content":"Что такое любовь по Евангелию?"}],"topicContext":null,"source":"free_chat","topicId":null}' || true
+            head -c 1500 body.txt; echo; echo ----
+          done
+          curl -sS -m 20 -o /dev/null -w "proxyapi models: HTTP %{http_code}\n" https://api.proxyapi.ru/openai/v1/models || true
+          curl -sS -m 20 -o /dev/null -w "raw data: HTTP %{http_code}\n" -I https://raw.githubusercontent.com/uud-ai/gospel-navigator/main/data/bible.json || true
