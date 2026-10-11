@@ -52,6 +52,9 @@ jobs:
           else
             git add public/calendar-names.json
             git commit -m "Автообновление церковного календаря"
+            # Если за время работы скрипта в main появились другие коммиты,
+            # сначала подтягиваем их, иначе push будет отклонён.
+            git pull --rebase origin "${{ github.ref_name }}"
             git push
             echo "changed=true" >> "$GITHUB_OUTPUT"
           fi

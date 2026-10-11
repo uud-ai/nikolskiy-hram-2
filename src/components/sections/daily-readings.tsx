@@ -6,37 +6,48 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion"
-import { loadDailyReadingsData, resolveReadingsForDate, type ResolvedReading } from "@/lib/readings"
+import {
+  loadDailyReadingsData,
+  loadReadingTexts,
+  resolveReadingsForDate,
+  type Passage,
+  type ResolvedReading,
+} from "@/lib/readings"
 import { MONTHS_GENITIVE as months } from "@/lib/utils"
 
 export function DailyReadings() {
+  // Дата фиксируется при первом показе, чтобы не меняться между перерисовками.
+  const [today] = useState(() => new Date())
   const [reading, setReading] = useState<ResolvedReading | null>(null)
   const [status, setStatus] = useState<"loading" | "ready" | "hidden">("loading")
 
   useEffect(() => {
     let cancelled = false
-    loadDailyReadingsData()
+    loadDailyReadingsData(today)
       .then((data) => {
         if (cancelled) return
-        const result = resolveReadingsForDate(data, new Date())
+        const result = resolveReadingsForDate(data, today)
         if (!result) {
           setStatus("hidden")
           return
         }
+        // Ссылки на чтения показываем сразу, тексты подгружаем следом.
         setReading(result)
         setStatus("ready")
+        return loadReadingTexts(result).then((full) => {
+          if (!cancelled) setReading(full)
+        })
       })
       .catch(() => {
-        if (!cancelled) setStatus("hidden")
+        if (!cancelled) setStatus((s) => (s === "ready" ? s : "hidden"))
       })
     return () => {
       cancelled = true
     }
-  }, [])
+  }, [today])
 
   if (status === "hidden") return null
 
-  const today = new Date()
   const dateLabel = `${today.getDate()} ${months[today.getMonth()]} ${today.getFullYear()}`
 
   return (
@@ -61,42 +72,51 @@ export function DailyReadings() {
               <p className="px-5 pt-4 text-center text-sm italic text-gold-dim">{reading.note}</p>
             )}
             <Accordion type="single" collapsible>
-              {reading.apostle && (
-                <AccordionItem value="apostle">
-                  <AccordionTrigger className="px-4">
-                    <span className="flex flex-col items-start gap-0.5 sm:flex-row sm:items-baseline sm:gap-3">
-                      <strong>Апостол</strong>
-                      <span className="font-sans text-sm font-normal text-ink-faint">
-                        {reading.apostle.ref}
-                        {reading.apostle.zachalo ? ` (зач. ${reading.apostle.zachalo})` : ""}
-                      </span>
-                    </span>
-                  </AccordionTrigger>
-                  <AccordionContent className="px-4 text-[15px] leading-relaxed">
-                    {reading.apostle.text}
-                  </AccordionContent>
-                </AccordionItem>
-              )}
-              {reading.gospel && (
-                <AccordionItem value="gospel">
-                  <AccordionTrigger className="px-4">
-                    <span className="flex flex-col items-start gap-0.5 sm:flex-row sm:items-baseline sm:gap-3">
-                      <strong>Евангелие</strong>
-                      <span className="font-sans text-sm font-normal text-ink-faint">
-                        {reading.gospel.ref}
-                        {reading.gospel.zachalo ? ` (зач. ${reading.gospel.zachalo})` : ""}
-                      </span>
-                    </span>
-                  </AccordionTrigger>
-                  <AccordionContent className="px-4 text-[15px] leading-relaxed">
-                    {reading.gospel.text}
-                  </AccordionContent>
-                </AccordionItem>
-              )}
+              {reading.apostle && <ReadingItem value="apostle" label="Апостол" passage={reading.apostle} />}
+              {reading.gospel && <ReadingItem value="gospel" label="Евангелие" passage={reading.gospel} />}
             </Accordion>
+
+            {reading.feast && (
+              <>
+                <p className="px-5 pt-6 text-center text-sm italic text-gold-dim">{reading.feast.title}</p>
+                <Accordion type="single" collapsible>
+                  {reading.feast.apostle && (
+                    <ReadingItem value="feast-apostle" label="Апостол" passage={reading.feast.apostle} />
+                  )}
+                  {reading.feast.gospel && (
+                    <ReadingItem value="feast-gospel" label="Евангелие" passage={reading.feast.gospel} />
+                  )}
+                </Accordion>
+              </>
+            )}
           </Reveal>
         )}
       </div>
     </section>
+  )
+}
+
+function ReadingItem({ value, label, passage }: { value: string; label: string; passage: Passage }) {
+  return (
+    <AccordionItem value={value}>
+      <AccordionTrigger className="px-4">
+        <span className="flex flex-col items-start gap-0.5 sm:flex-row sm:items-baseline sm:gap-3">
+          <strong>{label}</strong>
+          <span className="font-sans text-sm font-normal text-ink-faint">
+            {passage.ref}
+            {passage.zachalo ? ` (зач. ${passage.zachalo})` : ""}
+          </span>
+        </span>
+      </AccordionTrigger>
+      <AccordionContent className="px-4 text-[15px] leading-relaxed">
+        {passage.text === undefined ? (
+          <span className="text-ink-faint">Загрузка текста…</span>
+        ) : passage.text === null ? (
+          <span className="text-ink-faint">Текст отрывка недоступен.</span>
+        ) : (
+          passage.text
+        )}
+      </AccordionContent>
+    </AccordionItem>
   )
 }

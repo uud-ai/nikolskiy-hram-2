@@ -10,19 +10,20 @@
 //  - оболочка приложения (APP_SHELL) — ставится в кэш при install, поэтому
 //    темы и «стих дня» (это статика, зашитая в topics.js/verses_of_day.js)
 //    открываются офлайн сразу после первого визита;
-//  - внешние CDN (шрифты, иконки Tabler, marked, DOMPurify, Telegram SDK) —
-//    кэшируются по факту первого успешного запроса (runtime cache): заранее
-//    их не перечисляем, шрифтовых файлов десятки и у них версионированные
-//    имена на стороне CDN.
+//  - локальные шрифты из fonts/ — кэшируются по факту первого запроса.
+//    Внешние домены service worker не трогает.
 //
 // Чего не кэшируется:
 //  - POST-запросы к чат-бэкенду (Cloudflare Workers) — это живой API,
 //    не статика. Офлайн чат закономерно не отвечает — index.html уже
 //    показывает понятную ошибку сети (см. postChatRequest).
 //
-// При выпуске новой версии index.html/topics.js/verses_of_day.js —
-// поменяй CACHE_NAME, иначе старый кэш переживёт деплой.
-const CACHE_NAME = 'blagovest-v4';
+// Страница и скрипты берутся из сети в первую очередь (network-first), кэш —
+// только запасной вариант для офлайна. Поэтому новая версия index.html,
+// topics.js и verses_of_day.js доходит до посетителей сразу после деплоя,
+// даже если CACHE_NAME забыли поменять. Шрифты не меняются — их отдаём из
+// кэша (cache-first). CACHE_NAME стоит менять, чтобы почистить старый кэш.
+const CACHE_NAME = 'blagovest-v5';
 const APP_SHELL = ['./', './index.html', './topics.js', './verses_of_day.js',
     './vendor/marked.min.js', './vendor/purify.min.js'];
 
@@ -42,26 +43,36 @@ self.addEventListener('activate', (event) => {
     self.clients.claim();
 });
 
+function putInCache(req, res) {
+    if (res && res.ok) {
+        const copy = res.clone();
+        caches.open(CACHE_NAME).then((cache) => cache.put(req, copy));
+    }
+    return res;
+}
+
 self.addEventListener('fetch', (event) => {
     const req = event.request;
-    if (req.method !== 'GET') return; // POST к чат-бэкенду не трогаем — пропускаем сети напрямую
+    if (req.method !== 'GET') return; // POST к чат-бэкенду не трогаем — идёт в сеть напрямую
 
+    const url = new URL(req.url);
+    if (url.origin !== self.location.origin) return; // чужие домены не кэшируем
+
+    // Шрифты неизменны — сначала кэш.
+    if (url.pathname.includes('/fonts/')) {
+        event.respondWith(
+            caches.match(req).then((cached) => cached || fetch(req).then((res) => putInCache(req, res)))
+        );
+        return;
+    }
+
+    // Всё остальное — сначала сеть, при отсутствии связи — кэш.
     event.respondWith(
-        caches.match(req).then((cached) => {
-            if (cached) return cached;
-            return fetch(req).then((res) => {
-                // <link>/<script> на внешние CDN в index.html — без crossorigin,
-                // поэтому для браузера это no-cors-запрос: ответ приходит opaque
-                // (status 0, ok всегда false, тело не инспектируется). Это не
-                // ошибка — кэшируем его как есть, иначе не доедут ни иконки
-                // Tabler, ни marked/DOMPurify, только файлы шрифтов (шрифты
-                // браузер грузит через CORS по спеке независимо от атрибута).
-                if (res.ok || res.type === 'opaque') {
-                    const copy = res.clone();
-                    caches.open(CACHE_NAME).then((cache) => cache.put(req, copy));
-                }
-                return res;
-            });
-        })
+        fetch(req)
+            .then((res) => putInCache(req, res))
+            .catch(() =>
+                caches.match(req).then((cached) => cached || (req.mode === 'navigate' ? caches.match('./index.html') : undefined))
+                    .then((res) => res || Response.error())
+            )
     );
 });

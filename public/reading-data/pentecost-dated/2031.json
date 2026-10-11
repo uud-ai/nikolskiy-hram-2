@@ -1,0 +1,1462 @@
+{
+ "_comment": "Сгенерировано tools/build_pentecost_readings.py из данных Ponomar. Ключ — дата (новый стиль). null — дня нет рядового чтения (великий праздник), блок чтений на сайте скрывается.",
+ "2031-01-01": {
+  "apostle": "Евр.5:11-6:8",
+  "apostle_zachalo": 312,
+  "gospel": "Мк.8:30-34",
+  "gospel_zachalo": 36
+ },
+ "2031-01-02": {
+  "apostle": "Евр.7:1-6",
+  "apostle_zachalo": 315,
+  "gospel": "Мк.9:10-16",
+  "gospel_zachalo": 39
+ },
+ "2031-01-03": {
+  "apostle": "Евр.7:18-25",
+  "apostle_zachalo": 317,
+  "gospel": "Мк.9:33-41",
+  "gospel_zachalo": 41
+ },
+ "2031-01-04": {
+  "apostle": "Гал.3:8-12",
+  "apostle_zachalo": 205,
+  "gospel": "Лк.13:18-29",
+  "gospel_zachalo": 72,
+  "note": "Суббота пред Рождеством Христовым"
+ },
+ "2031-01-05": {
+  "apostle": "Евр.11:9-10,17-23,32-40",
+  "apostle_zachalo": 328,
+  "gospel": "Мф.1:1-25",
+  "gospel_zachalo": 1,
+  "note": "Неделя пред Рождеством Христовым, святых отцев"
+ },
+ "2031-01-06": null,
+ "2031-01-07": null,
+ "2031-01-08": {
+  "apostle": "Евр.10:1-18",
+  "apostle_zachalo": 323,
+  "gospel": "Мк.10:11-16",
+  "gospel_zachalo": 44
+ },
+ "2031-01-09": {
+  "apostle": "Евр.10:35-11:7",
+  "apostle_zachalo": 326,
+  "gospel": "Мк.10:17-27",
+  "gospel_zachalo": 45
+ },
+ "2031-01-10": {
+  "apostle": "Евр.11:8,11-16",
+  "apostle_zachalo": 327,
+  "gospel": "Мк.10:23-32",
+  "gospel_zachalo": 46
+ },
+ "2031-01-11": {
+  "apostle": "1Тим.6:11-16",
+  "apostle_zachalo": 288,
+  "gospel": "Мф.12:15-21",
+  "gospel_zachalo": 46,
+  "note": "Суббота по Рождеству Христову. Также: Еф.5:1-8; Мф.24:34-44"
+ },
+ "2031-01-12": {
+  "apostle": "Гал.1:11-19",
+  "apostle_zachalo": 200,
+  "gospel": "Мф.2:13-23",
+  "gospel_zachalo": 4,
+  "note": "Неделя по Рождестве Христовом: Правв. Иосифа Обручника, Давида Царя, и Иакова брата Господня. Также: Кол.3:12-16; Лк.18:35-43"
+ },
+ "2031-01-13": {
+  "apostle": "Евр.11:17-23,27-31",
+  "apostle_zachalo": 329,
+  "gospel": "Мк.10:46-52",
+  "gospel_zachalo": 48
+ },
+ "2031-01-14": {
+  "apostle": "2Тим.4:5-8",
+  "apostle_zachalo": 298,
+  "gospel": "Мк.1:1-8",
+  "gospel_zachalo": 1,
+  "note": "Также: Евр.12:25-26,13:22-25; Мк.11:11-23"
+ },
+ "2031-01-15": {
+  "apostle": "Иак.1:1-18",
+  "apostle_zachalo": 50,
+  "gospel": "Мк.11:22-26",
+  "gospel_zachalo": 51
+ },
+ "2031-01-16": {
+  "apostle": "Иак.1:19-27",
+  "apostle_zachalo": 51,
+  "gospel": "Мк.11:27-33",
+  "gospel_zachalo": 52
+ },
+ "2031-01-17": {
+  "apostle": "Иак.2:1-13",
+  "apostle_zachalo": 52,
+  "gospel": "Мк.12:1-12",
+  "gospel_zachalo": 53
+ },
+ "2031-01-18": null,
+ "2031-01-19": null,
+ "2031-01-20": {
+  "apostle": "Иак.2:14-26",
+  "apostle_zachalo": 53,
+  "gospel": "Мк.12:13-17",
+  "gospel_zachalo": 54
+ },
+ "2031-01-21": {
+  "apostle": "Иак.3:1-10",
+  "apostle_zachalo": 54,
+  "gospel": "Мк.12:18-27",
+  "gospel_zachalo": 55
+ },
+ "2031-01-22": {
+  "apostle": "Иак.3:11-4:6",
+  "apostle_zachalo": 55,
+  "gospel": "Мк.12:28-37",
+  "gospel_zachalo": 56
+ },
+ "2031-01-23": {
+  "apostle": "Иак.4:7-5:9",
+  "apostle_zachalo": 56,
+  "gospel": "Мк.12:38-44",
+  "gospel_zachalo": 57
+ },
+ "2031-01-24": {
+  "apostle": "1Пет.1:1-2,10-12,2:6-10",
+  "apostle_zachalo": 58,
+  "gospel": "Мк.13:1-8",
+  "gospel_zachalo": 58
+ },
+ "2031-01-25": {
+  "apostle": "Еф.6:10-17",
+  "apostle_zachalo": 233,
+  "gospel": "Мф.4:1-11",
+  "gospel_zachalo": 7,
+  "note": "Суббота по Богоявлению. Также: 1Сол.5:14-23; Лк.17:3-10"
+ },
+ "2031-01-26": {
+  "apostle": "Еф.4:7-13",
+  "apostle_zachalo": 224,
+  "gospel": "Мф.4:12-17",
+  "gospel_zachalo": 8,
+  "note": "Неделя по Богоявлению. Также: 1Тим.4:9-15; Лк.19:1-10"
+ },
+ "2031-01-27": {
+  "apostle": "1Пет.2:21-3:9",
+  "apostle_zachalo": 59,
+  "gospel": "Мк.12:13-17",
+  "gospel_zachalo": 54
+ },
+ "2031-01-28": {
+  "apostle": "1Пет.3:10-22",
+  "apostle_zachalo": 60,
+  "gospel": "Мк.12:18-27",
+  "gospel_zachalo": 55
+ },
+ "2031-01-29": {
+  "apostle": "1Пет.4:1-11",
+  "apostle_zachalo": 61,
+  "gospel": "Мк.12:28-37",
+  "gospel_zachalo": 56
+ },
+ "2031-01-30": {
+  "apostle": "1Пет.4:12-5:5",
+  "apostle_zachalo": 62,
+  "gospel": "Мк.12:38-44",
+  "gospel_zachalo": 57
+ },
+ "2031-01-31": {
+  "apostle": "2Пет.1:1-10",
+  "apostle_zachalo": 64,
+  "gospel": "Мк.13:1-8",
+  "gospel_zachalo": 58
+ },
+ "2031-02-01": {
+  "apostle": "2Тим.2:11-19",
+  "apostle_zachalo": 293,
+  "gospel": "Лк.18:2-8",
+  "gospel_zachalo": 88
+ },
+ "2031-06-02": {
+  "apostle": "Еф.5:8-19",
+  "apostle_zachalo": 229,
+  "gospel": "Мф.18:10-20",
+  "gospel_zachalo": 75
+ },
+ "2031-06-03": {
+  "apostle": "Рим.1:1-7,13-17",
+  "apostle_zachalo": 79,
+  "gospel": "Мф.4:25-5:13",
+  "gospel_zachalo": 10
+ },
+ "2031-06-04": {
+  "apostle": "Рим.1:18-27",
+  "apostle_zachalo": 80,
+  "gospel": "Мф.5:20-26",
+  "gospel_zachalo": 12
+ },
+ "2031-06-05": {
+  "apostle": "Рим.1:28-2:9",
+  "apostle_zachalo": 81,
+  "gospel": "Мф.5:27-32",
+  "gospel_zachalo": 13
+ },
+ "2031-06-06": {
+  "apostle": "Рим.2:14-29",
+  "apostle_zachalo": 82,
+  "gospel": "Мф.5:33-41",
+  "gospel_zachalo": 14
+ },
+ "2031-06-07": {
+  "apostle": "Рим.1:7-12",
+  "apostle_zachalo": 79,
+  "gospel": "Мф.5:42-48",
+  "gospel_zachalo": 15
+ },
+ "2031-06-08": {
+  "apostle": "Евр.11:33-12:2",
+  "apostle_zachalo": 330,
+  "gospel": "Мф.10:32-33,37-38,19:27-30",
+  "gospel_zachalo": 38,
+  "note": "Неделя 1-я по Пятидесятнице, Всех святых"
+ },
+ "2031-06-09": {
+  "apostle": "Рим.2:28-3:18",
+  "apostle_zachalo": 83,
+  "gospel": "Мф.6:31-34,7:9-11",
+  "gospel_zachalo": 19
+ },
+ "2031-06-10": {
+  "apostle": "Рим.4:4-12",
+  "apostle_zachalo": 86,
+  "gospel": "Мф.7:15-21",
+  "gospel_zachalo": 22
+ },
+ "2031-06-11": {
+  "apostle": "Рим.4:13-25",
+  "apostle_zachalo": 87,
+  "gospel": "Мф.7:21-23",
+  "gospel_zachalo": 23
+ },
+ "2031-06-12": {
+  "apostle": "Рим.5:10-16",
+  "apostle_zachalo": 89,
+  "gospel": "Мф.8:23-27",
+  "gospel_zachalo": 27
+ },
+ "2031-06-13": {
+  "apostle": "Рим.5:17-6:2",
+  "apostle_zachalo": 90,
+  "gospel": "Мф.9:14-17",
+  "gospel_zachalo": 31
+ },
+ "2031-06-14": {
+  "apostle": "Рим.3:19-26",
+  "apostle_zachalo": 84,
+  "gospel": "Мф.7:1-8",
+  "gospel_zachalo": 20
+ },
+ "2031-06-15": {
+  "apostle": "Рим.2:10-16",
+  "apostle_zachalo": 81,
+  "gospel": "Мф.4:18-23",
+  "gospel_zachalo": 9,
+  "note": "Неделя 2-я по Пятидесятнице. Всех святых, в земле Российской просиявших (чтения): Евр.11:33-12:2; Мф.4:25-5:12"
+ },
+ "2031-06-16": {
+  "apostle": "Рим.7:1-13",
+  "apostle_zachalo": 94,
+  "gospel": "Мф.9:36-10:8",
+  "gospel_zachalo": 34
+ },
+ "2031-06-17": {
+  "apostle": "Рим.7:14-8:2",
+  "apostle_zachalo": 95,
+  "gospel": "Мф.10:9-15",
+  "gospel_zachalo": 35
+ },
+ "2031-06-18": {
+  "apostle": "Рим.8:2-13",
+  "apostle_zachalo": 96,
+  "gospel": "Мф.10:16-22",
+  "gospel_zachalo": 36
+ },
+ "2031-06-19": {
+  "apostle": "Рим.8:22-27",
+  "apostle_zachalo": 98,
+  "gospel": "Мф.10:23-31",
+  "gospel_zachalo": 37
+ },
+ "2031-06-20": {
+  "apostle": "Рим.9:6-19",
+  "apostle_zachalo": 101,
+  "gospel": "Мф.10:32-36,11:1",
+  "gospel_zachalo": 38
+ },
+ "2031-06-21": {
+  "apostle": "Рим.3:28-4:3",
+  "apostle_zachalo": 85,
+  "gospel": "Мф.7:24-8:4",
+  "gospel_zachalo": 24
+ },
+ "2031-06-22": {
+  "apostle": "Рим.5:1-10",
+  "apostle_zachalo": 88,
+  "gospel": "Мф.6:22-33",
+  "gospel_zachalo": 18,
+  "note": "Неделя 3-я по Пятидесятнице"
+ },
+ "2031-06-23": {
+  "apostle": "Рим.9:18-33",
+  "apostle_zachalo": 102,
+  "gospel": "Мф.11:2-15",
+  "gospel_zachalo": 40
+ },
+ "2031-06-24": {
+  "apostle": "Рим.10:11-11:2",
+  "apostle_zachalo": 104,
+  "gospel": "Мф.11:16-20",
+  "gospel_zachalo": 41
+ },
+ "2031-06-25": {
+  "apostle": "Рим.11:2-12",
+  "apostle_zachalo": 105,
+  "gospel": "Мф.11:20-26",
+  "gospel_zachalo": 42
+ },
+ "2031-06-26": {
+  "apostle": "Рим.11:13-24",
+  "apostle_zachalo": 106,
+  "gospel": "Мф.11:27-30",
+  "gospel_zachalo": 43
+ },
+ "2031-06-27": {
+  "apostle": "Рим.11:25-36",
+  "apostle_zachalo": 107,
+  "gospel": "Мф.12:1-8",
+  "gospel_zachalo": 44
+ },
+ "2031-06-28": {
+  "apostle": "Рим.6:11-17",
+  "apostle_zachalo": 92,
+  "gospel": "Мф.8:14-23",
+  "gospel_zachalo": 26
+ },
+ "2031-06-29": {
+  "apostle": "Рим.6:18-23",
+  "apostle_zachalo": 93,
+  "gospel": "Мф.8:5-13",
+  "gospel_zachalo": 25,
+  "note": "Неделя 4-я по Пятидесятнице"
+ },
+ "2031-06-30": {
+  "apostle": "Рим.12:4-5,15-21",
+  "apostle_zachalo": 109,
+  "gospel": "Мф.12:9-13",
+  "gospel_zachalo": 45
+ },
+ "2031-07-01": {
+  "apostle": "Рим.14:9-18",
+  "apostle_zachalo": 114,
+  "gospel": "Мф.12:14-16,22-30",
+  "gospel_zachalo": 46
+ },
+ "2031-07-02": {
+  "apostle": "Рим.15:7-16",
+  "apostle_zachalo": 117,
+  "gospel": "Мф.12:38-45",
+  "gospel_zachalo": 48
+ },
+ "2031-07-03": {
+  "apostle": "Рим.15:17-29",
+  "apostle_zachalo": 118,
+  "gospel": "Мф.12:46-13:3",
+  "gospel_zachalo": 49
+ },
+ "2031-07-04": {
+  "apostle": "Рим.16:1-16",
+  "apostle_zachalo": 120,
+  "gospel": "Мф.13:3-9",
+  "gospel_zachalo": 50
+ },
+ "2031-07-05": {
+  "apostle": "Рим.8:14-21",
+  "apostle_zachalo": 97,
+  "gospel": "Мф.9:9-13",
+  "gospel_zachalo": 30
+ },
+ "2031-07-06": {
+  "apostle": "Рим.10:1-10",
+  "apostle_zachalo": 103,
+  "gospel": "Мф.8:28-9:1",
+  "gospel_zachalo": 28,
+  "note": "Неделя 5-я по Пятидесятнице"
+ },
+ "2031-07-07": {
+  "apostle": "Рим.16:17-24",
+  "apostle_zachalo": 121,
+  "gospel": "Мф.13:10-23",
+  "gospel_zachalo": 51
+ },
+ "2031-07-08": {
+  "apostle": "1Кор.1:1-9",
+  "apostle_zachalo": 122,
+  "gospel": "Мф.13:24-30",
+  "gospel_zachalo": 52
+ },
+ "2031-07-09": {
+  "apostle": "1Кор.2:9-3:8",
+  "apostle_zachalo": 127,
+  "gospel": "Мф.13:31-36",
+  "gospel_zachalo": 53
+ },
+ "2031-07-10": {
+  "apostle": "1Кор.3:18-23",
+  "apostle_zachalo": 129,
+  "gospel": "Мф.13:36-43",
+  "gospel_zachalo": 54
+ },
+ "2031-07-11": {
+  "apostle": "1Кор.4:5-8",
+  "apostle_zachalo": 130,
+  "gospel": "Мф.13:44-54",
+  "gospel_zachalo": 55
+ },
+ "2031-07-12": null,
+ "2031-07-13": {
+  "apostle": "Рим.12:6-14",
+  "apostle_zachalo": 110,
+  "gospel": "Мф.9:1-8",
+  "gospel_zachalo": 29,
+  "note": "Неделя 6-я по Пятидесятнице"
+ },
+ "2031-07-14": {
+  "apostle": "1Кор.5:9-6:11",
+  "apostle_zachalo": 134,
+  "gospel": "Мф.13:54-58",
+  "gospel_zachalo": 56
+ },
+ "2031-07-15": {
+  "apostle": "1Кор.6:20-7:12",
+  "apostle_zachalo": 136,
+  "gospel": "Мф.14:1-13",
+  "gospel_zachalo": 57
+ },
+ "2031-07-16": {
+  "apostle": "1Кор.7:12-24",
+  "apostle_zachalo": 137,
+  "gospel": "Мф.14:35-15:11",
+  "gospel_zachalo": 60
+ },
+ "2031-07-17": {
+  "apostle": "1Кор.7:24-35",
+  "apostle_zachalo": 138,
+  "gospel": "Мф.15:12-21",
+  "gospel_zachalo": 61
+ },
+ "2031-07-18": {
+  "apostle": "1Кор.7:35-8:7",
+  "apostle_zachalo": 139,
+  "gospel": "Мф.15:29-31",
+  "gospel_zachalo": 63
+ },
+ "2031-07-19": {
+  "apostle": "Рим.12:1-3",
+  "apostle_zachalo": 108,
+  "gospel": "Мф.10:37-11:1",
+  "gospel_zachalo": 39
+ },
+ "2031-07-20": {
+  "apostle": "Рим.15:1-7",
+  "apostle_zachalo": 116,
+  "gospel": "Мф.9:27-35",
+  "gospel_zachalo": 33,
+  "note": "Неделя 7-я по Пятидесятнице"
+ },
+ "2031-07-21": {
+  "apostle": "1Кор.9:13-18",
+  "apostle_zachalo": 142,
+  "gospel": "Мф.16:1-6",
+  "gospel_zachalo": 65
+ },
+ "2031-07-22": {
+  "apostle": "1Кор.10:5-12",
+  "apostle_zachalo": 144,
+  "gospel": "Мф.16:6-12",
+  "gospel_zachalo": 66
+ },
+ "2031-07-23": {
+  "apostle": "1Кор.10:12-22",
+  "apostle_zachalo": 145,
+  "gospel": "Мф.16:20-24",
+  "gospel_zachalo": 68
+ },
+ "2031-07-24": {
+  "apostle": "1Кор.10:28-11:7",
+  "apostle_zachalo": 147,
+  "gospel": "Мф.16:24-28",
+  "gospel_zachalo": 69
+ },
+ "2031-07-25": {
+  "apostle": "1Кор.11:8-22",
+  "apostle_zachalo": 148,
+  "gospel": "Мф.17:10-18",
+  "gospel_zachalo": 71
+ },
+ "2031-07-26": {
+  "apostle": "Рим.13:1-10",
+  "apostle_zachalo": 111,
+  "gospel": "Мф.12:30-37",
+  "gospel_zachalo": 47
+ },
+ "2031-07-27": {
+  "apostle": "1Кор.1:10-18",
+  "apostle_zachalo": 124,
+  "gospel": "Мф.14:14-22",
+  "gospel_zachalo": 58,
+  "note": "Неделя 8-я по Пятидесятнице"
+ },
+ "2031-07-28": {
+  "apostle": "1Кор.11:31-12:6",
+  "apostle_zachalo": 150,
+  "gospel": "Мф.18:1-11",
+  "gospel_zachalo": 74
+ },
+ "2031-07-29": {
+  "apostle": "1Кор.12:12-26",
+  "apostle_zachalo": 152,
+  "gospel": "Мф.18:18-22,19:1-2,13-15",
+  "gospel_zachalo": 76
+ },
+ "2031-07-30": {
+  "apostle": "1Кор.13:4-14:5",
+  "apostle_zachalo": 154,
+  "gospel": "Мф.20:1-16",
+  "gospel_zachalo": 80
+ },
+ "2031-07-31": {
+  "apostle": "1Кор.14:6-19",
+  "apostle_zachalo": 155,
+  "gospel": "Мф.20:17-28",
+  "gospel_zachalo": 81
+ },
+ "2031-08-01": {
+  "apostle": "1Кор.14:26-40",
+  "apostle_zachalo": 157,
+  "gospel": "Мф.21:12-14,17-20",
+  "gospel_zachalo": 83
+ },
+ "2031-08-02": {
+  "apostle": "Рим.14:6-9",
+  "apostle_zachalo": 113,
+  "gospel": "Мф.15:32-39",
+  "gospel_zachalo": 64
+ },
+ "2031-08-03": {
+  "apostle": "1Кор.3:9-17",
+  "apostle_zachalo": 128,
+  "gospel": "Мф.14:22-34",
+  "gospel_zachalo": 59,
+  "note": "Неделя 9-я по Пятидесятнице"
+ },
+ "2031-08-04": {
+  "apostle": "1Кор.15:12-19",
+  "apostle_zachalo": 159,
+  "gospel": "Мф.21:18-22",
+  "gospel_zachalo": 84
+ },
+ "2031-08-05": {
+  "apostle": "1Кор.15:29-38",
+  "apostle_zachalo": 161,
+  "gospel": "Мф.21:23-27",
+  "gospel_zachalo": 85
+ },
+ "2031-08-06": {
+  "apostle": "1Кор.16:4-12",
+  "apostle_zachalo": 165,
+  "gospel": "Мф.21:28-32",
+  "gospel_zachalo": 86
+ },
+ "2031-08-07": {
+  "apostle": "2Кор.1:1-7",
+  "apostle_zachalo": 167,
+  "gospel": "Мф.21:43-46",
+  "gospel_zachalo": 88
+ },
+ "2031-08-08": {
+  "apostle": "2Кор.1:12-20",
+  "apostle_zachalo": 169,
+  "gospel": "Мф.22:23-33",
+  "gospel_zachalo": 91
+ },
+ "2031-08-09": {
+  "apostle": "Рим.15:30-33",
+  "apostle_zachalo": 119,
+  "gospel": "Мф.17:24-18:4",
+  "gospel_zachalo": 73
+ },
+ "2031-08-10": {
+  "apostle": "1Кор.4:9-16",
+  "apostle_zachalo": 131,
+  "gospel": "Мф.17:14-23",
+  "gospel_zachalo": 72,
+  "note": "Неделя 10-я по Пятидесятнице"
+ },
+ "2031-08-11": {
+  "apostle": "2Кор.2:3-15",
+  "apostle_zachalo": 171,
+  "gospel": "Мф.23:13-22",
+  "gospel_zachalo": 94
+ },
+ "2031-08-12": {
+  "apostle": "2Кор.2:14-3:3",
+  "apostle_zachalo": 172,
+  "gospel": "Мф.23:23-28",
+  "gospel_zachalo": 95
+ },
+ "2031-08-13": {
+  "apostle": "2Кор.3:4-11",
+  "apostle_zachalo": 173,
+  "gospel": "Мф.23:29-39",
+  "gospel_zachalo": 96
+ },
+ "2031-08-14": {
+  "apostle": "2Кор.4:1-6",
+  "apostle_zachalo": 175,
+  "gospel": "Мф.24:13-28",
+  "gospel_zachalo": 99
+ },
+ "2031-08-15": {
+  "apostle": "2Кор.4:13-18",
+  "apostle_zachalo": 177,
+  "gospel": "Мф.24:27-33,42-51",
+  "gospel_zachalo": 100
+ },
+ "2031-08-16": {
+  "apostle": "1Кор.1:3-9",
+  "apostle_zachalo": 123,
+  "gospel": "Мф.19:3-12",
+  "gospel_zachalo": 78
+ },
+ "2031-08-17": {
+  "apostle": "1Кор.9:2-12",
+  "apostle_zachalo": 141,
+  "gospel": "Мф.18:23-35",
+  "gospel_zachalo": 77,
+  "note": "Неделя 11-я по Пятидесятнице"
+ },
+ "2031-08-18": {
+  "apostle": "2Кор.5:10-15",
+  "apostle_zachalo": 179,
+  "gospel": "Мк.1:9-15",
+  "gospel_zachalo": 2
+ },
+ "2031-08-19": null,
+ "2031-08-20": {
+  "apostle": "2Кор.6:11-16",
+  "apostle_zachalo": 182,
+  "gospel": "Мк.1:23-28",
+  "gospel_zachalo": 4
+ },
+ "2031-08-21": {
+  "apostle": "2Кор.7:1-10",
+  "apostle_zachalo": 183,
+  "gospel": "Мк.1:29-35",
+  "gospel_zachalo": 5
+ },
+ "2031-08-22": {
+  "apostle": "2Кор.7:10-16",
+  "apostle_zachalo": 184,
+  "gospel": "Мк.2:18-22",
+  "gospel_zachalo": 9
+ },
+ "2031-08-23": {
+  "apostle": "1Кор.1:26-29",
+  "apostle_zachalo": 125,
+  "gospel": "Мф.20:29-34",
+  "gospel_zachalo": 82
+ },
+ "2031-08-24": {
+  "apostle": "1Кор.15:1-11",
+  "apostle_zachalo": 158,
+  "gospel": "Мф.19:16-26",
+  "gospel_zachalo": 79,
+  "note": "Неделя 12-я по Пятидесятнице"
+ },
+ "2031-08-25": {
+  "apostle": "2Кор.8:7-15",
+  "apostle_zachalo": 186,
+  "gospel": "Мк.3:6-12",
+  "gospel_zachalo": 11
+ },
+ "2031-08-26": {
+  "apostle": "2Кор.8:16-9:5",
+  "apostle_zachalo": 187,
+  "gospel": "Мк.3:13-19",
+  "gospel_zachalo": 12
+ },
+ "2031-08-27": {
+  "apostle": "2Кор.9:12-10:7",
+  "apostle_zachalo": 189,
+  "gospel": "Мк.3:20-27",
+  "gospel_zachalo": 13
+ },
+ "2031-08-28": null,
+ "2031-08-29": {
+  "apostle": "2Кор.11:5-21",
+  "apostle_zachalo": 192,
+  "gospel": "Мк.4:1-9",
+  "gospel_zachalo": 15
+ },
+ "2031-08-30": {
+  "apostle": "1Кор.2:6-9",
+  "apostle_zachalo": 126,
+  "gospel": "Мф.22:15-22",
+  "gospel_zachalo": 90
+ },
+ "2031-08-31": {
+  "apostle": "1Кор.16:13-24",
+  "apostle_zachalo": 166,
+  "gospel": "Мф.21:33-42",
+  "gospel_zachalo": 87,
+  "note": "Неделя 13-я по Пятидесятнице"
+ },
+ "2031-09-01": {
+  "apostle": "2Кор.12:10-19",
+  "apostle_zachalo": 195,
+  "gospel": "Мк.4:10-23",
+  "gospel_zachalo": 16
+ },
+ "2031-09-02": {
+  "apostle": "2Кор.12:20-13:2",
+  "apostle_zachalo": 196,
+  "gospel": "Мк.4:24-34",
+  "gospel_zachalo": 17
+ },
+ "2031-09-03": {
+  "apostle": "2Кор.13:3-13",
+  "apostle_zachalo": 197,
+  "gospel": "Мк.4:35-41",
+  "gospel_zachalo": 18
+ },
+ "2031-09-04": {
+  "apostle": "Гал.1:1-10,20-2:5",
+  "apostle_zachalo": 198,
+  "gospel": "Мк.5:1-20",
+  "gospel_zachalo": 19
+ },
+ "2031-09-05": {
+  "apostle": "Гал.2:6-10",
+  "apostle_zachalo": 201,
+  "gospel": "Мк.5:22-24,35-6:1",
+  "gospel_zachalo": 20
+ },
+ "2031-09-06": {
+  "apostle": "1Кор.4:1-5",
+  "apostle_zachalo": 130,
+  "gospel": "Мф.23:1-12",
+  "gospel_zachalo": 93
+ },
+ "2031-09-07": {
+  "apostle": "2Кор.1:21-2:4",
+  "apostle_zachalo": 170,
+  "gospel": "Мф.22:1-14",
+  "gospel_zachalo": 89,
+  "note": "Неделя 14-я по Пятидесятнице"
+ },
+ "2031-09-08": {
+  "apostle": "Гал.2:11-16",
+  "apostle_zachalo": 202,
+  "gospel": "Мк.5:24-34",
+  "gospel_zachalo": 21
+ },
+ "2031-09-09": {
+  "apostle": "Гал.2:21-3:7",
+  "apostle_zachalo": 204,
+  "gospel": "Мк.6:1-7",
+  "gospel_zachalo": 22
+ },
+ "2031-09-10": {
+  "apostle": "Гал.3:15-22",
+  "apostle_zachalo": 207,
+  "gospel": "Мк.6:7-13",
+  "gospel_zachalo": 23
+ },
+ "2031-09-11": {
+  "apostle": "Гал.3:23-4:5",
+  "apostle_zachalo": 208,
+  "gospel": "Мк.6:30-45",
+  "gospel_zachalo": 25
+ },
+ "2031-09-12": {
+  "apostle": "Гал.4:8-21",
+  "apostle_zachalo": 210,
+  "gospel": "Мк.6:45-53",
+  "gospel_zachalo": 26
+ },
+ "2031-09-13": {
+  "apostle": "1Кор.4:17-5:5",
+  "apostle_zachalo": 132,
+  "gospel": "Мф.24:1-13",
+  "gospel_zachalo": 97
+ },
+ "2031-09-14": {
+  "apostle": "2Кор.4:6-15",
+  "apostle_zachalo": 176,
+  "gospel": "Мф.22:35-46",
+  "gospel_zachalo": 92,
+  "note": "Неделя 15-я по Пятидесятнице"
+ },
+ "2031-09-15": {
+  "apostle": "Гал.4:28-5:10",
+  "apostle_zachalo": 211,
+  "gospel": "Мк.6:54-7:8",
+  "gospel_zachalo": 27
+ },
+ "2031-09-16": {
+  "apostle": "Гал.5:11-21",
+  "apostle_zachalo": 212,
+  "gospel": "Мк.7:5-16",
+  "gospel_zachalo": 28
+ },
+ "2031-09-17": {
+  "apostle": "Гал.6:2-10",
+  "apostle_zachalo": 214,
+  "gospel": "Мк.7:14-24",
+  "gospel_zachalo": 29
+ },
+ "2031-09-18": {
+  "apostle": "Еф.1:1-9",
+  "apostle_zachalo": 216,
+  "gospel": "Мк.7:24-30",
+  "gospel_zachalo": 30
+ },
+ "2031-09-19": {
+  "apostle": "Еф.1:7-17",
+  "apostle_zachalo": 217,
+  "gospel": "Мк.8:1-10",
+  "gospel_zachalo": 32
+ },
+ "2031-09-20": {
+  "apostle": "1Кор.2:6-9",
+  "apostle_zachalo": 126,
+  "gospel": "Мф.10:37-11:1",
+  "gospel_zachalo": 39,
+  "note": "Суббота пред Воздвижением"
+ },
+ "2031-09-21": null,
+ "2031-09-22": {
+  "apostle": "Еф.1:22-2:3",
+  "apostle_zachalo": 219,
+  "gospel": "Мк.10:46-52",
+  "gospel_zachalo": 48
+ },
+ "2031-09-23": {
+  "apostle": "Еф.2:19-3:7",
+  "apostle_zachalo": 222,
+  "gospel": "Мк.11:11-23",
+  "gospel_zachalo": 50
+ },
+ "2031-09-24": {
+  "apostle": "Еф.3:8-21",
+  "apostle_zachalo": 223,
+  "gospel": "Мк.11:22-26",
+  "gospel_zachalo": 51
+ },
+ "2031-09-25": {
+  "apostle": "Еф.4:14-19",
+  "apostle_zachalo": 225,
+  "gospel": "Мк.11:27-33",
+  "gospel_zachalo": 52
+ },
+ "2031-09-26": {
+  "apostle": "Еф.4:17-25",
+  "apostle_zachalo": 226,
+  "gospel": "Мк.12:1-12",
+  "gospel_zachalo": 53
+ },
+ "2031-09-27": null,
+ "2031-09-28": {
+  "apostle": "Гал.2:16-20",
+  "apostle_zachalo": 203,
+  "gospel": "Мк.8:34-9:1",
+  "gospel_zachalo": 37,
+  "note": "Неделя по Воздвижении"
+ },
+ "2031-09-29": {
+  "apostle": "Еф.4:25-32",
+  "apostle_zachalo": 227,
+  "gospel": "Лк.3:19-22",
+  "gospel_zachalo": 10
+ },
+ "2031-09-30": {
+  "apostle": "Еф.5:20-26",
+  "apostle_zachalo": 230,
+  "gospel": "Лк.3:23-4:1",
+  "gospel_zachalo": 11
+ },
+ "2031-10-01": {
+  "apostle": "Еф.5:25-33",
+  "apostle_zachalo": 231,
+  "gospel": "Лк.4:1-15",
+  "gospel_zachalo": 12
+ },
+ "2031-10-02": {
+  "apostle": "Еф.5:33-6:9",
+  "apostle_zachalo": 232,
+  "gospel": "Лк.4:16-22",
+  "gospel_zachalo": 13
+ },
+ "2031-10-03": {
+  "apostle": "Еф.6:18-24",
+  "apostle_zachalo": 234,
+  "gospel": "Лк.4:22-30",
+  "gospel_zachalo": 14
+ },
+ "2031-10-04": {
+  "apostle": "1Кор.1:26-29",
+  "apostle_zachalo": 125,
+  "gospel": "Ин.8:21-30",
+  "gospel_zachalo": 30,
+  "note": "Суббота по Воздвижении. Также: 1Кор.15:39-45; Лк.4:31-36"
+ },
+ "2031-10-05": {
+  "apostle": "2Кор.9:6-11",
+  "apostle_zachalo": 188,
+  "gospel": "Лк.5:1-11",
+  "gospel_zachalo": 17,
+  "note": "Неделя 18-я по Пятидесятнице"
+ },
+ "2031-10-06": {
+  "apostle": "Флп.1:1-7",
+  "apostle_zachalo": 235,
+  "gospel": "Лк.4:37-44",
+  "gospel_zachalo": 16
+ },
+ "2031-10-07": {
+  "apostle": "Флп.1:8-14",
+  "apostle_zachalo": 236,
+  "gospel": "Лк.5:12-16",
+  "gospel_zachalo": 18
+ },
+ "2031-10-08": {
+  "apostle": "Флп.1:12-20",
+  "apostle_zachalo": 237,
+  "gospel": "Лк.5:33-39",
+  "gospel_zachalo": 21
+ },
+ "2031-10-09": {
+  "apostle": "Флп.1:20-27",
+  "apostle_zachalo": 238,
+  "gospel": "Лк.6:12-19",
+  "gospel_zachalo": 23
+ },
+ "2031-10-10": {
+  "apostle": "Флп.1:27-2:4",
+  "apostle_zachalo": 239,
+  "gospel": "Лк.6:17-23",
+  "gospel_zachalo": 24
+ },
+ "2031-10-11": {
+  "apostle": "1Кор.15:58-16:3",
+  "apostle_zachalo": 164,
+  "gospel": "Лк.5:17-26",
+  "gospel_zachalo": 19
+ },
+ "2031-10-12": {
+  "apostle": "2Кор.11:31-12:9",
+  "apostle_zachalo": 194,
+  "gospel": "Лк.6:31-36",
+  "gospel_zachalo": 26,
+  "note": "Неделя 19-я по Пятидесятнице"
+ },
+ "2031-10-13": {
+  "apostle": "Флп.2:12-16",
+  "apostle_zachalo": 241,
+  "gospel": "Лк.6:24-30",
+  "gospel_zachalo": 25
+ },
+ "2031-10-14": {
+  "apostle": "Флп.2:16-23",
+  "apostle_zachalo": 242,
+  "gospel": "Лк.6:37-45",
+  "gospel_zachalo": 27
+ },
+ "2031-10-15": {
+  "apostle": "Флп.2:24-30",
+  "apostle_zachalo": 243,
+  "gospel": "Лк.6:46-7:1",
+  "gospel_zachalo": 28
+ },
+ "2031-10-16": {
+  "apostle": "Флп.3:1-8",
+  "apostle_zachalo": 244,
+  "gospel": "Лк.7:17-30",
+  "gospel_zachalo": 31
+ },
+ "2031-10-17": {
+  "apostle": "Флп.3:8-19",
+  "apostle_zachalo": 245,
+  "gospel": "Лк.7:31-35",
+  "gospel_zachalo": 32
+ },
+ "2031-10-18": {
+  "apostle": "2Кор.1:8-11",
+  "apostle_zachalo": 168,
+  "gospel": "Лк.5:27-32",
+  "gospel_zachalo": 20
+ },
+ "2031-10-19": {
+  "apostle": "Гал.1:11-19",
+  "apostle_zachalo": 200,
+  "gospel": "Лк.7:11-16",
+  "gospel_zachalo": 30,
+  "note": "Неделя 20-я по Пятидесятнице"
+ },
+ "2031-10-20": {
+  "apostle": "Флп.4:10-23",
+  "apostle_zachalo": 248,
+  "gospel": "Лк.7:36-50",
+  "gospel_zachalo": 33
+ },
+ "2031-10-21": {
+  "apostle": "Кол.1:1-2,7-11",
+  "apostle_zachalo": 249,
+  "gospel": "Лк.8:1-3",
+  "gospel_zachalo": 34
+ },
+ "2031-10-22": {
+  "apostle": "Кол.1:18-23",
+  "apostle_zachalo": 251,
+  "gospel": "Лк.8:22-25",
+  "gospel_zachalo": 37
+ },
+ "2031-10-23": {
+  "apostle": "Кол.1:24-29",
+  "apostle_zachalo": 252,
+  "gospel": "Лк.9:7-11",
+  "gospel_zachalo": 41
+ },
+ "2031-10-24": {
+  "apostle": "Кол.2:1-7",
+  "apostle_zachalo": 253,
+  "gospel": "Лк.9:12-18",
+  "gospel_zachalo": 42
+ },
+ "2031-10-25": {
+  "apostle": "2Кор.3:12-18",
+  "apostle_zachalo": 174,
+  "gospel": "Лк.6:1-10",
+  "gospel_zachalo": 22
+ },
+ "2031-10-26": {
+  "apostle": "Гал.2:16-20",
+  "apostle_zachalo": 203,
+  "gospel": "Лк.8:5-15",
+  "gospel_zachalo": 35,
+  "note": "Неделя 21-я по Пятидесятнице"
+ },
+ "2031-10-27": {
+  "apostle": "Кол.2:13-20",
+  "apostle_zachalo": 255,
+  "gospel": "Лк.9:18-22",
+  "gospel_zachalo": 43
+ },
+ "2031-10-28": {
+  "apostle": "Кол.2:20-3:3",
+  "apostle_zachalo": 256,
+  "gospel": "Лк.9:23-27",
+  "gospel_zachalo": 44
+ },
+ "2031-10-29": {
+  "apostle": "Кол.3:17-4:1",
+  "apostle_zachalo": 259,
+  "gospel": "Лк.9:44-50",
+  "gospel_zachalo": 47
+ },
+ "2031-10-30": {
+  "apostle": "Кол.4:2-9",
+  "apostle_zachalo": 260,
+  "gospel": "Лк.9:49-56",
+  "gospel_zachalo": 48
+ },
+ "2031-10-31": {
+  "apostle": "Кол.4:10-18",
+  "apostle_zachalo": 261,
+  "gospel": "Лк.10:1-15",
+  "gospel_zachalo": 50
+ },
+ "2031-11-01": {
+  "apostle": "2Кор.5:1-10",
+  "apostle_zachalo": 178,
+  "gospel": "Лк.7:1-10",
+  "gospel_zachalo": 29
+ },
+ "2031-11-02": {
+  "apostle": "Гал.6:11-18",
+  "apostle_zachalo": 215,
+  "gospel": "Лк.16:19-31",
+  "gospel_zachalo": 83,
+  "note": "Неделя 22-я по Пятидесятнице"
+ },
+ "2031-11-03": {
+  "apostle": "1Сол.1:1-5",
+  "apostle_zachalo": 262,
+  "gospel": "Лк.10:22-24",
+  "gospel_zachalo": 52
+ },
+ "2031-11-04": {
+  "apostle": "1Сол.1:6-10",
+  "apostle_zachalo": 263,
+  "gospel": "Лк.11:1-10",
+  "gospel_zachalo": 55
+ },
+ "2031-11-05": {
+  "apostle": "1Сол.2:1-8",
+  "apostle_zachalo": 264,
+  "gospel": "Лк.11:9-13",
+  "gospel_zachalo": 56
+ },
+ "2031-11-06": {
+  "apostle": "1Сол.2:9-14",
+  "apostle_zachalo": 265,
+  "gospel": "Лк.11:14-23",
+  "gospel_zachalo": 57
+ },
+ "2031-11-07": {
+  "apostle": "1Сол.2:14-19",
+  "apostle_zachalo": 266,
+  "gospel": "Лк.11:23-26",
+  "gospel_zachalo": 58
+ },
+ "2031-11-08": {
+  "apostle": "2Кор.8:1-5",
+  "apostle_zachalo": 185,
+  "gospel": "Лк.8:16-21",
+  "gospel_zachalo": 36
+ },
+ "2031-11-09": {
+  "apostle": "Еф.2:4-10",
+  "apostle_zachalo": 220,
+  "gospel": "Лк.8:26-39",
+  "gospel_zachalo": 38,
+  "note": "Неделя 23-я по Пятидесятнице"
+ },
+ "2031-11-10": {
+  "apostle": "1Сол.2:20-3:8",
+  "apostle_zachalo": 267,
+  "gospel": "Лк.11:29-33",
+  "gospel_zachalo": 59
+ },
+ "2031-11-11": {
+  "apostle": "1Сол.3:9-13",
+  "apostle_zachalo": 268,
+  "gospel": "Лк.11:34-41",
+  "gospel_zachalo": 60
+ },
+ "2031-11-12": {
+  "apostle": "1Сол.4:1-12",
+  "apostle_zachalo": 269,
+  "gospel": "Лк.11:42-46",
+  "gospel_zachalo": 61
+ },
+ "2031-11-13": {
+  "apostle": "1Сол.5:1-8",
+  "apostle_zachalo": 271,
+  "gospel": "Лк.11:47-12:1",
+  "gospel_zachalo": 62
+ },
+ "2031-11-14": {
+  "apostle": "1Сол.5:9-13,24-28",
+  "apostle_zachalo": 272,
+  "gospel": "Лк.12:2-12",
+  "gospel_zachalo": 63
+ },
+ "2031-11-15": {
+  "apostle": "2Кор.11:1-6",
+  "apostle_zachalo": 191,
+  "gospel": "Лк.9:1-6",
+  "gospel_zachalo": 40
+ },
+ "2031-11-16": {
+  "apostle": "Еф.2:14-22",
+  "apostle_zachalo": 221,
+  "gospel": "Лк.8:41-56",
+  "gospel_zachalo": 39,
+  "note": "Неделя 24-я по Пятидесятнице"
+ },
+ "2031-11-17": {
+  "apostle": "2Сол.1:1-10",
+  "apostle_zachalo": 274,
+  "gospel": "Лк.12:13-15,22-31",
+  "gospel_zachalo": 65
+ },
+ "2031-11-18": {
+  "apostle": "2Сол.1:10-2:2",
+  "apostle_zachalo": 274,
+  "gospel": "Лк.12:42-48",
+  "gospel_zachalo": 68
+ },
+ "2031-11-19": {
+  "apostle": "2Сол.2:1-12",
+  "apostle_zachalo": 275,
+  "gospel": "Лк.12:48-59",
+  "gospel_zachalo": 69
+ },
+ "2031-11-20": {
+  "apostle": "2Сол.2:13-3:5",
+  "apostle_zachalo": 276,
+  "gospel": "Лк.13:1-9",
+  "gospel_zachalo": 70
+ },
+ "2031-11-21": {
+  "apostle": "2Сол.3:6-18",
+  "apostle_zachalo": 277,
+  "gospel": "Лк.13:31-35",
+  "gospel_zachalo": 73
+ },
+ "2031-11-22": {
+  "apostle": "Гал.1:3-10",
+  "apostle_zachalo": 199,
+  "gospel": "Лк.9:37-43",
+  "gospel_zachalo": 46
+ },
+ "2031-11-23": {
+  "apostle": "Еф.4:1-6",
+  "apostle_zachalo": 224,
+  "gospel": "Лк.10:25-37",
+  "gospel_zachalo": 53,
+  "note": "Неделя 25-я по Пятидесятнице"
+ },
+ "2031-11-24": {
+  "apostle": "1Тим.1:1-7",
+  "apostle_zachalo": 278,
+  "gospel": "Лк.14:12-15",
+  "gospel_zachalo": 75
+ },
+ "2031-11-25": {
+  "apostle": "1Тим.1:8-14",
+  "apostle_zachalo": 279,
+  "gospel": "Лк.14:25-35",
+  "gospel_zachalo": 77
+ },
+ "2031-11-26": {
+  "apostle": "1Тим.1:18-20,2:8-15",
+  "apostle_zachalo": 281,
+  "gospel": "Лк.15:1-10",
+  "gospel_zachalo": 78
+ },
+ "2031-11-27": {
+  "apostle": "1Тим.3:1-13",
+  "apostle_zachalo": 283,
+  "gospel": "Лк.16:1-9",
+  "gospel_zachalo": 80
+ },
+ "2031-11-28": {
+  "apostle": "1Тим.4:4-8,16",
+  "apostle_zachalo": 285,
+  "gospel": "Лк.16:15-18,17:1-4",
+  "gospel_zachalo": 82
+ },
+ "2031-11-29": {
+  "apostle": "Кол.1:3-6",
+  "apostle_zachalo": 249,
+  "gospel": "Лк.9:57-62",
+  "gospel_zachalo": 49
+ },
+ "2031-11-30": {
+  "apostle": "Еф.5:8-19",
+  "apostle_zachalo": 229,
+  "gospel": "Лк.12:16-21",
+  "gospel_zachalo": 66,
+  "note": "Неделя 26-я по Пятидесятнице"
+ },
+ "2031-12-01": {
+  "apostle": "1Тим.5:1-10",
+  "apostle_zachalo": 285,
+  "gospel": "Лк.17:20-25",
+  "gospel_zachalo": 86
+ },
+ "2031-12-02": {
+  "apostle": "1Тим.5:11-21",
+  "apostle_zachalo": 286,
+  "gospel": "Лк.17:26-37",
+  "gospel_zachalo": 87
+ },
+ "2031-12-03": {
+  "apostle": "1Тим.5:22-6:11",
+  "apostle_zachalo": 287,
+  "gospel": "Лк.18:15-17,26-30",
+  "gospel_zachalo": 90
+ },
+ "2031-12-04": null,
+ "2031-12-05": {
+  "apostle": "2Тим.1:1-2,8-18",
+  "apostle_zachalo": 290,
+  "gospel": "Лк.19:12-28",
+  "gospel_zachalo": 95
+ },
+ "2031-12-06": {
+  "apostle": "Гал.5:22-6:2",
+  "apostle_zachalo": 213,
+  "gospel": "Лк.10:19-21",
+  "gospel_zachalo": 51
+ },
+ "2031-12-07": {
+  "apostle": "Еф.6:10-17",
+  "apostle_zachalo": 233,
+  "gospel": "Лк.13:10-17",
+  "gospel_zachalo": 71,
+  "note": "Неделя 27-я по Пятидесятнице"
+ },
+ "2031-12-08": {
+  "apostle": "2Тим.2:20-26",
+  "apostle_zachalo": 294,
+  "gospel": "Лк.19:37-44",
+  "gospel_zachalo": 97
+ },
+ "2031-12-09": {
+  "apostle": "2Тим.3:16-4:4",
+  "apostle_zachalo": 297,
+  "gospel": "Лк.19:45-48",
+  "gospel_zachalo": 98
+ },
+ "2031-12-10": {
+  "apostle": "2Тим.4:9-22",
+  "apostle_zachalo": 299,
+  "gospel": "Лк.20:1-8",
+  "gospel_zachalo": 99
+ },
+ "2031-12-11": {
+  "apostle": "Тит.1:5-2:1",
+  "apostle_zachalo": 300,
+  "gospel": "Лк.20:9-18",
+  "gospel_zachalo": 100
+ },
+ "2031-12-12": {
+  "apostle": "Тит.1:15-2:10",
+  "apostle_zachalo": 301,
+  "gospel": "Лк.20:19-26",
+  "gospel_zachalo": 101
+ },
+ "2031-12-13": {
+  "apostle": "Еф.1:16-23",
+  "apostle_zachalo": 218,
+  "gospel": "Лк.12:32-40",
+  "gospel_zachalo": 67
+ },
+ "2031-12-14": {
+  "apostle": "Кол.1:12-18",
+  "apostle_zachalo": 250,
+  "gospel": "Лк.18:18-27",
+  "gospel_zachalo": 91,
+  "note": "Неделя 28-я по Пятидесятнице. Евангелие — 13-я седмица Лукина чтения"
+ },
+ "2031-12-15": {
+  "apostle": "Евр.3:5-11,17-19",
+  "apostle_zachalo": 308,
+  "gospel": "Лк.20:27-44",
+  "gospel_zachalo": 102
+ },
+ "2031-12-16": {
+  "apostle": "Евр.4:1-13",
+  "apostle_zachalo": 310,
+  "gospel": "Лк.21:12-19",
+  "gospel_zachalo": 106
+ },
+ "2031-12-17": {
+  "apostle": "Евр.5:11-6:8",
+  "apostle_zachalo": 312,
+  "gospel": "Лк.21:5-7,10-11,20-24",
+  "gospel_zachalo": 104
+ },
+ "2031-12-18": {
+  "apostle": "Евр.7:1-6",
+  "apostle_zachalo": 315,
+  "gospel": "Лк.21:28-33",
+  "gospel_zachalo": 107
+ },
+ "2031-12-19": {
+  "apostle": "Евр.7:18-25",
+  "apostle_zachalo": 317,
+  "gospel": "Лк.21:37-22:8",
+  "gospel_zachalo": 108
+ },
+ "2031-12-20": {
+  "apostle": "Еф.2:11-13",
+  "apostle_zachalo": 220,
+  "gospel": "Лк.16:10-15",
+  "gospel_zachalo": 81,
+  "note": "Евангелие — 14-я седмица Лукина чтения"
+ },
+ "2031-12-21": {
+  "apostle": "Кол.3:12-16",
+  "apostle_zachalo": 258,
+  "gospel": "Лк.17:12-19",
+  "gospel_zachalo": 85,
+  "note": "Неделя 29-я по Пятидесятнице"
+ },
+ "2031-12-22": {
+  "apostle": "Евр.8:7-13",
+  "apostle_zachalo": 319,
+  "gospel": "Мк.8:11-21",
+  "gospel_zachalo": 33
+ },
+ "2031-12-23": {
+  "apostle": "Евр.9:8-10,15-23",
+  "apostle_zachalo": 321,
+  "gospel": "Мк.8:22-26",
+  "gospel_zachalo": 34
+ },
+ "2031-12-24": {
+  "apostle": "Евр.10:1-18",
+  "apostle_zachalo": 323,
+  "gospel": "Мк.8:30-34",
+  "gospel_zachalo": 36
+ },
+ "2031-12-25": {
+  "apostle": "Евр.10:35-11:7",
+  "apostle_zachalo": 326,
+  "gospel": "Мк.9:10-16",
+  "gospel_zachalo": 39
+ },
+ "2031-12-26": {
+  "apostle": "Евр.11:8,11-16",
+  "apostle_zachalo": 327,
+  "gospel": "Мк.9:33-41",
+  "gospel_zachalo": 41
+ },
+ "2031-12-27": {
+  "apostle": "Еф.5:1-8",
+  "apostle_zachalo": 228,
+  "gospel": "Лк.14:1-11",
+  "gospel_zachalo": 74
+ },
+ "2031-12-28": {
+  "apostle": "Кол.3:4-11",
+  "apostle_zachalo": 257,
+  "gospel": "Лк.14:16-24",
+  "gospel_zachalo": 76,
+  "note": "Неделя святых праотцев"
+ },
+ "2031-12-29": {
+  "apostle": "Евр.11:17-23,27-31",
+  "apostle_zachalo": 329,
+  "gospel": "Мк.9:42-10:1",
+  "gospel_zachalo": 42
+ },
+ "2031-12-30": {
+  "apostle": "Евр.12:25-26,13:22-25",
+  "apostle_zachalo": 333,
+  "gospel": "Мк.10:2-12",
+  "gospel_zachalo": 43
+ },
+ "2031-12-31": {
+  "apostle": "Иак.1:1-18",
+  "apostle_zachalo": 50,
+  "gospel": "Мк.10:11-16",
+  "gospel_zachalo": 44
+ }
+}

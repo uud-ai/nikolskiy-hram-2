@@ -1,0 +1,330 @@
+{
+ "_comment": "Сгенерировано tools/build_pentecost_readings.py из данных Ponomar. Ключ — дата (новый стиль). null — дня нет рядового чтения (великий праздник), блок чтений на сайте скрывается.",
+ "2040-01-01": {
+  "apostle": "Евр.11:9-10,17-23,32-40",
+  "apostle_zachalo": 328,
+  "gospel": "Мф.1:1-25",
+  "gospel_zachalo": 1,
+  "note": "Неделя пред Рождеством Христовым, святых отцев"
+ },
+ "2040-01-02": {
+  "apostle": "Евр.11:17-23,27-31",
+  "apostle_zachalo": 329,
+  "gospel": "Мк.9:42-10:1",
+  "gospel_zachalo": 42
+ },
+ "2040-01-03": {
+  "apostle": "Евр.12:25-26,13:22-25",
+  "apostle_zachalo": 333,
+  "gospel": "Мк.10:2-12",
+  "gospel_zachalo": 43
+ },
+ "2040-01-04": {
+  "apostle": "Иак.1:1-18",
+  "apostle_zachalo": 50,
+  "gospel": "Мк.10:11-16",
+  "gospel_zachalo": 44
+ },
+ "2040-01-05": {
+  "apostle": "Иак.1:19-27",
+  "apostle_zachalo": 51,
+  "gospel": "Мк.10:17-27",
+  "gospel_zachalo": 45
+ },
+ "2040-01-06": null,
+ "2040-01-07": null,
+ "2040-01-08": {
+  "apostle": "Гал.1:11-19",
+  "apostle_zachalo": 200,
+  "gospel": "Мф.2:13-23",
+  "gospel_zachalo": 4,
+  "note": "Неделя по Рождестве Христовом: Правв. Иосифа Обручника, Давида Царя, и Иакова брата Господня"
+ },
+ "2040-01-09": {
+  "apostle": "Иак.2:14-26",
+  "apostle_zachalo": 53,
+  "gospel": "Мк.10:46-52",
+  "gospel_zachalo": 48
+ },
+ "2040-01-10": {
+  "apostle": "Иак.3:1-10",
+  "apostle_zachalo": 54,
+  "gospel": "Мк.11:11-23",
+  "gospel_zachalo": 50
+ },
+ "2040-01-11": {
+  "apostle": "Иак.3:11-4:6",
+  "apostle_zachalo": 55,
+  "gospel": "Мк.11:22-26",
+  "gospel_zachalo": 51
+ },
+ "2040-01-12": {
+  "apostle": "Иак.4:7-5:9",
+  "apostle_zachalo": 56,
+  "gospel": "Мк.11:27-33",
+  "gospel_zachalo": 52
+ },
+ "2040-01-13": {
+  "apostle": "1Тим.6:11-16",
+  "apostle_zachalo": 288,
+  "gospel": "Мф.12:15-21",
+  "gospel_zachalo": 46,
+  "note": "Суббота по Рождеству Христову. Также: 1Пет.1:1-2,10-12,2:6-10; Мк.12:1-12"
+ },
+ "2040-01-14": {
+  "apostle": "1Тим.3:14-4:5",
+  "apostle_zachalo": 284,
+  "gospel": "Мф.3:1-11",
+  "gospel_zachalo": 5,
+  "note": "Суббота пред Богоявлением"
+ },
+ "2040-01-15": {
+  "apostle": "2Тим.4:5-8",
+  "apostle_zachalo": 298,
+  "gospel": "Мк.1:1-8",
+  "gospel_zachalo": 1,
+  "note": "Неделя пред Богоявлением"
+ },
+ "2040-01-16": {
+  "apostle": "1Пет.2:21-3:9",
+  "apostle_zachalo": 59,
+  "gospel": "Мк.12:13-17",
+  "gospel_zachalo": 54
+ },
+ "2040-01-17": {
+  "apostle": "1Пет.3:10-22",
+  "apostle_zachalo": 60,
+  "gospel": "Мк.12:18-27",
+  "gospel_zachalo": 55
+ },
+ "2040-01-18": null,
+ "2040-01-19": null,
+ "2040-01-20": {
+  "apostle": "2Пет.1:1-10",
+  "apostle_zachalo": 64,
+  "gospel": "Мк.13:1-8",
+  "gospel_zachalo": 58
+ },
+ "2040-01-21": {
+  "apostle": "Еф.6:10-17",
+  "apostle_zachalo": 233,
+  "gospel": "Мф.4:1-11",
+  "gospel_zachalo": 7,
+  "note": "Суббота по Богоявлению"
+ },
+ "2040-01-22": {
+  "apostle": "Еф.4:7-13",
+  "apostle_zachalo": 224,
+  "gospel": "Мф.4:12-17",
+  "gospel_zachalo": 8,
+  "note": "Неделя по Богоявлению"
+ },
+ "2040-01-23": {
+  "apostle": "Евр.3:5-11,17-19",
+  "apostle_zachalo": 308,
+  "gospel": "Лк.20:27-44",
+  "gospel_zachalo": 102
+ },
+ "2040-01-24": {
+  "apostle": "Евр.4:1-13",
+  "apostle_zachalo": 310,
+  "gospel": "Лк.21:12-19",
+  "gospel_zachalo": 106
+ },
+ "2040-01-25": {
+  "apostle": "Евр.5:11-6:8",
+  "apostle_zachalo": 312,
+  "gospel": "Лк.21:5-7,10-11,20-24",
+  "gospel_zachalo": 104
+ },
+ "2040-01-26": {
+  "apostle": "Евр.7:1-6",
+  "apostle_zachalo": 315,
+  "gospel": "Лк.21:28-33",
+  "gospel_zachalo": 107
+ },
+ "2040-01-27": {
+  "apostle": "Евр.7:18-25",
+  "apostle_zachalo": 317,
+  "gospel": "Лк.21:37-22:8",
+  "gospel_zachalo": 108
+ },
+ "2040-01-28": {
+  "apostle": "Еф.2:11-13",
+  "apostle_zachalo": 220,
+  "gospel": "Лк.13:18-29",
+  "gospel_zachalo": 72
+ },
+ "2040-01-29": {
+  "apostle": "Кол.3:12-16",
+  "apostle_zachalo": 258,
+  "gospel": "Лк.18:18-27",
+  "gospel_zachalo": 91,
+  "note": "Неделя 34-я по Пятидесятнице"
+ },
+ "2040-01-30": {
+  "apostle": "Евр.8:7-13",
+  "apostle_zachalo": 319,
+  "gospel": "Мк.8:11-21",
+  "gospel_zachalo": 33
+ },
+ "2040-01-31": {
+  "apostle": "Евр.9:8-10,15-23",
+  "apostle_zachalo": 321,
+  "gospel": "Мк.8:22-26",
+  "gospel_zachalo": 34
+ },
+ "2040-02-01": {
+  "apostle": "Евр.10:1-18",
+  "apostle_zachalo": 323,
+  "gospel": "Мк.8:30-34",
+  "gospel_zachalo": 36
+ },
+ "2040-02-02": {
+  "apostle": "Евр.10:35-11:7",
+  "apostle_zachalo": 326,
+  "gospel": "Мк.9:10-16",
+  "gospel_zachalo": 39
+ },
+ "2040-02-03": {
+  "apostle": "Евр.11:8,11-16",
+  "apostle_zachalo": 327,
+  "gospel": "Мк.9:33-41",
+  "gospel_zachalo": 41
+ },
+ "2040-02-04": {
+  "apostle": "1Кор.10:23-28",
+  "apostle_zachalo": 146,
+  "gospel": "Мф.24:34-44",
+  "gospel_zachalo": 101
+ },
+ "2040-02-05": {
+  "apostle": "1Тим.1:15-17",
+  "apostle_zachalo": 280,
+  "gospel": "Лк.18:35-43",
+  "gospel_zachalo": 93,
+  "note": "Неделя 35-я по Пятидесятнице"
+ },
+ "2040-02-06": {
+  "apostle": "Евр.11:17-23,27-31",
+  "apostle_zachalo": 329,
+  "gospel": "Мк.9:42-10:1",
+  "gospel_zachalo": 42
+ },
+ "2040-02-07": {
+  "apostle": "Евр.12:25-26,13:22-25",
+  "apostle_zachalo": 333,
+  "gospel": "Мк.10:2-12",
+  "gospel_zachalo": 43
+ },
+ "2040-02-08": {
+  "apostle": "Иак.1:1-18",
+  "apostle_zachalo": 50,
+  "gospel": "Мк.10:11-16",
+  "gospel_zachalo": 44
+ },
+ "2040-02-09": {
+  "apostle": "Иак.1:19-27",
+  "apostle_zachalo": 51,
+  "gospel": "Мк.10:17-27",
+  "gospel_zachalo": 45
+ },
+ "2040-02-10": {
+  "apostle": "Иак.2:1-13",
+  "apostle_zachalo": 52,
+  "gospel": "Мк.10:23-32",
+  "gospel_zachalo": 46
+ },
+ "2040-02-11": {
+  "apostle": "1Кор.14:20-25",
+  "apostle_zachalo": 156,
+  "gospel": "Мф.25:1-13",
+  "gospel_zachalo": 104
+ },
+ "2040-02-12": {
+  "apostle": "2Кор.6:16-7:1",
+  "apostle_zachalo": 182,
+  "gospel": "Мф.15:21-28",
+  "gospel_zachalo": 62,
+  "note": "Неделя 36-я по Пятидесятнице"
+ },
+ "2040-02-13": {
+  "apostle": "Иак.2:14-26",
+  "apostle_zachalo": 53,
+  "gospel": "Мк.10:46-52",
+  "gospel_zachalo": 48
+ },
+ "2040-02-14": {
+  "apostle": "Иак.3:1-10",
+  "apostle_zachalo": 54,
+  "gospel": "Мк.11:11-23",
+  "gospel_zachalo": 50
+ },
+ "2040-02-15": {
+  "apostle": "Иак.3:11-4:6",
+  "apostle_zachalo": 55,
+  "gospel": "Мк.11:22-26",
+  "gospel_zachalo": 51
+ },
+ "2040-02-16": {
+  "apostle": "Иак.4:7-5:9",
+  "apostle_zachalo": 56,
+  "gospel": "Мк.11:27-33",
+  "gospel_zachalo": 52
+ },
+ "2040-02-17": {
+  "apostle": "1Пет.1:1-2,10-12,2:6-10",
+  "apostle_zachalo": 58,
+  "gospel": "Мк.12:1-12",
+  "gospel_zachalo": 53
+ },
+ "2040-02-18": {
+  "apostle": "1Сол.5:14-23",
+  "apostle_zachalo": 273,
+  "gospel": "Лк.17:3-10",
+  "gospel_zachalo": 84
+ },
+ "2040-02-19": {
+  "apostle": "1Тим.4:9-15",
+  "apostle_zachalo": 285,
+  "gospel": "Лк.19:1-10",
+  "gospel_zachalo": 94,
+  "note": "Неделя 37-я по Пятидесятнице"
+ },
+ "2040-02-20": {
+  "apostle": "1Пет.2:21-3:9",
+  "apostle_zachalo": 59,
+  "gospel": "Мк.12:13-17",
+  "gospel_zachalo": 54
+ },
+ "2040-02-21": {
+  "apostle": "1Пет.3:10-22",
+  "apostle_zachalo": 60,
+  "gospel": "Мк.12:18-27",
+  "gospel_zachalo": 55
+ },
+ "2040-02-22": {
+  "apostle": "1Пет.4:1-11",
+  "apostle_zachalo": 61,
+  "gospel": "Мк.12:28-37",
+  "gospel_zachalo": 56
+ },
+ "2040-02-23": {
+  "apostle": "1Пет.4:12-5:5",
+  "apostle_zachalo": 62,
+  "gospel": "Мк.12:38-44",
+  "gospel_zachalo": 57
+ },
+ "2040-02-24": {
+  "apostle": "2Пет.1:1-10",
+  "apostle_zachalo": 64,
+  "gospel": "Мк.13:1-8",
+  "gospel_zachalo": 58
+ },
+ "2040-02-25": {
+  "apostle": "2Тим.2:11-19",
+  "apostle_zachalo": 293,
+  "gospel": "Лк.18:2-8",
+  "gospel_zachalo": 88
+ }
+}

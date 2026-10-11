@@ -878,6 +878,17 @@
         });
     }
 
+    // Ссылки в ответах ИИ, открывающиеся в новой вкладке, не должны получать
+    // доступ к этой странице через window.opener.
+    if (window.DOMPurify) {
+        DOMPurify.addHook('afterSanitizeAttributes', (node) => {
+            if (node.tagName === 'A' && node.hasAttribute('target')) {
+                node.setAttribute('target', '_blank');
+                node.setAttribute('rel', 'noopener noreferrer');
+            }
+        });
+    }
+
     function askConfirm(text) {
         return Promise.resolve(window.confirm(text));
     }
@@ -1404,11 +1415,17 @@
             // DOMPurify санитизирует HTML от потенциально опасных тегов/атрибутов
             // (если LLM или будущий источник вернёт сырой HTML). linkifyBible
             // потом работает уже с безопасным DOM.
-            const rawHtml = marked.parse(text);
-            const cleanHtml = window.DOMPurify
-                ? DOMPurify.sanitize(rawHtml, { ADD_ATTR: ['target'] })
-                : rawHtml;
-            msgDiv.innerHTML = linkifyBible(cleanHtml);
+            // Если marked или DOMPurify не загрузились (сбой сети, блокировщик),
+            // ответ показываем простым текстом: вставлять неочищенный HTML
+            // на страницу нельзя ни при каких условиях.
+            if (window.marked && window.DOMPurify) {
+                const rawHtml = marked.parse(text);
+                const cleanHtml = DOMPurify.sanitize(rawHtml, { ADD_ATTR: ['target'] });
+                msgDiv.innerHTML = linkifyBible(cleanHtml);
+            } else {
+                msgDiv.textContent = text;
+                msgDiv.style.whiteSpace = 'pre-wrap';
+            }
         } else {
             msgDiv.textContent = text;
         }
