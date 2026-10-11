@@ -102,3 +102,21 @@ export function resolveCyclePosition(
 
   return { period: "unresolved" }
 }
+
+/**
+ * «Евангельская» седмица по Пятидесятнице с учётом Воздвиженской преступки
+ * (отступки). Лукино чтение (номинальные седмицы 18 и далее) начинается с
+ * понедельника после Недели по Воздвижении — первого воскресенья после
+ * 27 сентября (14 сентября ст. ст.). До этого читается Матфей, номинально
+ * не дальше 17-й седмицы. Используется только как запасной расчёт для лет,
+ * которых нет в pentecost-dated.json.
+ */
+export function lukanGospelWeek(day: Date, pentecostWeek: number, pascha: Date): number {
+  // Воздвижение того же года, что и Пасха текущего круга: Лукино чтение
+  // продолжается и после Нового года.
+  const exaltation = new Date(pascha.getFullYear(), 8, 27)
+  const toSunday = (7 - exaltation.getDay()) % 7 || 7
+  const lukanStart = addDays(exaltation, toSunday + 1) // понедельник после Недели по Воздвижении
+  if (day < lukanStart) return Math.min(pentecostWeek, 17)
+  return Math.min(18 + Math.floor(daysBetween(lukanStart, day) / 7), 33)
+}
