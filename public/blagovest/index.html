@@ -15,18 +15,65 @@
     <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><rect width=%22100%22 height=%22100%22 rx=%2220%22 fill=%22%232c3e50%22/><text x=%2250%%22 y=%2250%%22 font-size=%2265%22 text-anchor=%22middle%22 dominant-baseline=%22central%22 fill=%22%23f4f1ea%22>✝</text></svg>">
     <link rel="apple-touch-icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><rect width=%22100%22 height=%22100%22 fill=%22%232c3e50%22/><text x=%2250%%22 y=%2250%%22 font-size=%2265%22 text-anchor=%22middle%22 dominant-baseline=%22central%22 fill=%22%23f4f1ea%22>✝</text></svg>">
 
-    <!-- Шрифты, Markdown, иконки Tabler -->
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;0,700;0,900;1,600;1,700&family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
-    <link href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@3.48.0/dist/tabler-icons.min.css" rel="stylesheet">
-    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
-    <!-- DOMPurify — санитизация HTML после marked. Защищает от XSS, если LLM
-         (или будущий источник вроде commentaries) вернёт сырой HTML. Внутри
-         Telegram WebView это критично: там доступен tg.initData, по сути
-         токен аутентификации пользователя. -->
-    <script src="https://cdn.jsdelivr.net/npm/dompurify@3/dist/purify.min.js"></script>
+    <!-- Всё нужное для первого показа — со своего сайта, без внешних CDN:
+         шрифты (Playfair Display, Roboto — кириллица и латиница) в fonts/,
+         иконки Tabler (только используемые) встроены ниже как CSS-маски.
+         marked и DOMPurify подключаются в конце body (vendor/). -->
+    <link rel="preload" href="fonts/roboto-cyrillic-400-normal.woff2" as="font" type="font/woff2" crossorigin>
+    <link rel="preload" href="fonts/playfair-display-cyrillic-700-normal.woff2" as="font" type="font/woff2" crossorigin>
 
-    <!-- Telegram Mini App SDK (для будущего перехода в Telegram). Безопасно работает и в обычном браузере. -->
-    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+    <!-- Telegram Mini App SDK грузим только когда страница действительно открыта
+         внутри Telegram (Telegram передаёт параметры tgWebApp… в адресе).
+         В обычном браузере внешний скрипт telegram.org не блокирует загрузку. -->
+    <script>
+        (function () {
+            var inTg = /tgWebApp/.test(location.hash + location.search);
+            try { inTg = inTg || !!sessionStorage.getItem('__telegram__initParams'); } catch (e) {}
+            if (inTg) document.write('<script src="https://telegram.org/js/telegram-web-app.js"><\/script>');
+        })();
+    </script>
+
+    <style>
+        @font-face { font-family: 'Playfair Display'; font-style: normal; font-display: swap; font-weight: 600; src: url(fonts/playfair-display-cyrillic-600-normal.woff2) format('woff2'); unicode-range: U+0301,U+0400-045F,U+0490-0491,U+04B0-04B1,U+2116; }
+        @font-face { font-family: 'Playfair Display'; font-style: normal; font-display: swap; font-weight: 600; src: url(fonts/playfair-display-latin-600-normal.woff2) format('woff2'); unicode-range: U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD; }
+        @font-face { font-family: 'Playfair Display'; font-style: normal; font-display: swap; font-weight: 700; src: url(fonts/playfair-display-cyrillic-700-normal.woff2) format('woff2'); unicode-range: U+0301,U+0400-045F,U+0490-0491,U+04B0-04B1,U+2116; }
+        @font-face { font-family: 'Playfair Display'; font-style: normal; font-display: swap; font-weight: 700; src: url(fonts/playfair-display-latin-700-normal.woff2) format('woff2'); unicode-range: U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD; }
+        @font-face { font-family: 'Playfair Display'; font-style: normal; font-display: swap; font-weight: 900; src: url(fonts/playfair-display-cyrillic-900-normal.woff2) format('woff2'); unicode-range: U+0301,U+0400-045F,U+0490-0491,U+04B0-04B1,U+2116; }
+        @font-face { font-family: 'Playfair Display'; font-style: normal; font-display: swap; font-weight: 900; src: url(fonts/playfair-display-latin-900-normal.woff2) format('woff2'); unicode-range: U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD; }
+        @font-face { font-family: 'Playfair Display'; font-style: italic; font-display: swap; font-weight: 600; src: url(fonts/playfair-display-cyrillic-600-italic.woff2) format('woff2'); unicode-range: U+0301,U+0400-045F,U+0490-0491,U+04B0-04B1,U+2116; }
+        @font-face { font-family: 'Playfair Display'; font-style: italic; font-display: swap; font-weight: 600; src: url(fonts/playfair-display-latin-600-italic.woff2) format('woff2'); unicode-range: U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD; }
+        @font-face { font-family: 'Playfair Display'; font-style: italic; font-display: swap; font-weight: 700; src: url(fonts/playfair-display-cyrillic-700-italic.woff2) format('woff2'); unicode-range: U+0301,U+0400-045F,U+0490-0491,U+04B0-04B1,U+2116; }
+        @font-face { font-family: 'Playfair Display'; font-style: italic; font-display: swap; font-weight: 700; src: url(fonts/playfair-display-latin-700-italic.woff2) format('woff2'); unicode-range: U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD; }
+        @font-face { font-family: 'Roboto'; font-style: normal; font-display: swap; font-weight: 300; src: url(fonts/roboto-cyrillic-300-normal.woff2) format('woff2'); unicode-range: U+0301,U+0400-045F,U+0490-0491,U+04B0-04B1,U+2116; }
+        @font-face { font-family: 'Roboto'; font-style: normal; font-display: swap; font-weight: 300; src: url(fonts/roboto-latin-300-normal.woff2) format('woff2'); unicode-range: U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD; }
+        @font-face { font-family: 'Roboto'; font-style: normal; font-display: swap; font-weight: 400; src: url(fonts/roboto-cyrillic-400-normal.woff2) format('woff2'); unicode-range: U+0301,U+0400-045F,U+0490-0491,U+04B0-04B1,U+2116; }
+        @font-face { font-family: 'Roboto'; font-style: normal; font-display: swap; font-weight: 400; src: url(fonts/roboto-latin-400-normal.woff2) format('woff2'); unicode-range: U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD; }
+        @font-face { font-family: 'Roboto'; font-style: normal; font-display: swap; font-weight: 500; src: url(fonts/roboto-cyrillic-500-normal.woff2) format('woff2'); unicode-range: U+0301,U+0400-045F,U+0490-0491,U+04B0-04B1,U+2116; }
+        @font-face { font-family: 'Roboto'; font-style: normal; font-display: swap; font-weight: 500; src: url(fonts/roboto-latin-500-normal.woff2) format('woff2'); unicode-range: U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD; }
+        @font-face { font-family: 'Roboto'; font-style: normal; font-display: swap; font-weight: 700; src: url(fonts/roboto-cyrillic-700-normal.woff2) format('woff2'); unicode-range: U+0301,U+0400-045F,U+0490-0491,U+04B0-04B1,U+2116; }
+        @font-face { font-family: 'Roboto'; font-style: normal; font-display: swap; font-weight: 700; src: url(fonts/roboto-latin-700-normal.woff2) format('woff2'); unicode-range: U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD; }
+
+        /* Иконки Tabler Icons (MIT) — только используемые */
+        .ti{display:inline-block;width:1em;height:1em;line-height:1;vertical-align:-0.125em;flex-shrink:0;background-color:currentColor;-webkit-mask:var(--ti) center/contain no-repeat;mask:var(--ti) center/contain no-repeat}
+        .ti-book-2{--ti:url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='%23000' stroke-width='2' stroke-linecap='round' stroke-linejoin='round' ><path stroke='none' d='M0 0h24v24H0z' fill='none' /><path d='M19 4v16h-12a2 2 0 0 1 -2 -2v-12a2 2 0 0 1 2 -2h12' /><path d='M19 16h-12a2 2 0 0 0 -2 2' /><path d='M9 8h6' /></svg>")}
+        .ti-message-circle-question{--ti:url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='%23000' stroke-width='2' stroke-linecap='round' stroke-linejoin='round' ><path stroke='none' d='M0 0h24v24H0z' fill='none' /><path d='M15.02 19.52c-2.341 .736 -5 .606 -7.32 -.52l-4.7 1l1.3 -3.9c-2.324 -3.437 -1.426 -7.872 2.1 -10.374c3.526 -2.501 8.59 -2.296 11.845 .48c1.649 1.407 2.575 3.253 2.742 5.152' /><path d='M19 22v.01' /><path d='M19 19a2.003 2.003 0 0 0 .914 -3.782a1.98 1.98 0 0 0 -2.414 .483' /></svg>")}
+        .ti-messages{--ti:url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='%23000' stroke-width='2' stroke-linecap='round' stroke-linejoin='round' ><path stroke='none' d='M0 0h24v24H0z' fill='none' /><path d='M21 14l-3 -3h-7a1 1 0 0 1 -1 -1v-6a1 1 0 0 1 1 -1h9a1 1 0 0 1 1 1v10' /><path d='M14 15v2a1 1 0 0 1 -1 1h-7l-3 3v-10a1 1 0 0 1 1 -1h2' /></svg>")}
+        .ti-send{--ti:url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='%23000' stroke-width='2' stroke-linecap='round' stroke-linejoin='round' ><path stroke='none' d='M0 0h24v24H0z' fill='none' /><path d='M10 14l11 -11' /><path d='M21 3l-6.5 18a.55 .55 0 0 1 -1 0l-3.5 -7l-7 -3.5a.55 .55 0 0 1 0 -1l18 -6.5' /></svg>")}
+        .ti-briefcase{--ti:url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='%23000' stroke-width='2' stroke-linecap='round' stroke-linejoin='round' ><path stroke='none' d='M0 0h24v24H0z' fill='none' /><path d='M3 9a2 2 0 0 1 2 -2h14a2 2 0 0 1 2 2v9a2 2 0 0 1 -2 2h-14a2 2 0 0 1 -2 -2l0 -9' /><path d='M8 7v-2a2 2 0 0 1 2 -2h4a2 2 0 0 1 2 2v2' /><path d='M12 12l0 .01' /><path d='M3 13a20 20 0 0 0 18 0' /></svg>")}
+        .ti-building-bank{--ti:url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='%23000' stroke-width='2' stroke-linecap='round' stroke-linejoin='round' ><path stroke='none' d='M0 0h24v24H0z' fill='none' /><path d='M3 21l18 0' /><path d='M3 10l18 0' /><path d='M5 6l7 -3l7 3' /><path d='M4 10l0 11' /><path d='M20 10l0 11' /><path d='M8 14l0 3' /><path d='M12 14l0 3' /><path d='M16 14l0 3' /></svg>")}
+        .ti-clock{--ti:url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='%23000' stroke-width='2' stroke-linecap='round' stroke-linejoin='round' ><path stroke='none' d='M0 0h24v24H0z' fill='none' /><path d='M3 12a9 9 0 1 0 18 0a9 9 0 0 0 -18 0' /><path d='M12 7v5l3 3' /></svg>")}
+        .ti-cloud-storm{--ti:url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='%23000' stroke-width='2' stroke-linecap='round' stroke-linejoin='round' ><path stroke='none' d='M0 0h24v24H0z' fill='none' /><path d='M7 18a4.6 4.4 0 0 1 0 -9a5 4.5 0 0 1 11 2h1a3.5 3.5 0 0 1 0 7h-1' /><path d='M13 14l-2 4l3 0l-2 4' /></svg>")}
+        .ti-device-mobile{--ti:url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='%23000' stroke-width='2' stroke-linecap='round' stroke-linejoin='round' ><path stroke='none' d='M0 0h24v24H0z' fill='none' /><path d='M6 5a2 2 0 0 1 2 -2h8a2 2 0 0 1 2 2v14a2 2 0 0 1 -2 2h-8a2 2 0 0 1 -2 -2v-14' /><path d='M11 4h2' /><path d='M12 17v.01' /></svg>")}
+        .ti-friends{--ti:url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='%23000' stroke-width='2' stroke-linecap='round' stroke-linejoin='round' ><path stroke='none' d='M0 0h24v24H0z' fill='none' /><path d='M5 5a2 2 0 1 0 4 0a2 2 0 1 0 -4 0' /><path d='M5 22v-5l-1 -1v-4a1 1 0 0 1 1 -1h4a1 1 0 0 1 1 1v4l-1 1v5' /><path d='M15 5a2 2 0 1 0 4 0a2 2 0 1 0 -4 0' /><path d='M15 22v-4h-2l2 -6a1 1 0 0 1 1 -1h2a1 1 0 0 1 1 1l2 6h-2v4' /></svg>")}
+        .ti-gift{--ti:url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='%23000' stroke-width='2' stroke-linecap='round' stroke-linejoin='round' ><path stroke='none' d='M0 0h24v24H0z' fill='none' /><path d='M3 9a1 1 0 0 1 1 -1h16a1 1 0 0 1 1 1v2a1 1 0 0 1 -1 1h-16a1 1 0 0 1 -1 -1l0 -2' /><path d='M12 8l0 13' /><path d='M19 12v7a2 2 0 0 1 -2 2h-10a2 2 0 0 1 -2 -2v-7' /><path d='M7.5 8a2.5 2.5 0 0 1 0 -5a4.8 8 0 0 1 4.5 5a4.8 8 0 0 1 4.5 -5a2.5 2.5 0 0 1 0 5' /></svg>")}
+        .ti-heart-handshake{--ti:url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='%23000' stroke-width='2' stroke-linecap='round' stroke-linejoin='round' ><path stroke='none' d='M0 0h24v24H0z' fill='none' /><path d='M19.5 12.572l-7.5 7.428l-7.5 -7.428a5 5 0 1 1 7.5 -6.566a5 5 0 1 1 7.5 6.572' /><path d='M12 6l-3.293 3.293a1 1 0 0 0 0 1.414l.543 .543c.69 .69 1.81 .69 2.5 0l1 -1a3.182 3.182 0 0 1 4.5 0l2.25 2.25' /><path d='M12.5 15.5l2 2' /><path d='M15 13l2 2' /></svg>")}
+        .ti-home-heart{--ti:url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='%23000' stroke-width='2' stroke-linecap='round' stroke-linejoin='round' ><path stroke='none' d='M0 0h24v24H0z' fill='none' /><path d='M21 12l-9 -9l-9 9h2v7a2 2 0 0 0 2 2h6' /><path d='M9 21v-6a2 2 0 0 1 2 -2h2c.39 0 .754 .112 1.061 .304' /><path d='M19 21.5l2.518 -2.58a1.74 1.74 0 0 0 0 -2.413a1.627 1.627 0 0 0 -2.346 0l-.168 .172l-.168 -.172a1.627 1.627 0 0 0 -2.346 0a1.74 1.74 0 0 0 0 2.412l2.51 2.59l0 -.009' /></svg>")}
+        .ti-music{--ti:url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='%23000' stroke-width='2' stroke-linecap='round' stroke-linejoin='round' ><path stroke='none' d='M0 0h24v24H0z' fill='none' /><path d='M3 17a3 3 0 1 0 6 0a3 3 0 0 0 -6 0' /><path d='M13 17a3 3 0 1 0 6 0a3 3 0 0 0 -6 0' /><path d='M9 17v-13h10v13' /><path d='M9 8h10' /></svg>")}
+        .ti-palette{--ti:url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='%23000' stroke-width='2' stroke-linecap='round' stroke-linejoin='round' ><path stroke='none' d='M0 0h24v24H0z' fill='none' /><path d='M12 21a9 9 0 0 1 0 -18c4.97 0 9 3.582 9 8c0 1.06 -.474 2.078 -1.318 2.828c-.844 .75 -1.989 1.172 -3.182 1.172h-2.5a2 2 0 0 0 -1 3.75a1.3 1.3 0 0 1 -1 2.25' /><path d='M7.5 10.5a1 1 0 1 0 2 0a1 1 0 1 0 -2 0' /><path d='M11.5 7.5a1 1 0 1 0 2 0a1 1 0 1 0 -2 0' /><path d='M15.5 10.5a1 1 0 1 0 2 0a1 1 0 1 0 -2 0' /></svg>")}
+        .ti-run{--ti:url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='%23000' stroke-width='2' stroke-linecap='round' stroke-linejoin='round' ><path stroke='none' d='M0 0h24v24H0z' fill='none' /><path d='M11.007 5a2 2 0 1 0 4 0a2 2 0 1 0 -4 0' /><path d='M4 17l5 1l.75 -1.5' /><path d='M15 21v-4l-4 -3l1 -6' /><path d='M7 12v-3l5 -1l3 3l3 1' /></svg>")}
+        .ti-shopping-bag{--ti:url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='%23000' stroke-width='2' stroke-linecap='round' stroke-linejoin='round' ><path stroke='none' d='M0 0h24v24H0z' fill='none' /><path d='M6.331 8h11.339a2 2 0 0 1 1.977 2.304l-1.255 8.152a3 3 0 0 1 -2.966 2.544h-6.852a3 3 0 0 1 -2.965 -2.544l-1.255 -8.152a2 2 0 0 1 1.977 -2.304' /><path d='M9 11v-5a3 3 0 0 1 6 0v5' /></svg>")}
+        .ti-users{--ti:url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='%23000' stroke-width='2' stroke-linecap='round' stroke-linejoin='round' ><path stroke='none' d='M0 0h24v24H0z' fill='none' /><path d='M5 7a4 4 0 1 0 8 0a4 4 0 1 0 -8 0' /><path d='M3 21v-2a4 4 0 0 1 4 -4h4a4 4 0 0 1 4 4v2' /><path d='M16 3.13a4 4 0 0 1 0 7.75' /><path d='M21 21v-2a4 4 0 0 0 -3 -3.85' /></svg>")}
+    </style>
 
     <style>
         :root {
@@ -826,6 +873,10 @@
         </button>
     </div>
 </div>
+
+<!-- Markdown и санитизация HTML для ответов (локальные копии marked 16 и DOMPurify 3) -->
+<script src="vendor/marked.min.js"></script>
+<script src="vendor/purify.min.js"></script>
 
 <!-- Подключаем контент тем и стих дня -->
 <script src="topics.js"></script>

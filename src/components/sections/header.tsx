@@ -3,6 +3,7 @@ import { AnimatePresence, motion } from "motion/react"
 import { Menu, X } from "lucide-react"
 import { nav } from "@/content/site"
 import { cn } from "@/lib/utils"
+import { BLAGOVEST_HREF, blagovestLinkProps } from "@/lib/prefetch-blagovest"
 
 export function Header() {
   const [scrolled, setScrolled] = useState(false)
@@ -37,6 +38,7 @@ export function Header() {
             <a
               key={item.href}
               href={item.href}
+              {...(item.href === BLAGOVEST_HREF ? blagovestLinkProps : {})}
               className={cn(
                 "text-sm font-medium uppercase tracking-wider transition-colors",
                 scrolled
@@ -76,6 +78,7 @@ export function Header() {
                 <a
                   key={item.href}
                   href={item.href}
+                  {...(item.href === BLAGOVEST_HREF ? blagovestLinkProps : {})}
                   onClick={() => setOpen(false)}
                   className="rounded-lg px-3 py-3 text-base font-medium text-ink-soft transition-colors hover:bg-paper-dim hover:text-gold-dim"
                 >
