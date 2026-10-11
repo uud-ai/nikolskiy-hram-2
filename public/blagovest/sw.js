@@ -22,7 +22,7 @@
 //
 // При выпуске новой версии index.html/topics.js/verses_of_day.js —
 // поменяй CACHE_NAME, иначе старый кэш переживёт деплой.
-const CACHE_NAME = 'blagovest-v3';
+const CACHE_NAME = 'blagovest-v4';
 const APP_SHELL = ['./', './index.html', './topics.js', './verses_of_day.js',
     './vendor/marked.min.js', './vendor/purify.min.js'];
 
