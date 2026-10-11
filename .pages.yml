@@ -1,0 +1,38 @@
+# Настройки админки Pages CMS (https://app.pagescms.org) — редактор новостей.
+# Подробнее — в README.md, раздел «Новости».
+media:
+  input: public/images/news
+  output: /images/news
+  categories: [image]
+
+content:
+  - name: news
+    label: Новости
+    type: collection
+    path: src/content/news
+    format: yaml-frontmatter
+    filename: "{year}-{month}-{day}-{hour}{minute}.md"
+    exclude: [README.md]
+    view:
+      primary: title
+      fields: [title, date]
+      sort: date
+      order: desc
+    fields:
+      - name: title
+        label: Заголовок
+        type: string
+        required: true
+      - name: date
+        label: Дата
+        type: date
+        required: true
+        options:
+          format: yyyy-MM-dd
+      - name: image
+        label: Фотография (необязательно)
+        type: image
+      - name: body
+        label: Текст новости
+        type: text
+        description: Абзацы разделяйте пустой строкой.
