@@ -96,6 +96,7 @@ api.patriarchia.ru — и сам перезапускает публикацию
 Тексты служб на каждый день. Это готовая сборка из репозитория
 `uud-ai/kliros-app`: чтобы обновить, соберите тот проект и замените содержимое
 `public/kliros/` результатом сборки. Исходный код здесь не правится.
+Замечания по Клиросу и план работ — в `ROADMAP.md` репозитория `uud-ai/kliros-app`.
 
 ## Скрипты на Python
 
@@ -103,3 +104,13 @@ api.patriarchia.ru — и сам перезапускает публикацию
 pip install -r church-calendar/requirements.txt
 python church-calendar/build_calendar_names.py --from 2026-12-01 --to 2027-02-28 --out public/calendar-names.json
 ```
+
+## Что осталось сделать
+
+- **Расписание после 27 декабря 2026 г.** — в `src/content/schedule-data.ts` пока нет служб позже этой даты; нужно внести расписание.
+- **Старая админка — удалить вручную.** Код старой админки уже удалён, но остались:
+  - OAuth-приложение GitHub (github.com/settings/developers → OAuth Apps → Delete application);
+  - проект `nikolskiy-hram-oauth` на Vercel (Settings → Delete Project).
+
+  Из рабочей среды Claude сделать это нельзя.
+- **Ветка `feature/news-n8n`** (новости через n8n) не слита и оставлена как есть: она меняет тот же блок новостей, что сейчас работает через Pages CMS.
