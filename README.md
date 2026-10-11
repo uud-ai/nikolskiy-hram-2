@@ -107,7 +107,7 @@ python church-calendar/build_calendar_names.py --from 2026-12-01 --to 2027-02-28
 
 ## Что осталось сделать
 
-- **Расписание после 27 декабря 2026 г.** — в `src/content/schedule-data.ts` пока нет служб позже этой даты; нужно внести расписание.
+- **Расписание** в `src/content/schedule-data.ts` внесено по 28 ноября 2027 г. по общему правилу (см. комментарий в начале файла); время ночных служб (Рождество, Пасха) и беседы перед Крещением после 27.12.2026 уточнить и при необходимости поправить вручную.
 - **Старая админка — удалить вручную.** Код старой админки уже удалён, но остались:
   - OAuth-приложение GitHub (github.com/settings/developers → OAuth Apps → Delete application);
   - проект `nikolskiy-hram-oauth` на Vercel (Settings → Delete Project).
