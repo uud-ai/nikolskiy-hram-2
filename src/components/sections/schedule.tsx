@@ -1,4 +1,4 @@
-import { useState } from "react"
+import { useRef, useState } from "react"
 import { Clock } from "lucide-react"
 import { Reveal } from "@/components/ui/reveal"
 import { Button } from "@/components/ui/button"
@@ -9,16 +9,23 @@ import { telHref } from "@/lib/utils"
 import { dayTitle, useCalendarNames } from "@/lib/calendar-names"
 
 const INITIAL_COUNT = 2
+const STEP = 2 // сколько служб добавляет «Показать ещё»
 
 export function Schedule() {
-  const [expanded, setExpanded] = useState(false)
+  const [count, setCount] = useState(INITIAL_COUNT)
+  const blockRef = useRef<HTMLHeadingElement>(null)
   const calendarNames = useCalendarNames()
 
   // chisle: local calendar date, not UTC — toISOString() rolls over 9h early at UTC+9
   const [todayIso] = useState(() => new Date().toLocaleDateString("en-CA"))
   const upcoming = scheduleData.filter((day) => day.date >= todayIso)
 
-  const visible = expanded ? upcoming : upcoming.slice(0, INITIAL_COUNT)
+  const visible = upcoming.slice(0, count)
+
+  const collapse = () => {
+    setCount(INITIAL_COUNT)
+    blockRef.current?.scrollIntoView({ behavior: "smooth", block: "start" })
+  }
 
   return (
     <section id="schedule" className="pt-12 pb-24 sm:pt-16 sm:pb-32">
@@ -36,7 +43,7 @@ export function Schedule() {
           <ChurchCalendar />
 
           <Reveal delay={0.1} className="flex h-full flex-col rounded-2xl border border-line bg-card p-7">
-            <h3 className="font-serif text-2xl text-ink">Ближайшие богослужения</h3>
+            <h3 ref={blockRef} className="scroll-mt-28 font-serif text-2xl text-ink">Ближайшие богослужения</h3>
 
             {visible.length === 0 ? (
               <p className="mt-6 text-sm text-ink-faint">Ближайшие службы уточняются.</p>
@@ -87,11 +94,18 @@ export function Schedule() {
               </ul>
             )}
 
-            {!expanded && upcoming.length > INITIAL_COUNT && (
-              <div className="mt-6 text-center">
-                <Button variant="outline" size="sm" onClick={() => setExpanded(true)}>
-                  Показать ещё →
-                </Button>
+            {(count < upcoming.length || count > INITIAL_COUNT) && (
+              <div className="mt-6 flex flex-wrap justify-center gap-3">
+                {count < upcoming.length && (
+                  <Button variant="outline" size="sm" onClick={() => setCount((c) => c + STEP)}>
+                    Показать ещё →
+                  </Button>
+                )}
+                {count > INITIAL_COUNT && (
+                  <Button variant="outline" size="sm" onClick={collapse}>
+                    Свернуть ↑
+                  </Button>
+                )}
               </div>
             )}
 
