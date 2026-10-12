@@ -1,5 +1,5 @@
 import { useRef } from "react"
-import { motion, useMotionValue, useSpring } from "motion/react"
+import { m, useMotionValue, useSpring } from "motion/react"
 import { ChevronDown } from "lucide-react"
 
 export function Hero() {
@@ -23,25 +23,27 @@ export function Hero() {
       onPointerMove={handlePointerMove}
       className="relative flex min-h-[100svh] items-center justify-center overflow-hidden bg-ink"
     >
-      <motion.div
+      <m.div
         className="absolute inset-0"
         initial={{ scale: 1.12 }}
         animate={{ scale: 1 }}
         transition={{ duration: 8, ease: [0.16, 1, 0.3, 1] }}
       >
         <img
-          src="/images/hero-church.jpg"
+          src="/images/hero-church.webp"
+          srcSet="/images/hero-church-800.webp 800w, /images/hero-church.webp 1600w"
+          sizes="100vw"
           alt="Храм святителя Николая Чудотворца в поселке Усть-Карск"
           width={1600}
           height={1205}
           fetchPriority="high"
           className="h-full w-full object-cover"
         />
-      </motion.div>
+      </m.div>
 
       <div className="absolute inset-0 bg-gradient-to-b from-ink/70 via-ink/35 to-ink/80" />
 
-      <motion.div
+      <m.div
         aria-hidden
         className="pointer-events-none absolute size-[55vmax] -translate-x-1/2 -translate-y-1/2 rounded-full opacity-80 mix-blend-soft-light blur-3xl"
         style={{
@@ -53,7 +55,7 @@ export function Hero() {
       />
 
       <div className="relative z-10 mx-auto max-w-4xl px-6 text-center">
-        <motion.h1
+        <m.h1
           initial={{ opacity: 0, y: 24 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.9, delay: 0.5, ease: [0.16, 1, 0.3, 1] }}
@@ -61,9 +63,9 @@ export function Hero() {
         >
           Церковь Николая Чудотворца
           <br />в Усть-Карске
-        </motion.h1>
+        </m.h1>
 
-        <motion.div
+        <m.div
           initial={{ opacity: 0, scaleX: 0 }}
           animate={{ opacity: 1, scaleX: 1 }}
           transition={{ duration: 0.8, delay: 0.9, ease: [0.16, 1, 0.3, 1] }}
@@ -72,7 +74,7 @@ export function Hero() {
 
       </div>
 
-      <motion.a
+      <m.a
         href="#about"
         aria-label="Пролистать к разделу «О храме»"
         initial={{ opacity: 0 }}
@@ -84,7 +86,7 @@ export function Hero() {
         className="absolute bottom-8 left-1/2 z-10 -translate-x-1/2 text-white/80 transition-colors hover:text-gold-glow"
       >
         <ChevronDown className="size-7" />
-      </motion.a>
+      </m.a>
     </section>
   )
 }

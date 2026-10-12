@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react"
-import { AnimatePresence, motion } from "motion/react"
+import { AnimatePresence, m } from "motion/react"
 import { Menu, X } from "lucide-react"
 import { nav } from "@/content/site"
 import { cn } from "@/lib/utils"
@@ -66,7 +66,7 @@ export function Header() {
 
       <AnimatePresence>
         {open && (
-          <motion.nav
+          <m.nav
             initial={{ opacity: 0, height: 0 }}
             animate={{ opacity: 1, height: "auto" }}
             exit={{ opacity: 0, height: 0 }}
@@ -86,7 +86,7 @@ export function Header() {
                 </a>
               ))}
             </div>
-          </motion.nav>
+          </m.nav>
         )}
       </AnimatePresence>
     </header>
