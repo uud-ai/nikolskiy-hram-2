@@ -1,4 +1,5 @@
-import { useEffect, useState } from "react"
+import { useState } from "react"
+import { useCalendarNames } from "@/lib/calendar-names"
 import { Reveal } from "@/components/ui/reveal"
 import { MONTHS_GENITIVE as months } from "@/lib/utils"
 
@@ -8,10 +9,7 @@ const weekdays = [
 ]
 
 export function ChurchCalendar() {
-  const [feasts, setFeasts] = useState<string[] | null>(null)
-  const [failed, setFailed] = useState(false)
-
-  const now = new Date()
+  const [now] = useState(() => new Date())
   const dayNew = now.getDate()
   const monthNew = months[now.getMonth()]
 
@@ -20,22 +18,11 @@ export function ChurchCalendar() {
   const dayOld = oldDate.getDate()
   const monthOld = months[oldDate.getMonth()]
 
-  useEffect(() => {
-    const pad = (n: number) => String(n).padStart(2, "0")
-    const todayKey = `${now.getFullYear()}-${pad(now.getMonth() + 1)}-${pad(now.getDate())}`
-
-    fetch("/calendar-names.json")
-      .then((res) => {
-        if (!res.ok) throw new Error(String(res.status))
-        return res.json()
-      })
-      .then((data: Record<string, string[]>) => {
-        const names = data[todayKey]
-        setFeasts(Array.isArray(names) && names.length ? names : [])
-      })
-      .catch(() => setFailed(true))
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [])
+  const pad = (n: number) => String(n).padStart(2, "0")
+  const todayKey = `${now.getFullYear()}-${pad(now.getMonth() + 1)}-${pad(now.getDate())}`
+  const calendar = useCalendarNames()
+  const failed = calendar === false
+  const feasts = calendar ? calendar[todayKey] ?? [] : null
 
   return (
     <Reveal className="flex h-full flex-col rounded-2xl border border-line bg-card p-7">

@@ -23,8 +23,8 @@
 // topics.js и verses_of_day.js доходит до посетителей сразу после деплоя,
 // даже если CACHE_NAME забыли поменять. Шрифты не меняются — их отдаём из
 // кэша (cache-first). CACHE_NAME стоит менять, чтобы почистить старый кэш.
-const CACHE_NAME = 'blagovest-v5';
-const APP_SHELL = ['./', './index.html', './topics.js', './verses_of_day.js',
+const CACHE_NAME = 'blagovest-v6';
+const APP_SHELL = ['./', './index.html', './topics.js', './verses_of_day.js', './app.js',
     './vendor/marked.min.js', './vendor/purify.min.js'];
 
 self.addEventListener('install', (event) => {

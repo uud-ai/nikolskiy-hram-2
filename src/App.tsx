@@ -1,3 +1,4 @@
+import { LazyMotion, domAnimation } from "motion/react"
 import { Header } from "@/components/sections/header"
 import { Hero } from "@/components/sections/hero"
 import { About } from "@/components/sections/about"
@@ -12,8 +13,10 @@ import { Footer } from "@/components/sections/footer"
 import { MobileCallButton } from "@/components/sections/mobile-call-button"
 
 function App() {
+  // LazyMotion + m.* вместо motion.*: в бандл попадают только нужные
+  // анимации (появление, hover, exit), а не вся библиотека.
   return (
-    <>
+    <LazyMotion features={domAnimation} strict>
       <Header />
       <main>
         <Hero />
@@ -28,7 +31,7 @@ function App() {
       </main>
       <Footer />
       <MobileCallButton />
-    </>
+    </LazyMotion>
   )
 }
 

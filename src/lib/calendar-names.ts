@@ -22,14 +22,14 @@ function loadCalendarNames(): Promise<CalendarNames> {
   return cache
 }
 
-// null — ещё загружается или не удалось загрузить.
-export function useCalendarNames(): CalendarNames | null {
-  const [names, setNames] = useState<CalendarNames | null>(null)
+// null — ещё загружается, false — не удалось загрузить.
+export function useCalendarNames(): CalendarNames | null | false {
+  const [names, setNames] = useState<CalendarNames | null | false>(null)
   useEffect(() => {
     let alive = true
     loadCalendarNames()
       .then((data) => alive && setNames(data))
-      .catch(() => alive && setNames(null))
+      .catch(() => alive && setNames(false))
     return () => {
       alive = false
     }

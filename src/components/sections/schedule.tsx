@@ -68,7 +68,7 @@ export function Schedule() {
                         </span>
                       </div>
                       {(() => {
-                        const feast = dayTitle(calendarNames?.[day.date])
+                        const feast = dayTitle(calendarNames ? calendarNames[day.date] : undefined)
                         return feast ? (
                           <p className="mt-1 line-clamp-2 text-sm leading-snug text-gold-dim" title={feast}>
                             {feast}

@@ -7,6 +7,7 @@ const BLAGOVEST_PREFETCH = [
   "/blagovest/",
   "/blagovest/topics.js",
   "/blagovest/verses_of_day.js",
+  "/blagovest/app.js",
   "/blagovest/vendor/marked.min.js",
   "/blagovest/vendor/purify.min.js",
 ]

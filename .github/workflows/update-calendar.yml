@@ -40,6 +40,17 @@ jobs:
           # Код 2 = часть дней не загрузилась; остальные дни уже записаны в файл,
           # поэтому такой результат сохраняем, а следующий запуск дозагрузит пропуски.
           python church-calendar/build_calendar_names.py --from "$FROM" --to "$TO" --out public/calendar-names.json || [ $? -eq 2 ]
+          # Прошедшие дни сайту не нужны — храним только последнюю неделю и
+          # вперёд, чтобы файл, который грузит каждая страница, не рос весь год.
+          python - <<'PY'
+          import json, datetime
+          p = "public/calendar-names.json"
+          keep_from = (datetime.date.today() - datetime.timedelta(days=7)).isoformat()
+          data = json.load(open(p, encoding="utf-8"))
+          data = {k: v for k, v in sorted(data.items()) if k >= keep_from}
+          json.dump(data, open(p, "w", encoding="utf-8"), ensure_ascii=False, indent=2)
+          open(p, "a", encoding="utf-8").write("\n")
+          PY
 
       - name: Commit and push if changed
         id: commit

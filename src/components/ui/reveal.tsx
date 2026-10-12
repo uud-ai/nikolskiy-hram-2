@@ -1,5 +1,5 @@
 import * as React from "react"
-import { motion, type Variants } from "motion/react"
+import { m, type Variants } from "motion/react"
 import { cn } from "@/lib/utils"
 
 const variants: Variants = {
@@ -11,13 +11,13 @@ const variants: Variants = {
   },
 }
 
-interface RevealProps extends React.ComponentProps<typeof motion.div> {
+interface RevealProps extends React.ComponentProps<typeof m.div> {
   delay?: number
 }
 
 export function Reveal({ className, delay = 0, children, ...props }: RevealProps) {
   return (
-    <motion.div
+    <m.div
       initial="hidden"
       whileInView="visible"
       viewport={{ once: true, margin: "-80px" }}
@@ -27,6 +27,6 @@ export function Reveal({ className, delay = 0, children, ...props }: RevealProps
       {...props}
     >
       {children}
-    </motion.div>
+    </m.div>
   )
 }
