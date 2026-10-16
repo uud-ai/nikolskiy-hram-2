@@ -341,11 +341,25 @@
                 "only_if": "oktoih.canon_cross_ode1_tropar_3"
               },
               {
+                "type": "tropar",
+                "label": "Тропарь (первый канон Октоиха)",
+                "text": "{{oktoih.canon_cross_ode1_tropar_4}}",
+                "fallback": "",
+                "only_if": "oktoih.canon_cross_ode1_tropar_4"
+              },
+              {
                 "type": "bogorodichen",
                 "label": "Богородичен (первый канон Октоиха)",
                 "text": "{{oktoih.canon_cross_ode1_bogorodichen}}",
                 "fallback": "",
                 "only_if": "oktoih.canon_cross_ode1_bogorodichen"
+              },
+              {
+                "type": "irmos",
+                "label": "Ирмос (второй канон Октоиха)",
+                "text": "{{oktoih.canon_theotokos_ode1_irmos}}",
+                "fallback": "",
+                "only_if": "oktoih.canon_theotokos_ode1_irmos"
               },
               {
                 "type": "refrain_heading",
@@ -377,6 +391,13 @@
                 "text": "{{oktoih.canon_theotokos_ode1_tropar_3}}",
                 "fallback": "",
                 "only_if": "oktoih.canon_theotokos_ode1_tropar_3"
+              },
+              {
+                "type": "tropar",
+                "label": "Тропарь (второй канон Октоиха)",
+                "text": "{{oktoih.canon_theotokos_ode1_tropar_4}}",
+                "fallback": "",
+                "only_if": "oktoih.canon_theotokos_ode1_tropar_4"
               },
               {
                 "type": "bogorodichen",
@@ -498,11 +519,25 @@
                 "only_if": "oktoih.canon_cross_ode3_tropar_3"
               },
               {
+                "type": "tropar",
+                "label": "Тропарь (первый канон Октоиха)",
+                "text": "{{oktoih.canon_cross_ode3_tropar_4}}",
+                "fallback": "",
+                "only_if": "oktoih.canon_cross_ode3_tropar_4"
+              },
+              {
                 "type": "bogorodichen",
                 "label": "Богородичен (первый канон Октоиха)",
                 "text": "{{oktoih.canon_cross_ode3_bogorodichen}}",
                 "fallback": "",
                 "only_if": "oktoih.canon_cross_ode3_bogorodichen"
+              },
+              {
+                "type": "irmos",
+                "label": "Ирмос (второй канон Октоиха)",
+                "text": "{{oktoih.canon_theotokos_ode3_irmos}}",
+                "fallback": "",
+                "only_if": "oktoih.canon_theotokos_ode3_irmos"
               },
               {
                 "type": "refrain_heading",
@@ -534,6 +569,13 @@
                 "text": "{{oktoih.canon_theotokos_ode3_tropar_3}}",
                 "fallback": "",
                 "only_if": "oktoih.canon_theotokos_ode3_tropar_3"
+              },
+              {
+                "type": "tropar",
+                "label": "Тропарь (второй канон Октоиха)",
+                "text": "{{oktoih.canon_theotokos_ode3_tropar_4}}",
+                "fallback": "",
+                "only_if": "oktoih.canon_theotokos_ode3_tropar_4"
               },
               {
                 "type": "bogorodichen",
@@ -723,11 +765,25 @@
                 "only_if": "oktoih.canon_cross_ode4_tropar_3"
               },
               {
+                "type": "tropar",
+                "label": "Тропарь (первый канон Октоиха)",
+                "text": "{{oktoih.canon_cross_ode4_tropar_4}}",
+                "fallback": "",
+                "only_if": "oktoih.canon_cross_ode4_tropar_4"
+              },
+              {
                 "type": "bogorodichen",
                 "label": "Богородичен (первый канон Октоиха)",
                 "text": "{{oktoih.canon_cross_ode4_bogorodichen}}",
                 "fallback": "",
                 "only_if": "oktoih.canon_cross_ode4_bogorodichen"
+              },
+              {
+                "type": "irmos",
+                "label": "Ирмос (второй канон Октоиха)",
+                "text": "{{oktoih.canon_theotokos_ode4_irmos}}",
+                "fallback": "",
+                "only_if": "oktoih.canon_theotokos_ode4_irmos"
               },
               {
                 "type": "refrain_heading",
@@ -759,6 +815,13 @@
                 "text": "{{oktoih.canon_theotokos_ode4_tropar_3}}",
                 "fallback": "",
                 "only_if": "oktoih.canon_theotokos_ode4_tropar_3"
+              },
+              {
+                "type": "tropar",
+                "label": "Тропарь (второй канон Октоиха)",
+                "text": "{{oktoih.canon_theotokos_ode4_tropar_4}}",
+                "fallback": "",
+                "only_if": "oktoih.canon_theotokos_ode4_tropar_4"
               },
               {
                 "type": "bogorodichen",
@@ -880,11 +943,25 @@
                 "only_if": "oktoih.canon_cross_ode5_tropar_3"
               },
               {
+                "type": "tropar",
+                "label": "Тропарь (первый канон Октоиха)",
+                "text": "{{oktoih.canon_cross_ode5_tropar_4}}",
+                "fallback": "",
+                "only_if": "oktoih.canon_cross_ode5_tropar_4"
+              },
+              {
                 "type": "bogorodichen",
                 "label": "Богородичен (первый канон Октоиха)",
                 "text": "{{oktoih.canon_cross_ode5_bogorodichen}}",
                 "fallback": "",
                 "only_if": "oktoih.canon_cross_ode5_bogorodichen"
+              },
+              {
+                "type": "irmos",
+                "label": "Ирмос (второй канон Октоиха)",
+                "text": "{{oktoih.canon_theotokos_ode5_irmos}}",
+                "fallback": "",
+                "only_if": "oktoih.canon_theotokos_ode5_irmos"
               },
               {
                 "type": "refrain_heading",
@@ -916,6 +993,13 @@
                 "text": "{{oktoih.canon_theotokos_ode5_tropar_3}}",
                 "fallback": "",
                 "only_if": "oktoih.canon_theotokos_ode5_tropar_3"
+              },
+              {
+                "type": "tropar",
+                "label": "Тропарь (второй канон Октоиха)",
+                "text": "{{oktoih.canon_theotokos_ode5_tropar_4}}",
+                "fallback": "",
+                "only_if": "oktoih.canon_theotokos_ode5_tropar_4"
               },
               {
                 "type": "bogorodichen",
@@ -1037,11 +1121,25 @@
                 "only_if": "oktoih.canon_cross_ode6_tropar_3"
               },
               {
+                "type": "tropar",
+                "label": "Тропарь (первый канон Октоиха)",
+                "text": "{{oktoih.canon_cross_ode6_tropar_4}}",
+                "fallback": "",
+                "only_if": "oktoih.canon_cross_ode6_tropar_4"
+              },
+              {
                 "type": "bogorodichen",
                 "label": "Богородичен (первый канон Октоиха)",
                 "text": "{{oktoih.canon_cross_ode6_bogorodichen}}",
                 "fallback": "",
                 "only_if": "oktoih.canon_cross_ode6_bogorodichen"
+              },
+              {
+                "type": "irmos",
+                "label": "Ирмос (второй канон Октоиха)",
+                "text": "{{oktoih.canon_theotokos_ode6_irmos}}",
+                "fallback": "",
+                "only_if": "oktoih.canon_theotokos_ode6_irmos"
               },
               {
                 "type": "refrain_heading",
@@ -1073,6 +1171,13 @@
                 "text": "{{oktoih.canon_theotokos_ode6_tropar_3}}",
                 "fallback": "",
                 "only_if": "oktoih.canon_theotokos_ode6_tropar_3"
+              },
+              {
+                "type": "tropar",
+                "label": "Тропарь (второй канон Октоиха)",
+                "text": "{{oktoih.canon_theotokos_ode6_tropar_4}}",
+                "fallback": "",
+                "only_if": "oktoih.canon_theotokos_ode6_tropar_4"
               },
               {
                 "type": "bogorodichen",
@@ -1238,11 +1343,25 @@
                 "only_if": "oktoih.canon_cross_ode7_tropar_3"
               },
               {
+                "type": "tropar",
+                "label": "Тропарь (первый канон Октоиха)",
+                "text": "{{oktoih.canon_cross_ode7_tropar_4}}",
+                "fallback": "",
+                "only_if": "oktoih.canon_cross_ode7_tropar_4"
+              },
+              {
                 "type": "bogorodichen",
                 "label": "Богородичен (первый канон Октоиха)",
                 "text": "{{oktoih.canon_cross_ode7_bogorodichen}}",
                 "fallback": "",
                 "only_if": "oktoih.canon_cross_ode7_bogorodichen"
+              },
+              {
+                "type": "irmos",
+                "label": "Ирмос (второй канон Октоиха)",
+                "text": "{{oktoih.canon_theotokos_ode7_irmos}}",
+                "fallback": "",
+                "only_if": "oktoih.canon_theotokos_ode7_irmos"
               },
               {
                 "type": "refrain_heading",
@@ -1274,6 +1393,13 @@
                 "text": "{{oktoih.canon_theotokos_ode7_tropar_3}}",
                 "fallback": "",
                 "only_if": "oktoih.canon_theotokos_ode7_tropar_3"
+              },
+              {
+                "type": "tropar",
+                "label": "Тропарь (второй канон Октоиха)",
+                "text": "{{oktoih.canon_theotokos_ode7_tropar_4}}",
+                "fallback": "",
+                "only_if": "oktoih.canon_theotokos_ode7_tropar_4"
               },
               {
                 "type": "bogorodichen",
@@ -1395,11 +1521,25 @@
                 "only_if": "oktoih.canon_cross_ode8_tropar_3"
               },
               {
+                "type": "tropar",
+                "label": "Тропарь (первый канон Октоиха)",
+                "text": "{{oktoih.canon_cross_ode8_tropar_4}}",
+                "fallback": "",
+                "only_if": "oktoih.canon_cross_ode8_tropar_4"
+              },
+              {
                 "type": "bogorodichen",
                 "label": "Богородичен (первый канон Октоиха)",
                 "text": "{{oktoih.canon_cross_ode8_bogorodichen}}",
                 "fallback": "",
                 "only_if": "oktoih.canon_cross_ode8_bogorodichen"
+              },
+              {
+                "type": "irmos",
+                "label": "Ирмос (второй канон Октоиха)",
+                "text": "{{oktoih.canon_theotokos_ode8_irmos}}",
+                "fallback": "",
+                "only_if": "oktoih.canon_theotokos_ode8_irmos"
               },
               {
                 "type": "refrain_heading",
@@ -1431,6 +1571,13 @@
                 "text": "{{oktoih.canon_theotokos_ode8_tropar_3}}",
                 "fallback": "",
                 "only_if": "oktoih.canon_theotokos_ode8_tropar_3"
+              },
+              {
+                "type": "tropar",
+                "label": "Тропарь (второй канон Октоиха)",
+                "text": "{{oktoih.canon_theotokos_ode8_tropar_4}}",
+                "fallback": "",
+                "only_if": "oktoih.canon_theotokos_ode8_tropar_4"
               },
               {
                 "type": "bogorodichen",
@@ -1616,11 +1763,25 @@
                 "only_if": "oktoih.canon_cross_ode9_tropar_3"
               },
               {
+                "type": "tropar",
+                "label": "Тропарь (первый канон Октоиха)",
+                "text": "{{oktoih.canon_cross_ode9_tropar_4}}",
+                "fallback": "",
+                "only_if": "oktoih.canon_cross_ode9_tropar_4"
+              },
+              {
                 "type": "bogorodichen",
                 "label": "Богородичен (первый канон Октоиха)",
                 "text": "{{oktoih.canon_cross_ode9_bogorodichen}}",
                 "fallback": "",
                 "only_if": "oktoih.canon_cross_ode9_bogorodichen"
+              },
+              {
+                "type": "irmos",
+                "label": "Ирмос (второй канон Октоиха)",
+                "text": "{{oktoih.canon_theotokos_ode9_irmos}}",
+                "fallback": "",
+                "only_if": "oktoih.canon_theotokos_ode9_irmos"
               },
               {
                 "type": "refrain_heading",
@@ -1652,6 +1813,13 @@
                 "text": "{{oktoih.canon_theotokos_ode9_tropar_3}}",
                 "fallback": "",
                 "only_if": "oktoih.canon_theotokos_ode9_tropar_3"
+              },
+              {
+                "type": "tropar",
+                "label": "Тропарь (второй канон Октоиха)",
+                "text": "{{oktoih.canon_theotokos_ode9_tropar_4}}",
+                "fallback": "",
+                "only_if": "oktoih.canon_theotokos_ode9_tropar_4"
               },
               {
                 "type": "bogorodichen",
@@ -1753,8 +1921,11 @@
     },
     {
       "section": "Светилен",
-      "role": "Предуведомление",
-      "text": "Свети́лен Окто́иха дне; «Сла́ва» — свети́лен свято́му (е́сли есть), «И ны́не» — Богоро́дичен."
+      "role": "Светилен дне",
+      "text": "{{oktoih.svetilen}}",
+      "variable_type": "oktoih",
+      "variable_key": "svetilen",
+      "fallback": "Свети́лен Окто́иха дне (текст будет добавлен)."
     },
     {
       "section": "Светилен",
@@ -1774,8 +1945,15 @@
     {
       "section": "Светилен",
       "role": "Лик",
-      "text": "И ны́не и при́сно, и во ве́ки веко́в. Ами́нь.",
-      "only_if": "minea.svetilen"
+      "text": "И ны́не и при́сно, и во ве́ки веко́в. Ами́нь."
+    },
+    {
+      "section": "Светилен",
+      "role": "Богородичен светильна",
+      "text": "{{oktoih.svetilen_bogorodichen}}",
+      "variable_type": "oktoih",
+      "variable_key": "svetilen_bogorodichen",
+      "fallback": "Богоро́дичен свети́льна (текст будет добавлен)."
     },
     {
       "section": "Хвалитные псалмы",
