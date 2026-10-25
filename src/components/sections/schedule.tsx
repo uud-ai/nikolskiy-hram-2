@@ -4,7 +4,7 @@ import { Reveal } from "@/components/ui/reveal"
 import { Button } from "@/components/ui/button"
 import { ChurchCalendar } from "@/components/sections/church-calendar"
 import { siteMeta } from "@/content/site"
-import { scheduleData } from "@/content/schedule-data"
+import { upcomingSchedule } from "@/lib/schedule"
 import { telHref } from "@/lib/utils"
 import { dayTitle, useCalendarNames } from "@/lib/calendar-names"
 
@@ -16,9 +16,9 @@ export function Schedule() {
   const blockRef = useRef<HTMLHeadingElement>(null)
   const calendarNames = useCalendarNames()
 
-  // chisle: local calendar date, not UTC — toISOString() rolls over 9h early at UTC+9
-  const [todayIso] = useState(() => new Date().toLocaleDateString("en-CA"))
-  const upcoming = scheduleData.filter((day) => day.date >= todayIso)
+  // Расписание рассчитывается по правилам (src/content/schedule-rules.ts) от
+  // сегодняшней местной даты посетителя на год с небольшим вперёд.
+  const [upcoming] = useState(() => upcomingSchedule(new Date()))
 
   const visible = upcoming.slice(0, count)
 
