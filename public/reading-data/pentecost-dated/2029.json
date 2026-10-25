@@ -1,5 +1,5 @@
 {
- "_comment": "Сгенерировано tools/build_pentecost_readings.py из данных Ponomar. Ключ — дата (новый стиль). null — дня нет рядового чтения (великий праздник), блок чтений на сайте скрывается.",
+ "_comment": "Сгенерировано tools/build_pentecost_readings.py из данных Ponomar. Ключ — дата (новый стиль). null — в этот день рядового чтения нет (великий праздник), на сайте показываются только чтения праздника из feasts.json.",
  "2029-01-01": {
   "apostle": "Евр.11:17-23,27-31",
   "apostle_zachalo": 329,
@@ -392,12 +392,7 @@
   "gospel": "Мф.13:44-54",
   "gospel_zachalo": 55
  },
- "2029-07-07": {
-  "apostle": "Рим.9:1-5",
-  "apostle_zachalo": 100,
-  "gospel": "Мф.9:18-26",
-  "gospel_zachalo": 32
- },
+ "2029-07-07": null,
  "2029-07-08": {
   "apostle": "Рим.12:6-14",
   "apostle_zachalo": 110,
@@ -782,12 +777,7 @@
   "gospel": "Мк.6:54-7:8",
   "gospel_zachalo": 27
  },
- "2029-09-11": {
-  "apostle": "Гал.5:11-21",
-  "apostle_zachalo": 212,
-  "gospel": "Мк.7:5-16",
-  "gospel_zachalo": 28
- },
+ "2029-09-11": null,
  "2029-09-12": {
   "apostle": "Гал.6:2-10",
   "apostle_zachalo": 214,

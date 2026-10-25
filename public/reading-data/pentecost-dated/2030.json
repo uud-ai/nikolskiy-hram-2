@@ -1,5 +1,5 @@
 {
- "_comment": "Сгенерировано tools/build_pentecost_readings.py из данных Ponomar. Ключ — дата (новый стиль). null — дня нет рядового чтения (великий праздник), блок чтений на сайте скрывается.",
+ "_comment": "Сгенерировано tools/build_pentecost_readings.py из данных Ponomar. Ключ — дата (новый стиль). null — в этот день рядового чтения нет (великий праздник), на сайте показываются только чтения праздника из feasts.json.",
  "2030-01-01": {
   "apostle": "Иак.3:1-10",
   "apostle_zachalo": 54,
@@ -75,8 +75,7 @@
   "apostle": "2Тим.4:5-8",
   "apostle_zachalo": 298,
   "gospel": "Мк.1:1-8",
-  "gospel_zachalo": 1,
-  "note": "Также: Евр.3:5-11,17-19; Мк.12:13-17"
+  "gospel_zachalo": 1
  },
  "2030-01-15": {
   "apostle": "Евр.4:1-13",
@@ -91,8 +90,8 @@
   "gospel_zachalo": 56
  },
  "2030-01-17": {
-  "apostle": "Евр.7:1-6",
-  "apostle_zachalo": 315,
+  "apostle": "1Пет.4:12-5:5",
+  "apostle_zachalo": 62,
   "gospel": "Мк.12:38-44",
   "gospel_zachalo": 57
  },
@@ -259,12 +258,7 @@
   "gospel": "Мк.12:38-44",
   "gospel_zachalo": 57
  },
- "2030-02-15": {
-  "apostle": "2Пет.1:1-10",
-  "apostle_zachalo": 64,
-  "gospel": "Мк.13:1-8",
-  "gospel_zachalo": 58
- },
+ "2030-02-15": null,
  "2030-02-16": {
   "apostle": "2Тим.2:11-19",
   "apostle_zachalo": 293,
@@ -784,12 +778,7 @@
   "gospel": "Мк.3:13-19",
   "gospel_zachalo": 12
  },
- "2030-09-11": {
-  "apostle": "2Кор.9:12-10:7",
-  "apostle_zachalo": 189,
-  "gospel": "Мк.3:20-27",
-  "gospel_zachalo": 13
- },
+ "2030-09-11": null,
  "2030-09-12": {
   "apostle": "2Кор.10:7-18",
   "apostle_zachalo": 190,
@@ -991,13 +980,7 @@
   "gospel_zachalo": 26,
   "note": "Неделя 17-я по Пятидесятнице. Евангелие — 2-я седмица Лукина чтения"
  },
- "2030-10-14": {
-  "apostle": "Еф.4:25-32",
-  "apostle_zachalo": 227,
-  "gospel": "Лк.6:24-30",
-  "gospel_zachalo": 25,
-  "note": "Евангелие — 3-я седмица Лукина чтения"
- },
+ "2030-10-14": null,
  "2030-10-15": {
   "apostle": "Еф.5:20-26",
   "apostle_zachalo": 230,

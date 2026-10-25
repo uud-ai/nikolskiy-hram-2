@@ -26,8 +26,11 @@ export interface DailyReadingsData {
    *  null — в этот день рядового чтения нет (великий праздник).
    *  Хранятся по годам: reading-data/pentecost-dated/<год>.json. */
   dated: Record<string, ReadingEntry | null | string>
-  /** Чтения святым с непереходящими датами, ключ — "ММ-ДД" (feasts.json). */
-  feasts: Record<string, (ReadingEntry & { title: string }) | string>
+  /** Чтения праздникам и святым с непереходящими датами, ключ — "ММ-ДД"
+   *  (feasts.json). omit_ordinary_weekdays — рядовое чтение в этот праздник
+   *  с понедельника по субботу не читается (нужно для дней вне
+   *  pentecost-dated, например Сретения в подготовительные седмицы Триоди). */
+  feasts: Record<string, (ReadingEntry & { title: string; omit_ordinary_weekdays?: boolean }) | string>
 }
 
 export interface Passage {
@@ -122,7 +125,9 @@ export function resolveReadingsForDate(
         }
       : null
 
-  const entry = resolveOrdinaryEntry(data, day, key)
+  const omitOrdinary =
+    feastEntry && typeof feastEntry !== "string" && feastEntry.omit_ordinary_weekdays && day.getDay() !== 0
+  const entry = omitOrdinary ? null : resolveOrdinaryEntry(data, day, key)
   const apostle = passage(entry?.apostle, entry?.apostle_zachalo)
   const gospel = passage(entry?.gospel, entry?.gospel_zachalo)
 

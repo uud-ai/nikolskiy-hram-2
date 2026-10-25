@@ -1,5 +1,5 @@
 {
- "_comment": "Сгенерировано tools/build_pentecost_readings.py из данных Ponomar. Ключ — дата (новый стиль). null — дня нет рядового чтения (великий праздник), блок чтений на сайте скрывается.",
+ "_comment": "Сгенерировано tools/build_pentecost_readings.py из данных Ponomar. Ключ — дата (новый стиль). null — в этот день рядового чтения нет (великий праздник), на сайте показываются только чтения праздника из feasts.json.",
  "2035-01-01": {
   "apostle": "Иак.2:14-26",
   "apostle_zachalo": 53,
@@ -258,12 +258,7 @@
   "gospel": "Мк.12:28-37",
   "gospel_zachalo": 56
  },
- "2035-02-15": {
-  "apostle": "1Пет.4:12-5:5",
-  "apostle_zachalo": 62,
-  "gospel": "Мк.12:38-44",
-  "gospel_zachalo": 57
- },
+ "2035-02-15": null,
  "2035-02-16": {
   "apostle": "2Пет.1:1-10",
   "apostle_zachalo": 64,
@@ -392,12 +387,7 @@
   "gospel": "Мф.10:32-36,11:1",
   "gospel_zachalo": 38
  },
- "2035-07-07": {
-  "apostle": "Рим.3:28-4:3",
-  "apostle_zachalo": 85,
-  "gospel": "Мф.7:24-8:4",
-  "gospel_zachalo": 24
- },
+ "2035-07-07": null,
  "2035-07-08": {
   "apostle": "Рим.5:1-10",
   "apostle_zachalo": 88,
@@ -782,12 +772,7 @@
   "gospel": "Мк.3:6-12",
   "gospel_zachalo": 11
  },
- "2035-09-11": {
-  "apostle": "2Кор.8:16-9:5",
-  "apostle_zachalo": 187,
-  "gospel": "Мк.3:13-19",
-  "gospel_zachalo": 12
- },
+ "2035-09-11": null,
  "2035-09-12": {
   "apostle": "2Кор.9:12-10:7",
   "apostle_zachalo": 189,

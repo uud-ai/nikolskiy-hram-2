@@ -71,14 +71,23 @@ export function DailyReadings() {
             {reading.note && (
               <p className="px-5 pt-4 text-center text-sm italic text-gold-dim">{reading.note}</p>
             )}
-            <Accordion type="single" collapsible>
-              {reading.apostle && <ReadingItem value="apostle" label="Апостол" passage={reading.apostle} />}
-              {reading.gospel && <ReadingItem value="gospel" label="Евангелие" passage={reading.gospel} />}
-            </Accordion>
+            {(reading.apostle || reading.gospel) && (
+              <Accordion type="single" collapsible>
+                {reading.apostle && <ReadingItem value="apostle" label="Апостол" passage={reading.apostle} />}
+                {reading.gospel && <ReadingItem value="gospel" label="Евангелие" passage={reading.gospel} />}
+              </Accordion>
+            )}
 
             {reading.feast && (
               <>
-                <p className="px-5 pt-6 text-center text-sm italic text-gold-dim">{reading.feast.title}</p>
+                {/* В великие праздники рядового чтения нет — тогда чтение праздника идёт первым. */}
+                <p
+                  className={`px-5 text-center text-sm italic text-gold-dim ${
+                    reading.apostle || reading.gospel || reading.note ? "pt-6" : "pt-4"
+                  }`}
+                >
+                  {reading.feast.title}
+                </p>
                 <Accordion type="single" collapsible>
                   {reading.feast.apostle && (
                     <ReadingItem value="feast-apostle" label="Апостол" passage={reading.feast.apostle} />

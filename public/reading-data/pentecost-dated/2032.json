@@ -1,5 +1,5 @@
 {
- "_comment": "Сгенерировано tools/build_pentecost_readings.py из данных Ponomar. Ключ — дата (новый стиль). null — дня нет рядового чтения (великий праздник), блок чтений на сайте скрывается.",
+ "_comment": "Сгенерировано tools/build_pentecost_readings.py из данных Ponomar. Ключ — дата (новый стиль). null — в этот день рядового чтения нет (великий праздник), на сайте показываются только чтения праздника из feasts.json.",
  "2032-01-01": {
   "apostle": "Иак.1:19-27",
   "apostle_zachalo": 51,
@@ -72,12 +72,7 @@
   "gospel": "Мк.12:18-27",
   "gospel_zachalo": 55
  },
- "2032-01-14": {
-  "apostle": "1Пет.4:1-11",
-  "apostle_zachalo": 61,
-  "gospel": "Мк.12:28-37",
-  "gospel_zachalo": 56
- },
+ "2032-01-14": null,
  "2032-01-15": {
   "apostle": "1Пет.4:12-5:5",
   "apostle_zachalo": 62,
@@ -117,7 +112,12 @@
   "gospel": "Лк.21:28-33",
   "gospel_zachalo": 107
  },
- "2032-01-23": null,
+ "2032-01-23": {
+  "apostle": "Евр.7:18-25",
+  "apostle_zachalo": 317,
+  "gospel": "Лк.21:37-22:8",
+  "gospel_zachalo": 108
+ },
  "2032-01-24": {
   "apostle": "Еф.6:10-17",
   "apostle_zachalo": 233,
@@ -254,13 +254,7 @@
   "gospel": "Лк.17:3-10",
   "gospel_zachalo": 84
  },
- "2032-02-15": {
-  "apostle": "1Тим.4:9-15",
-  "apostle_zachalo": 285,
-  "gospel": "Лк.19:1-10",
-  "gospel_zachalo": 94,
-  "note": "Неделя 37-я по Пятидесятнице"
- },
+ "2032-02-15": null,
  "2032-02-16": {
   "apostle": "1Пет.2:21-3:9",
   "apostle_zachalo": 59,
@@ -395,12 +389,7 @@
   "gospel": "Мф.10:9-15",
   "gospel_zachalo": 35
  },
- "2032-07-07": {
-  "apostle": "Рим.8:2-13",
-  "apostle_zachalo": 96,
-  "gospel": "Мф.10:16-22",
-  "gospel_zachalo": 36
- },
+ "2032-07-07": null,
  "2032-07-08": {
   "apostle": "Рим.8:22-27",
   "apostle_zachalo": 98,
@@ -785,12 +774,7 @@
   "gospel": "Мк.2:18-22",
   "gospel_zachalo": 9
  },
- "2032-09-11": {
-  "apostle": "1Кор.1:26-29",
-  "apostle_zachalo": 125,
-  "gospel": "Мф.20:29-34",
-  "gospel_zachalo": 82
- },
+ "2032-09-11": null,
  "2032-09-12": {
   "apostle": "1Кор.15:1-11",
   "apostle_zachalo": 158,
@@ -989,13 +973,7 @@
   "gospel_zachalo": 21,
   "note": "Евангелие — 2-я седмица Лукина чтения"
  },
- "2032-10-14": {
-  "apostle": "Еф.4:14-19",
-  "apostle_zachalo": 225,
-  "gospel": "Лк.6:12-19",
-  "gospel_zachalo": 23,
-  "note": "Евангелие — 2-я седмица Лукина чтения"
- },
+ "2032-10-14": null,
  "2032-10-15": {
   "apostle": "Еф.4:17-25",
   "apostle_zachalo": 226,

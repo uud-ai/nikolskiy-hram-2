@@ -1,5 +1,5 @@
 {
- "_comment": "Сгенерировано tools/build_pentecost_readings.py из данных Ponomar. Ключ — дата (новый стиль). null — дня нет рядового чтения (великий праздник), блок чтений на сайте скрывается.",
+ "_comment": "Сгенерировано tools/build_pentecost_readings.py из данных Ponomar. Ключ — дата (новый стиль). null — в этот день рядового чтения нет (великий праздник), на сайте показываются только чтения праздника из feasts.json.",
  "2037-01-01": {
   "apostle": "Евр.10:35-11:7",
   "apostle_zachalo": 326,
@@ -72,12 +72,7 @@
   "gospel": "Мк.12:18-27",
   "gospel_zachalo": 55
  },
- "2037-01-14": {
-  "apostle": "Иак.3:11-4:6",
-  "apostle_zachalo": 55,
-  "gospel": "Мк.12:28-37",
-  "gospel_zachalo": 56
- },
+ "2037-01-14": null,
  "2037-01-15": {
   "apostle": "Иак.4:7-5:9",
   "apostle_zachalo": 56,
@@ -394,12 +389,7 @@
   "gospel": "Мф.13:54-58",
   "gospel_zachalo": 56
  },
- "2037-07-07": {
-  "apostle": "1Кор.6:20-7:12",
-  "apostle_zachalo": 136,
-  "gospel": "Мф.14:1-13",
-  "gospel_zachalo": 57
- },
+ "2037-07-07": null,
  "2037-07-08": {
   "apostle": "1Кор.7:12-24",
   "apostle_zachalo": 137,
@@ -424,7 +414,13 @@
   "gospel": "Мф.10:37-11:1",
   "gospel_zachalo": 39
  },
- "2037-07-12": null,
+ "2037-07-12": {
+  "apostle": "Рим.15:1-7",
+  "apostle_zachalo": 116,
+  "gospel": "Мф.9:27-35",
+  "gospel_zachalo": 33,
+  "note": "Неделя 7-я по Пятидесятнице"
+ },
  "2037-07-13": {
   "apostle": "1Кор.9:13-18",
   "apostle_zachalo": 142,
@@ -783,12 +779,7 @@
   "gospel": "Мк.7:24-30",
   "gospel_zachalo": 30
  },
- "2037-09-11": {
-  "apostle": "Еф.1:7-17",
-  "apostle_zachalo": 217,
-  "gospel": "Мк.8:1-10",
-  "gospel_zachalo": 32
- },
+ "2037-09-11": null,
  "2037-09-12": {
   "apostle": "1Кор.10:23-28",
   "apostle_zachalo": 146,
@@ -994,13 +985,7 @@
   "gospel_zachalo": 18,
   "note": "Евангелие — 2-я седмица Лукина чтения"
  },
- "2037-10-14": {
-  "apostle": "Кол.1:18-23",
-  "apostle_zachalo": 251,
-  "gospel": "Лк.5:33-39",
-  "gospel_zachalo": 21,
-  "note": "Евангелие — 2-я седмица Лукина чтения"
- },
+ "2037-10-14": null,
  "2037-10-15": {
   "apostle": "Кол.1:24-29",
   "apostle_zachalo": 252,

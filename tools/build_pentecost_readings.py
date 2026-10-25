@@ -18,8 +18,15 @@ pascha = {int(k): dt.date.fromisoformat(v["date"]) for k, v in
 def ordinal(n): return f"{n}-я"
 
 # Двунадесятые праздники и навечерия в этом периоде (новый стиль): рядовые
-# чтения не читаются — блок на сайте скрывается.
-GREAT_FEASTS = {(7, 12), (8, 19), (8, 28), (9, 21), (9, 27), (12, 4), (1, 6), (1, 7), (1, 18), (1, 19)}
+# чтения не читаются. На сайте показываются только чтения праздника из
+# feasts.json (в навечерия — ничего, блок скрывается).
+GREAT_FEASTS = {(8, 19), (8, 28), (9, 21), (9, 27), (12, 4), (1, 6), (1, 7), (1, 18), (1, 19), (2, 15)}
+# Великие праздники, в которые рядовое чтение опускается с понедельника по
+# субботу, а в воскресенье читается вместе с праздничным (сверено с
+# azbyka.ru/biblia: Петра и Павла 12.07.2025 сб и 12.07.2026 вс, Покров
+# 14.10.2026, Предтечи 7.07.2026, Обрезание 14.01.2027). Особые чтения дня
+# (например, Недели пред Богоявлением, перенесённые на 14 января) остаются.
+WEEKDAY_FEASTS = {(1, 14), (7, 7), (7, 12), (9, 11), (10, 14)}
 NOMINAL = json.loads((DATA / "ordinary-cycle.json").read_text())["pentecost_period"]
 WD = ["mon", "tue", "wed", "thu", "fri", "sat", "sun"]
 
@@ -32,13 +39,18 @@ RU_FIX = {
     "Деян.9:19-31": "Деян.9:20-31",
 }
 
+# Все рядовые чтения периода (в обеих разметках) — чтобы отличить их от особых
+# чтений дня: номер седмицы Ponomar указывает не всегда, летом его нет.
+ORDINARY_REFS = {e[k] for w in NOMINAL.values() for e in w.values() for k in ("apostle", "gospel") if e.get(k)}
+ORDINARY_REFS |= {RU_FIX.get(r, r) for r in ORDINARY_REFS}
+
 def week_info(day, pent):
     ds = (day - pent).days
     return (ds - 1) // 7 + 1, day.weekday() == 6
 
 out = {"_comment": "Сгенерировано tools/build_pentecost_readings.py из данных Ponomar. "
-       "Ключ — дата (новый стиль). null — дня нет рядового чтения (великий праздник), "
-       "блок чтений на сайте скрывается."}
+       "Ключ — дата (новый стиль). null — в этот день рядового чтения нет (великий праздник), "
+       "на сайте показываются только чтения праздника из feasts.json."}
 eff, gaps = {}, []
 for y in sorted(pascha):
     if y + 1 not in pascha: continue
@@ -51,6 +63,11 @@ for y in sorted(pascha):
         gp = [(RU_FIX.get(g, g), z, w) for g, z, w in r["gospel"]]
         names = r.get("names", [])
         week, is_sun = week_info(d, pent)
+        feast_day = (d.month, d.day) in WEEKDAY_FEASTS and not is_sun
+        if feast_day:
+            # Рядовые чтения отбрасываем, особые чтения дня оставляем.
+            ap = [x for x in ap if x[0] not in ORDINARY_REFS]
+            gp = [x for x in gp if x[0] not in ORDINARY_REFS]
         notes = []
         entry = None
         if ap or gp:
@@ -62,7 +79,11 @@ for y in sorted(pascha):
             if is_sun and not names:
                 notes.append(f"Неделя {ordinal(week)} по Пятидесятнице" + (", Всех святых" if week == 1 else ""))
             gweek = int(g0[2]) if g0 and g0[2] else None
-            eff[d] = (int(a0[2]) if a0 and a0[2] else week, gweek or week)
+            # Седмицу запоминаем только для дней с рядовым чтением: у праздничных
+            # суббот и недель («Суббота по Богоявлению» и т. п.) номера седмицы
+            # нет, и по ним нельзя достраивать соседние будние дни.
+            if gweek:
+                eff[d] = gweek
             if gweek and gweek >= 18 and d.month >= 9 and gweek != week and not names:
                 notes.append(f"Евангелие — {ordinal(gweek - 17)} седмица Лукина чтения")
             if names:
@@ -78,26 +99,27 @@ for y in sorted(pascha):
             if notes: entry["note"] = ". ".join(notes)
         if (d.month, d.day) in GREAT_FEASTS:
             entry = None
-        elif entry is None and d.weekday() != 6:
+        elif entry is None and d.weekday() != 6 and not feast_day:
             gaps.append(d)
         out[d.isoformat()] = entry
         d += dt.timedelta(1)
 
 # Дни, для которых в Ponomar нет рядового чтения (несколько будних дней в
-# январе): берём седмицу Апостола/Евангелия соседних дней той же седмицы и
-# читаем по номинальной таблице.
+# январе—феврале): берём «евангельскую» седмицу соседних дней той же седмицы
+# и читаем Апостол и Евангелие этой седмицы по номинальной таблице — так же,
+# как в календаре azbyka.ru (сверено на 21–22 января 2027 г.).
 for d in gaps:
     monday = d - dt.timedelta(d.weekday())
     near = sorted((x for x in eff if monday <= x < monday + dt.timedelta(6)), key=lambda x: abs((x - d).days))
     if not near:
+        print("не удалось достроить:", d, file=sys.stderr)
         continue
-    aw, gw = eff[near[0]]
-    wd = WD[d.weekday()]
-    a = NOMINAL.get(str(aw), {}).get(wd, {})
-    g = NOMINAL.get(str(gw), {}).get(wd, {})
-    if a.get("apostle") and g.get("gospel"):
-        out[d.isoformat()] = {"apostle": a["apostle"], "apostle_zachalo": a.get("apostle_zachalo"),
-                              "gospel": g["gospel"], "gospel_zachalo": g.get("gospel_zachalo")}
+    entry = NOMINAL.get(str(eff[near[0]]), {}).get(WD[d.weekday()], {})
+    if entry.get("apostle") and entry.get("gospel"):
+        out[d.isoformat()] = {"apostle": entry["apostle"], "apostle_zachalo": entry.get("apostle_zachalo"),
+                              "gospel": entry["gospel"], "gospel_zachalo": entry.get("gospel_zachalo")}
+    else:
+        print("не удалось достроить:", d, file=sys.stderr)
 
 # Раскладываем по календарным годам, чтобы главная страница грузила только
 # файл текущего года (около 20 КБ в сжатом виде), а не все годы сразу.

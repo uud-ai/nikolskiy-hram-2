@@ -1,5 +1,5 @@
 {
- "_comment": "Сгенерировано tools/build_pentecost_readings.py из данных Ponomar. Ключ — дата (новый стиль). null — дня нет рядового чтения (великий праздник), блок чтений на сайте скрывается.",
+ "_comment": "Сгенерировано tools/build_pentecost_readings.py из данных Ponomar. Ключ — дата (новый стиль). null — в этот день рядового чтения нет (великий праздник), на сайте показываются только чтения праздника из feasts.json.",
  "2031-01-01": {
   "apostle": "Евр.5:11-6:8",
   "apostle_zachalo": 312,
@@ -76,8 +76,7 @@
   "apostle": "2Тим.4:5-8",
   "apostle_zachalo": 298,
   "gospel": "Мк.1:1-8",
-  "gospel_zachalo": 1,
-  "note": "Также: Евр.12:25-26,13:22-25; Мк.11:11-23"
+  "gospel_zachalo": 1
  },
  "2031-01-15": {
   "apostle": "Иак.1:1-18",
@@ -394,12 +393,7 @@
   "gospel_zachalo": 28,
   "note": "Неделя 5-я по Пятидесятнице"
  },
- "2031-07-07": {
-  "apostle": "Рим.16:17-24",
-  "apostle_zachalo": 121,
-  "gospel": "Мф.13:10-23",
-  "gospel_zachalo": 51
- },
+ "2031-07-07": null,
  "2031-07-08": {
   "apostle": "1Кор.1:1-9",
   "apostle_zachalo": 122,
@@ -784,12 +778,7 @@
   "gospel": "Мк.6:7-13",
   "gospel_zachalo": 23
  },
- "2031-09-11": {
-  "apostle": "Гал.3:23-4:5",
-  "apostle_zachalo": 208,
-  "gospel": "Мк.6:30-45",
-  "gospel_zachalo": 25
- },
+ "2031-09-11": null,
  "2031-09-12": {
   "apostle": "Гал.4:8-21",
   "apostle_zachalo": 210,
@@ -978,12 +967,7 @@
   "gospel": "Лк.6:24-30",
   "gospel_zachalo": 25
  },
- "2031-10-14": {
-  "apostle": "Флп.2:16-23",
-  "apostle_zachalo": 242,
-  "gospel": "Лк.6:37-45",
-  "gospel_zachalo": 27
- },
+ "2031-10-14": null,
  "2031-10-15": {
   "apostle": "Флп.2:24-30",
   "apostle_zachalo": 243,
